@@ -1,8 +1,0 @@
-2024-07-03 14:58:03,001 - test_logger - INFO - This is an info message
-2024-07-03 14:58:03,001 - test_logger - WARNING - This is a warning message
-2024-07-03 14:58:03,002 - test_logger - ERROR - This is an error message
-2024-07-03 14:58:03,002 - test_logger - CRITICAL - This is a critical message
-2024-07-03 15:00:00,788 - test_logger - INFO - This is an info message
-2024-07-03 15:00:00,788 - test_logger - WARNING - This is a warning message
-2024-07-03 15:00:00,789 - test_logger - ERROR - This is an error message
-2024-07-03 15:00:00,789 - test_logger - CRITICAL - This is a critical message

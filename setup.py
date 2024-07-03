@@ -2,15 +2,12 @@ import os
 import subprocess
 import shutil
 from pathlib import Path
-import json
-from src.utils import setup_logger
+import yaml
+import sys
+from src.utils import setup_logger, load_config
 
 # Set up logging
 logger = setup_logger("setup", "setup.log")
-
-# Load configuration from config.json
-with open("./config.json", "r") as config_file:
-    config = json.load(config_file)
 
 
 def check_permissions():
@@ -48,6 +45,14 @@ def enable_and_start_systemd(unit_name):
     run_command(f"sudo systemctl start {unit_name}", continue_on_error=True)
 
 
+def rebuild_venv_if_needed():
+    venv_path = os.path.join(os.getcwd(), ".venv")
+    if not os.path.exists(venv_path) or sys.prefix != venv_path:
+        logger.info("Rebuilding virtual environment")
+        run_command(f"python3 -m venv {venv_path}")
+        run_command(f"{venv_path}/bin/pip install -r requirements.txt")
+
+
 def main():
     logger.info("Starting setup process")
 
@@ -57,47 +62,70 @@ def main():
     project_path = os.getcwd()
     logger.info(f"Project path: {project_path}")
 
+    # Rebuild venv if needed
+    rebuild_venv_if_needed()
+
+    # Load configuration
+    config = load_config()
+    node_id = config["node_id"]
+    logger.info(f"Setting up for Node {node_id}")
+
     # Create systemd_reports directory
     systemd_reports_path = os.path.join(project_path, "systemd_reports")
     os.makedirs(systemd_reports_path, exist_ok=True)
     logger.info(f"Created systemd_reports directory: {systemd_reports_path}")
 
-    # Install and Upgrade Python Modules
-    commands = config["commands"]
-
-    for cmd in commands:
-        stdout, stderr = run_command(cmd, continue_on_error=True)
-        logger.debug(f"Command output: {stdout}")
-        if stderr:
-            logger.warning(f"Command error output: {stderr}")
-
     sudo_path = shutil.which("sudo")
     logger.info(f"Sudo path: {sudo_path}")
 
-    # Create and Configure Systemd Services and Timers
-    units = config["units"]
+    # Create and Configure Systemd Service
+    service_name = f"logger_lora_node_{node_id.lower()}"
+    venv_python = os.path.join(project_path, ".venv", "bin", "python")
+    service_content = f"""[Unit]
+Description=Logger Lora Data Collection Service for Node {node_id}
+After=network.target
 
-    # Create, enable, and start the systemd units
-    for unit in units:
-        logger.info(f"Creating systemd unit: {unit['name']}.service")
-        service_content = unit["service"].format(
-            project_path=project_path, systemd_reports_path=systemd_reports_path
-        )
-        service_file = create_file(f"{unit['name']}.service", service_content)
-        run_command(
-            f"sudo cp {service_file} /etc/systemd/system/{service_file}",
-            continue_on_error=True,
-        )
-        enable_and_start_systemd(service_file)
+[Service]
+ExecStart={venv_python} {project_path}/main.py
+WorkingDirectory={project_path}
+User={os.getenv('USER')}
+Group={os.getenv('USER')}
+Restart=always
+Environment="PATH={os.path.dirname(venv_python)}:$PATH"
 
-        if "timer" in unit:
-            logger.info(f"Creating systemd timer: {unit['name']}.timer")
-            timer_file = create_file(f"{unit['name']}.timer", unit["timer"])
-            run_command(
-                f"sudo cp {timer_file} /etc/systemd/system/{timer_file}",
-                continue_on_error=True,
-            )
-            enable_and_start_systemd(timer_file)
+[Install]
+WantedBy=multi-user.target
+"""
+
+    service_file = create_file(f"{service_name}.service", service_content)
+    run_command(
+        f"sudo cp {service_file} /etc/systemd/system/{service_file}",
+        continue_on_error=True,
+    )
+    enable_and_start_systemd(service_file)
+
+    # Create and Configure Systemd Timer
+    timer_content = f"""[Unit]
+Description=Run Logger Lora Data Collection every 30 minutes for Node {node_id}
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=30min
+
+[Install]
+WantedBy=timers.target
+"""
+
+    timer_file = create_file(f"{service_name}.timer", timer_content)
+    run_command(
+        f"sudo cp {timer_file} /etc/systemd/system/{timer_file}",
+        continue_on_error=True,
+    )
+    enable_and_start_systemd(timer_file)
+
+    # Set correct permissions
+    run_command(f"sudo chown -R {os.getenv('USER')}:{os.getenv('USER')} {project_path}")
+    run_command(f"sudo chmod -R 755 {project_path}")
 
     logger.info("Setup process completed successfully")
 

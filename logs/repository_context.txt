@@ -1684,7 +1684,7 @@ from src import (
     send_lora_data,
     load_config,
     load_sensor_metadata,
-    get_logger,
+    setup_logger,
 )
 from dotenv import load_dotenv
 
@@ -1695,7 +1695,7 @@ load_dotenv()
 config = load_config("config/config.yaml")
 
 # Set up custom logger
-logger = get_logger(__name__)
+logger = setup_logger("main", "main.log")
 
 
 def main():
@@ -1705,6 +1705,7 @@ def main():
 
         # Load sensor metadata
         sensor_metadata = load_sensor_metadata(config["sensor_metadata"])
+        logger.info(f"Loaded metadata for {len(sensor_metadata)} sensors")
 
         # Connect to datalogger
         datalogger = connect_to_datalogger(config["datalogger"])
@@ -1778,17 +1779,17 @@ logger.error("This is an error message")
         <path>Logger_Lora.src.data_logger.py</path>
         <content>
 from pycampbellcr1000 import CR1000
-import logging
 from datetime import datetime, timedelta
 import math
+from .utils import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger("data_logger", "data_logger.log")
 
 
 def connect_to_datalogger(config):
     try:
         datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
-        logger.info("Successfully connected to datalogger")
+        logger.info(f"Successfully connected to datalogger on port {config['port']}")
         return datalogger
     except Exception as e:
         logger.error(f"Failed to connect to datalogger: {e}")
@@ -1798,7 +1799,7 @@ def connect_to_datalogger(config):
 def get_tables(datalogger):
     try:
         table_names = datalogger.list_tables()
-        logger.info(f"Retrieved table names: {table_names}")
+        logger.info(f"Retrieved {len(table_names)} table names: {table_names}")
 
         # Find the table that is not Status, DataTableInfo, or Public
         desired_table = next(
@@ -1860,8 +1861,10 @@ def get_data(datalogger, table_name, start, stop):
 def determine_time_range(latest_time):
     if latest_time:
         start = datetime.fromisoformat(latest_time) + timedelta(seconds=1)
+        logger.info(f"Using latest time from database: {start}")
     else:
         start = datetime.now() - timedelta(days=2)
+        logger.info(f"No latest time found, using default start time: {start}")
 
     stop = datetime.now()
     logger.info(f"Determined time range: start={start}, stop={stop}")
