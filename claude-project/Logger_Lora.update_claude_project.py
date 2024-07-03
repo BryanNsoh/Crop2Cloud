@@ -2,6 +2,7 @@ import os
 import shutil
 import tempfile
 
+
 def collapse_structure():
     # Get the current directory (where the script is run from)
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -20,8 +21,8 @@ def collapse_structure():
         print(f"Created fresh claude-project directory")
 
         # List of directories and files to exclude
-        exclude_list = ['.git', '.venv', '__pycache__', 'claude-project', 'logs']
-        exclude_extensions = ['.pyc', '.log']  
+        exclude_list = [".git", ".venv", "__pycache__", "claude-project", "logs"]
+        exclude_extensions = [".pyc", ".log", ".db"]
         # Walk through the current directory structure
         for root, dirs, files in os.walk(current_dir):
             # Remove excluded directories
@@ -29,36 +30,43 @@ def collapse_structure():
 
             for file in files:
                 # Skip excluded files
-                if any(file.endswith(ext) for ext in exclude_extensions) or any(excl in root.split(os.sep) for excl in exclude_list):
+                if any(file.endswith(ext) for ext in exclude_extensions) or any(
+                    excl in root.split(os.sep) for excl in exclude_list
+                ):
                     continue
 
                 # Get the full path of the file
                 full_path = os.path.join(root, file)
-                
+
                 # Get the relative path from the current directory
                 rel_path = os.path.relpath(full_path, current_dir)
-                
+
                 # Create the flattened file name
                 flattened_name = "Logger_Lora." + rel_path.replace(os.path.sep, ".")
-                
+
                 # Create the new path in claude-project
                 new_path = os.path.join(claude_project_dir, flattened_name)
-                
+
                 # Ensure the directory exists
                 os.makedirs(os.path.dirname(new_path), exist_ok=True)
-                
+
                 # Copy the file
                 shutil.copy2(full_path, new_path)
                 print(f"Copied '{rel_path}' to '{flattened_name}'")
 
         # Copy update_claude_project.py to the claude-project directory
-        collapse_structure_path = os.path.join(claude_project_dir, "Logger_lora.update_claude_project.py")
+        collapse_structure_path = os.path.join(
+            claude_project_dir, "Logger_lora.update_claude_project.py"
+        )
         shutil.copy2(__file__, collapse_structure_path)
-        print(f"Copied 'update_claude_project.py' to 'Logger_lora.update_claude_project.py'")
+        print(
+            f"Copied 'update_claude_project.py' to 'Logger_lora.update_claude_project.py'"
+        )
 
         print("Structure collapse completed")
 
         # Here, the temporary directory (including the old claude-project backup) will be automatically deleted
+
 
 if __name__ == "__main__":
     collapse_structure()

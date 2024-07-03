@@ -9,28 +9,7 @@ load_dotenv()
 
 logger = setup_logger("lora_functions", "lora_functions.log")
 
-
-# from rak811.rak811_v3 import Rak811
-class Rak811:
-    def __init__(self):
-        logger.info("Initializing Rak811 (placeholder)")
-        pass
-
-    def set_config(self, config):
-        logger.debug(f"Setting config: {config}")
-        pass
-
-    def join(self):
-        logger.info("Joining LoRaWAN network")
-        pass
-
-    def send(self, data):
-        logger.info(f"Sending data: {data}")
-        pass
-
-    def close(self):
-        logger.info("Closing LoRa connection")
-        pass
+from rak811.rak811_v3 import Rak811
 
 
 class LoRaManager:

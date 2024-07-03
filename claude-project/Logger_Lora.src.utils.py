@@ -59,17 +59,26 @@ def setup_logger(name, log_file, level=logging.INFO):
     return logger
 
 
-def load_config(config_file):
+def load_config():
     logger = setup_logger("utils", "utils.log")
-    project_root = get_project_root()
-    full_config_path = os.path.join(project_root, config_file)
     try:
-        with open(full_config_path, "r") as f:
+        # Load the config file
+        with open("config/config.yaml", "r") as f:
             config = yaml.safe_load(f)
-        logger.info(f"Configuration loaded from {full_config_path}")
+
+        node_id = config["node_id"]
+
+        # Merge node-specific config with general config
+        node_config = config["node_configs"][node_id]
+        config["lora"].update(node_config["lora"])
+
+        # Format database name with node_id
+        config["database"]["name"] = config["database"]["name"].format(node_id=node_id)
+
+        logger.info(f"Loaded configuration for Node {node_id}")
         return config
     except Exception as e:
-        logger.error(f"Error loading configuration from {full_config_path}: {e}")
+        logger.error(f"Error loading configuration: {e}")
         raise
 
 
@@ -108,7 +117,7 @@ if __name__ == "__main__":
 
     # Test config loading
     try:
-        config = load_config("config/config.yaml")
+        config = load_config()
         print("Loaded config:", config)
     except Exception as e:
         print(f"Error loading config: {e}")

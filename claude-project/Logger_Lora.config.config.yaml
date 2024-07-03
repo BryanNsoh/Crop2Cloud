@@ -1,31 +1,38 @@
-# General configuration
-node_id: "B"  # A, B, or C
-project_name: "span2nodeB"
+# Node configuration
+node_id: "A"  # Change this for each node (A, B, or C)
 
-# Datalogger configuration
+# Node-specific configurations
+node_configs:
+  A:
+    lora:
+      dev_addr: "DEV_ADDR_A"
+      apps_key: "APPS_KEY_A"
+      nwks_key: "NWKS_KEY_A"
+  B:
+    lora:
+      dev_addr: "DEV_ADDR_B"
+      apps_key: "APPS_KEY_B"
+      nwks_key: "NWKS_KEY_B"
+  C:
+    lora:
+      dev_addr: "DEV_ADDR_C"
+      apps_key: "APPS_KEY_C"
+      nwks_key: "NWKS_KEY_C"
+
+# Common configurations
 datalogger:
   port: "/dev/ttyUSB0"
   baud_rate: 38400
 
-# Database configuration
 database:
-  name: "data/span2nodeB.db"
+  name: "data/span2node{node_id}.db"
 
-# Cloud configuration
-cloud:
-  project_id: "your_project_id"
-  dataset_id: "your_dataset_id"
-  table_id: "your_table_id"
-
-# LoRa configuration
 lora:
   region: "US915"
   data_rate: 3
 
-# Scheduling
 schedule:
   interval_minutes: 30
   max_random_delay_seconds: 600  # 10 minutes
 
-# Sensor metadata file
 sensor_metadata: "config/sensor_mapping.yaml"

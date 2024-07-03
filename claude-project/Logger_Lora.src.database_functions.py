@@ -5,12 +5,12 @@ from .utils import setup_logger
 logger = setup_logger("database_functions", "database_functions.log")
 
 
-def setup_database(schema, db_name):
+def setup_database(columns, db_name):
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
 
-    columns = ", ".join([f"{field.name} {field.field_type}" for field in schema])
-    create_table_stmt = f"CREATE TABLE IF NOT EXISTS data_table ({columns})"
+    columns_str = ", ".join([f"{col} TEXT" for col in columns])
+    create_table_stmt = f"CREATE TABLE IF NOT EXISTS data_table ({columns_str})"
 
     try:
         cursor.execute(create_table_stmt)

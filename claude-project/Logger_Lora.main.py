@@ -1,35 +1,26 @@
-import os
-from datetime import datetime
+from src.utils import load_config, setup_logger
 from src import (
     connect_to_datalogger,
     get_tables,
     get_data,
     determine_time_range,
     update_system_time,
-    get_schema,
-    update_bqtable,
     setup_database,
     insert_data_to_db,
     get_latest_timestamp,
     send_lora_data,
-    load_config,
     load_sensor_metadata,
-    setup_logger,
 )
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
-
-# Load configuration
-config = load_config("config/config.yaml")
-
-# Set up custom logger
 logger = setup_logger("main", "main.log")
 
 
 def main():
     try:
+        # Load configuration
+        config = load_config()
+        logger.info(f"Running on Node {config['node_id']}")
+
         # Update system time
         update_system_time()
 
@@ -58,18 +49,14 @@ def main():
             logger.info("No new data to process")
             return
 
-        # Update BigQuery table
-        schema = get_schema(table_data)
-        update_bqtable(schema, config["cloud"]["table_id"], table_data)
-
         # Update local SQLite database
-        setup_database(schema, config["database"]["name"])
+        setup_database(table_data[0].keys(), config["database"]["name"])
         insert_data_to_db(table_data, config["database"]["name"])
 
         # Send data via LoRa
         send_lora_data(table_data, config["lora"], sensor_metadata)
 
-        logger.info("Data processing and upload successful!")
+        logger.info("Data processing and transmission successful!")
 
     except Exception as e:
         logger.error(f"An error occurred in the main process: {e}", exc_info=True)
