@@ -3,5 +3,4 @@ google-cloud-bigquery
 rak811
 python-dotenv
 pyyaml
-sqlite3
 pyserial
