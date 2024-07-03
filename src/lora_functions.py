@@ -4,6 +4,7 @@ from time import sleep
 from rak811.rak811_v3 import Rak811
 import os
 from dotenv import load_dotenv
+from utils import get_sensor_hash
 
 load_dotenv()
 

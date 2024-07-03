@@ -1,11 +1,10 @@
 import os
-import logging
 from datetime import datetime
 from src import (
     connect_to_datalogger, get_tables, get_data, determine_time_range,
     update_system_time, get_schema, update_bqtable,
     setup_database, insert_data_to_db, get_latest_timestamp,
-    send_lora_data, load_config, load_sensor_metadata
+    send_lora_data, load_config, load_sensor_metadata, get_logger
 )
 from dotenv import load_dotenv
 
@@ -15,14 +14,8 @@ load_dotenv()
 # Load configuration
 config = load_config('config.yaml')
 
-# Configure logging
-logging.basicConfig(
-    filename=os.path.join('logs', 'application.log'),
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] - %(message)s",
-)
-
-logger = logging.getLogger(__name__)
+# Set up custom logger
+logger = get_logger(__name__)
 
 def main():
     try:
