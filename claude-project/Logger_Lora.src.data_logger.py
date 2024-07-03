@@ -20,7 +20,23 @@ def get_tables(datalogger):
     try:
         table_names = datalogger.list_tables()
         logger.info(f"Retrieved {len(table_names)} table names: {table_names}")
-        return table_names
+
+        # Find the table that is not Status, DataTableInfo, or Public
+        desired_table = next(
+            (
+                table
+                for table in table_names
+                if table not in [b"Status", b"DataTableInfo", b"Public"]
+            ),
+            None,
+        )
+
+        if desired_table:
+            logger.info(f"Selected table for data retrieval: {desired_table}")
+            return [desired_table]
+        else:
+            logger.error("No suitable table found for data retrieval")
+            return []
     except Exception as e:
         logger.error(f"Failed to get table names: {e}")
         raise
@@ -28,10 +44,12 @@ def get_tables(datalogger):
 
 def get_data(datalogger, table_name, start, stop):
     try:
+        # Decode table_name from bytes to string
+        table_name_str = table_name.decode("utf-8")
         logger.info(
-            f"Attempting to retrieve data from {table_name} between {start} and {stop}"
+            f"Attempting to retrieve data from {table_name_str} between {start} and {stop}"
         )
-        table_data = datalogger.get_data(table_name, start, stop)
+        table_data = datalogger.get_data(table_name_str, start, stop)
         cleaned_data = []
 
         for label in table_data:
@@ -47,22 +65,16 @@ def get_data(datalogger, table_name, start, stop):
                 try:
                     if math.isnan(value):
                         dict_entry[key] = -9999
-                        logger.warning(
-                            f"NaN value found for {key}, replaced with -9999"
-                        )
                 except TypeError:
-                    logger.debug(f"Non-numeric value for {key}: {value}")
                     continue
 
             cleaned_data.append(dict_entry)
 
         cleaned_data.sort(key=lambda x: x["TIMESTAMP"])
-        logger.info(
-            f"Retrieved and cleaned {len(cleaned_data)} data points from {table_name}"
-        )
+        logger.info(f"Retrieved and cleaned data from {table_name_str}")
         return cleaned_data
     except Exception as e:
-        logger.error(f"Failed to get data from {table_name}: {e}")
+        logger.error(f"Failed to get data from {table_name_str}: {e}")
         raise
 
 

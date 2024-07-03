@@ -207,64 +207,6 @@ if __name__ == "__main__":
         </content>
     </file>
     <file>
-        <name>Logger_Lora.src.utils.logger.py</name>
-        <path>Logger_Lora.src.utils.logger.py</path>
-        <content>
-import logging
-from logging.handlers import RotatingFileHandler
-import os
-
-
-def get_logger(name=None):
-    logger = logging.getLogger(name or __name__)
-
-    if not logger.handlers:
-        logger.setLevel(logging.DEBUG)
-
-        # Create logs directory if it doesn't exist
-        log_dir = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs"
-        )
-        os.makedirs(log_dir, exist_ok=True)
-
-        # Create a rotating file handler
-        file_handler = RotatingFileHandler(
-            os.path.join(log_dir, "application.log"),
-            maxBytes=5 * 1024 * 1024,  # 5 MB
-            backupCount=5,
-        )
-        file_handler.setLevel(logging.DEBUG)
-
-        # Create console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
-
-        # Create formatter and add it to the handlers
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
-        file_handler.setFormatter(formatter)
-        console_handler.setFormatter(formatter)
-
-        # Add the handlers to the logger
-        logger.addHandler(file_handler)
-        logger.addHandler(console_handler)
-
-    return logger
-
-
-if __name__ == "__main__":
-    # Test the logger
-    logger = get_logger("test_logger")
-    logger.debug("This is a debug message")
-    logger.info("This is an info message")
-    logger.warning("This is a warning message")
-    logger.error("This is an error message")
-    logger.critical("This is a critical message")
-
-        </content>
-    </file>
-    <file>
         <name>Logger_Lora.config.sensor_mapping.yaml</name>
         <path>Logger_Lora.config.sensor_mapping.yaml</path>
         <content>
@@ -814,11 +756,22 @@ if __name__ == "__main__":
         <name>Logger_Lora.src.__init__.py</name>
         <path>Logger_Lora.src.__init__.py</path>
         <content>
-from .data_logger import connect_to_datalogger, get_tables, get_data, determine_time_range
-from .cloud_functions import update_system_time, get_schema, update_bqtable, get_latest_entry_time
+from .data_logger import (
+    connect_to_datalogger,
+    get_tables,
+    get_data,
+    determine_time_range,
+)
+from .cloud_functions import (
+    update_system_time,
+    get_schema,
+    update_bqtable,
+    get_latest_entry_time,
+)
 from .database_functions import setup_database, insert_data_to_db, get_latest_timestamp
-from .utils import load_config, load_sensor_metadata, get_sensor_hash, get_logger
+from .utils import load_config, load_sensor_metadata, get_sensor_hash, setup_logger
 from .lora_functions import send_lora_data
+
         </content>
     </file>
     <file>
@@ -1336,10 +1289,11 @@ EndProg
         <path>Logger_Lora.src.database_functions.py</path>
         <content>
 import sqlite3
-import logging
 from datetime import datetime
+from .utils import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger("database_functions", "database_functions.log")
+
 
 def setup_database(schema, db_name):
     conn = sqlite3.connect(db_name)
@@ -1357,6 +1311,7 @@ def setup_database(schema, db_name):
         raise
     finally:
         conn.close()
+
 
 def insert_data_to_db(data, db_name):
     conn = sqlite3.connect(db_name)
@@ -1376,12 +1331,15 @@ def insert_data_to_db(data, db_name):
     finally:
         conn.close()
 
+
 def get_latest_timestamp(db_name):
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT TIMESTAMP FROM data_table ORDER BY TIMESTAMP DESC LIMIT 1")
+        cursor.execute(
+            "SELECT TIMESTAMP FROM data_table ORDER BY TIMESTAMP DESC LIMIT 1"
+        )
         result = cursor.fetchone()
         if result:
             logger.info(f"Retrieved latest timestamp: {result[0]}")
@@ -1397,6 +1355,30 @@ def get_latest_timestamp(db_name):
         raise
     finally:
         conn.close()
+
+
+if __name__ == "__main__":
+    # Test setup_database
+    from google.cloud import bigquery
+
+    test_schema = [
+        bigquery.SchemaField("TIMESTAMP", "TIMESTAMP"),
+        bigquery.SchemaField("sensor1", "FLOAT"),
+        bigquery.SchemaField("sensor2", "FLOAT"),
+    ]
+    setup_database(test_schema, "test_database.db")
+
+    # Test insert_data_to_db
+    test_data = [
+        {"TIMESTAMP": datetime.now(), "sensor1": 1.0, "sensor2": 2.0},
+        {"TIMESTAMP": datetime.now(), "sensor1": 3.0, "sensor2": 4.0},
+    ]
+    insert_data_to_db(test_data, "test_database.db")
+
+    # Test get_latest_timestamp
+    latest_timestamp = get_latest_timestamp("test_database.db")
+    print(f"Latest timestamp: {latest_timestamp}")
+
         </content>
     </file>
     <file>
@@ -1409,6 +1391,7 @@ rak811
 python-dotenv
 pyyaml
 pyserial
+pandas
         </content>
     </file>
     <file>
@@ -1516,91 +1499,132 @@ EndProg
         <content>
 import yaml
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 import sys
 
-class RepoLogger:
-    def __init__(self, log_dir="src/logs"):
-        """
-        Initializes the logger.
 
-        Args:
-            log_dir (str, optional): The directory to store log files. Defaults to 'src/logs'.
-        """
-        self.log_dir = log_dir
+class CustomFormatter(logging.Formatter):
+    """Custom formatter with color coding for different log levels"""
 
-    def setup_logger(self, level=logging.INFO):
-        """Sets up the logger with a file handler and formatter."""
-        if not os.path.exists(self.log_dir):
-            os.makedirs(self.log_dir)
+    grey = "\x1b[38;20m"
+    yellow = "\x1b[33;20m"
+    red = "\x1b[31;20m"
+    bold_red = "\x1b[31;1m"
+    reset = "\x1b[0m"
+    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
-        # Get the name of the calling script for the log file name
-        log_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
-        log_file = os.path.join(self.log_dir, f"{log_name}.log")
+    FORMATS = {
+        logging.DEBUG: grey + format + reset,
+        logging.INFO: grey + format + reset,
+        logging.WARNING: yellow + format + reset,
+        logging.ERROR: red + format + reset,
+        logging.CRITICAL: bold_red + format + reset,
+    }
 
-        logging.basicConfig(
-            filename=log_file,
-            level=level,
-            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-            filemode="w",
-        )
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
 
-    def get_logger(self, level=logging.INFO):
-        """
-        Retrieves a logger, using the calling script's name for the log file.
 
-        Args:
-            level (int, optional): The logging level to be set. Defaults to logging.INFO.
+def get_project_root():
+    """Get the project root directory."""
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-        Returns:
-            logging.Logger: The logger instance.
-        """
-        self.setup_logger(level)
-        return logging.getLogger(__name__)
 
-def get_logger(log_dir="src/logs", level=logging.INFO):
-    """
-    Helper function to get a logger instance.
+def setup_logger(name, log_file, level=logging.INFO):
+    """Function to setup as many loggers as you want"""
+    project_root = get_project_root()
+    log_dir = os.path.join(project_root, "logs")
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
 
-    Args:
-        log_dir (str, optional): The directory to store log files. Defaults to 'src/logs'.
-        level (int, optional): The logging level to be set. Defaults to logging.INFO.
+    full_path = os.path.join(log_dir, log_file)
 
-    Returns:
-        logging.Logger: The logger instance.
-    """
-    repo_logger = RepoLogger(log_dir)
-    return repo_logger.get_logger(level)
+    handler = RotatingFileHandler(full_path, maxBytes=5 * 1024 * 1024, backupCount=5)
+    handler.setFormatter(
+        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    )
+
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(CustomFormatter())
+    logger.addHandler(console_handler)
+
+    return logger
+
 
 def load_config(config_file):
-    logger = get_logger()
+    logger = setup_logger("utils", "utils.log")
+    project_root = get_project_root()
+    full_config_path = os.path.join(project_root, config_file)
     try:
-        with open(config_file, 'r') as f:
+        with open(full_config_path, "r") as f:
             config = yaml.safe_load(f)
-        logger.info(f"Configuration loaded from {config_file}")
+        logger.info(f"Configuration loaded from {full_config_path}")
         return config
     except Exception as e:
-        logger.error(f"Error loading configuration from {config_file}: {e}")
+        logger.error(f"Error loading configuration from {full_config_path}: {e}")
         raise
+
 
 def load_sensor_metadata(sensor_file):
-    logger = get_logger()
+    logger = setup_logger("utils", "utils.log")
+    project_root = get_project_root()
+    full_sensor_path = os.path.join(project_root, sensor_file)
     try:
-        with open(sensor_file, 'r') as f:
+        with open(full_sensor_path, "r") as f:
             sensor_metadata = yaml.safe_load(f)
-        logger.info(f"Sensor metadata loaded from {sensor_file}")
+        logger.info(f"Sensor metadata loaded from {full_sensor_path}")
         return sensor_metadata
     except Exception as e:
-        logger.error(f"Error loading sensor metadata from {sensor_file}: {e}")
+        logger.error(f"Error loading sensor metadata from {full_sensor_path}: {e}")
         raise
 
+
 def get_sensor_hash(sensor_id, sensor_metadata):
-    logger = get_logger()
+    logger = setup_logger("utils", "utils.log")
     for sensor in sensor_metadata:
-        if sensor['sensor_id'] == sensor_id:
-            return sensor['hash']
+        if sensor["sensor_id"] == sensor_id:
+            logger.debug(f"Hash found for sensor_id: {sensor_id}")
+            return sensor["hash"]
     logger.warning(f"No hash found for sensor_id: {sensor_id}")
     return None
+
+
+if __name__ == "__main__":
+    # Test the logger
+    logger = setup_logger("test_logger", "test.log")
+    logger.debug("This is a debug message")
+    logger.info("This is an info message")
+    logger.warning("This is a warning message")
+    logger.error("This is an error message")
+    logger.critical("This is a critical message")
+
+    # Test config loading
+    try:
+        config = load_config("config/config.yaml")
+        print("Loaded config:", config)
+    except Exception as e:
+        print(f"Error loading config: {e}")
+
+    # Test sensor metadata loading
+    try:
+        sensor_metadata = load_sensor_metadata("config/sensor_mapping.yaml")
+        print("Loaded sensor metadata:", sensor_metadata)
+    except Exception as e:
+        print(f"Error loading sensor metadata: {e}")
+
+    # Test get_sensor_hash
+    if "sensor_metadata" in locals():
+        test_sensor_id = "IRT5023A1xx24"
+        sensor_hash = get_sensor_hash(test_sensor_id, sensor_metadata)
+        print(f"Hash for sensor {test_sensor_id}: {sensor_hash}")
+
         </content>
     </file>
     <file>
@@ -1688,7 +1712,7 @@ def main():
         # Get table names
         table_names = get_tables(datalogger)
         if not table_names:
-            logger.error("No tables found in datalogger")
+            logger.error("No suitable tables found in datalogger")
             return
 
         # Get latest timestamp from local database
@@ -1760,6 +1784,7 @@ import math
 
 logger = logging.getLogger(__name__)
 
+
 def connect_to_datalogger(config):
     try:
         datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
@@ -1769,18 +1794,41 @@ def connect_to_datalogger(config):
         logger.error(f"Failed to connect to datalogger: {e}")
         raise
 
+
 def get_tables(datalogger):
     try:
         table_names = datalogger.list_tables()
         logger.info(f"Retrieved table names: {table_names}")
-        return table_names
+
+        # Find the table that is not Status, DataTableInfo, or Public
+        desired_table = next(
+            (
+                table
+                for table in table_names
+                if table not in [b"Status", b"DataTableInfo", b"Public"]
+            ),
+            None,
+        )
+
+        if desired_table:
+            logger.info(f"Selected table for data retrieval: {desired_table}")
+            return [desired_table]
+        else:
+            logger.error("No suitable table found for data retrieval")
+            return []
     except Exception as e:
         logger.error(f"Failed to get table names: {e}")
         raise
 
+
 def get_data(datalogger, table_name, start, stop):
     try:
-        table_data = datalogger.get_data(table_name, start, stop)
+        # Decode table_name from bytes to string
+        table_name_str = table_name.decode("utf-8")
+        logger.info(
+            f"Attempting to retrieve data from {table_name_str} between {start} and {stop}"
+        )
+        table_data = datalogger.get_data(table_name_str, start, stop)
         cleaned_data = []
 
         for label in table_data:
@@ -1802,21 +1850,62 @@ def get_data(datalogger, table_name, start, stop):
             cleaned_data.append(dict_entry)
 
         cleaned_data.sort(key=lambda x: x["TIMESTAMP"])
-        logger.info(f"Retrieved and cleaned data from {table_name}")
+        logger.info(f"Retrieved and cleaned data from {table_name_str}")
         return cleaned_data
     except Exception as e:
-        logger.error(f"Failed to get data from {table_name}: {e}")
+        logger.error(f"Failed to get data from {table_name_str}: {e}")
         raise
+
 
 def determine_time_range(latest_time):
     if latest_time:
         start = datetime.fromisoformat(latest_time) + timedelta(seconds=1)
     else:
         start = datetime.now() - timedelta(days=2)
-    
+
     stop = datetime.now()
     logger.info(f"Determined time range: start={start}, stop={stop}")
     return start, stop
+
+
+if __name__ == "__main__":
+    # Test connect_to_datalogger
+    test_config = {"port": "/dev/ttyUSB0", "baud_rate": 38400}
+    try:
+        datalogger = connect_to_datalogger(test_config)
+        print("Successfully connected to datalogger")
+    except Exception as e:
+        print(f"Failed to connect to datalogger: {e}")
+
+    # Test get_tables
+    if "datalogger" in locals():
+        try:
+            tables = get_tables(datalogger)
+            print(f"Retrieved tables: {tables}")
+        except Exception as e:
+            print(f"Failed to get tables: {e}")
+
+    # Test get_data
+    if "datalogger" in locals() and "tables" in locals() and tables:
+        start = datetime.now() - timedelta(hours=1)
+        stop = datetime.now()
+        try:
+            data = get_data(datalogger, tables[0], start, stop)
+            print(f"Retrieved {len(data)} data points")
+            if data:
+                print("Sample data point:", data[0])
+        except Exception as e:
+            print(f"Failed to get data: {e}")
+
+    # Test determine_time_range
+    latest_time = "2023-07-03T12:00:00"
+    start, stop = determine_time_range(latest_time)
+    print(f"Determined time range: start={start}, stop={stop}")
+
+    # Test determine_time_range with no latest time
+    start, stop = determine_time_range(None)
+    print(f"Determined time range (no latest time): start={start}, stop={stop}")
+
         </content>
     </file>
     <file>
@@ -1824,37 +1913,38 @@ def determine_time_range(latest_time):
         <path>Logger_Lora.src.lora_functions.py</path>
         <content>
 import json
-import logging
 from time import sleep
-
-
-# from rak811.rak811_v3 import Rak811
-
-
-class Rak811:
-    def __init__(self):
-        pass
-
-    def set_config(self, config):
-        pass
-
-    def join(self):
-        pass
-
-    def send(self, data):
-        pass
-
-    def close(self):
-        pass
-
-
 import os
 from dotenv import load_dotenv
-from .utils import get_sensor_hash
+from .utils import get_sensor_hash, setup_logger
+from datetime import datetime
 
 load_dotenv()
 
-logger = logging.getLogger(__name__)
+logger = setup_logger("lora_functions", "lora_functions.log")
+
+
+# from rak811.rak811_v3 import Rak811
+class Rak811:
+    def __init__(self):
+        logger.info("Initializing Rak811 (placeholder)")
+        pass
+
+    def set_config(self, config):
+        logger.debug(f"Setting config: {config}")
+        pass
+
+    def join(self):
+        logger.info("Joining LoRaWAN network")
+        pass
+
+    def send(self, data):
+        logger.info(f"Sending data: {data}")
+        pass
+
+    def close(self):
+        logger.info("Closing LoRa connection")
+        pass
 
 
 class LoRaManager:
@@ -1874,7 +1964,7 @@ class LoRaManager:
             self.lora.set_config(f'lora:dr:{self.config["data_rate"]}')
 
             self.lora.join()
-            logger.info("Joined LoRaWAN network")
+            logger.info("Joined LoRaWAN network successfully")
         except Exception as e:
             logger.error(f"Error setting up LoRa: {e}")
             raise
@@ -1892,12 +1982,13 @@ class LoRaManager:
     def close(self):
         try:
             self.lora.close()
-            logger.info("LoRa connection closed")
+            logger.info("LoRa connection closed successfully")
         except Exception as e:
             logger.error(f"Error closing LoRa connection: {e}")
 
 
 def send_lora_data(data, config, sensor_metadata):
+    logger.info("Initializing LoRa data transmission")
     lora_manager = LoRaManager(config)
 
     try:
@@ -1907,24 +1998,49 @@ def send_lora_data(data, config, sensor_metadata):
             for k, v in data.items()
             if get_sensor_hash(k, sensor_metadata)
         }
+        logger.debug(f"Hashed data: {hashed_data}")
 
         # Split data into chunks of 5 key-value pairs (leaving room for timestamp)
         chunks = [
             dict(list(hashed_data.items())[i : i + 5])
             for i in range(0, len(hashed_data), 5)
         ]
+        logger.info(f"Data split into {len(chunks)} chunks")
 
-        for chunk in chunks:
+        for i, chunk in enumerate(chunks):
             # Add timestamp to each chunk
             chunk["time"] = data["TIMESTAMP"].strftime("%Y%m%d%H%M%S")
+            logger.debug(f"Sending chunk {i+1}: {chunk}")
             lora_manager.send_data(chunk)
             sleep(10)  # Wait 10 seconds between transmissions
 
-        logger.info(f"Sent {len(chunks)} LoRa packets")
+        logger.info(f"Successfully sent {len(chunks)} LoRa packets")
     except Exception as e:
         logger.error(f"Error in send_lora_data: {e}")
     finally:
         lora_manager.close()
+
+
+if __name__ == "__main__":
+    # Test LoRaManager
+    test_config = {"region": "US915", "data_rate": 3}
+    lora_manager = LoRaManager(test_config)
+
+    # Test send_data
+    test_data = {"sensor1": 1.0, "sensor2": 2.0, "time": "20230703120000"}
+    lora_manager.send_data(test_data)
+
+    # Test send_lora_data
+    test_sensor_metadata = [
+        {"sensor_id": "sensor1", "hash": "001"},
+        {"sensor_id": "sensor2", "hash": "002"},
+    ]
+    test_data_with_timestamp = {
+        "TIMESTAMP": datetime.now(),
+        "sensor1": 1.0,
+        "sensor2": 2.0,
+    }
+    send_lora_data(test_data_with_timestamp, test_config, test_sensor_metadata)
 
         </content>
     </file>
@@ -2006,17 +2122,11 @@ import os
 import subprocess
 import shutil
 from pathlib import Path
-import logging
 import json
+from src.utils import setup_logger
 
 # Set up logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s [%(levelname)s] - %(message)s",
-    handlers=[logging.FileHandler("debug.log"), logging.StreamHandler()],
-)
-
-logger = logging.getLogger()
+logger = setup_logger("setup", "setup.log")
 
 # Load configuration from config.json
 with open("./config.json", "r") as config_file:
@@ -2038,7 +2148,7 @@ def run_command(command, continue_on_error=False):
     )
 
     if result.returncode != 0:
-        logger.error(f"Error: {result.stderr}")
+        logger.error(f"Error running command '{command}': {result.stderr}")
         if not continue_on_error:
             exit(1)
 
@@ -2048,61 +2158,72 @@ def run_command(command, continue_on_error=False):
 def create_file(file_name, content):
     with open(file_name, "w") as f:
         f.write(content)
+    logger.info(f"Created file: {file_name}")
     return file_name
 
 
 def enable_and_start_systemd(unit_name):
-    logger.debug(f"Enabling and starting systemd unit: {unit_name}")
+    logger.info(f"Enabling and starting systemd unit: {unit_name}")
     run_command(f"sudo systemctl enable {unit_name}", continue_on_error=True)
     run_command(f"sudo systemctl start {unit_name}", continue_on_error=True)
 
 
-check_permissions()
+def main():
+    logger.info("Starting setup process")
 
-logger.debug("Script started")
+    check_permissions()
 
-# Set your project path
-project_path = os.getcwd()
+    # Set your project path
+    project_path = os.getcwd()
+    logger.info(f"Project path: {project_path}")
 
-# Create systemd_reports directory
-systemd_reports_path = os.path.join(project_path, "systemd_reports")
-os.makedirs(systemd_reports_path, exist_ok=True)
+    # Create systemd_reports directory
+    systemd_reports_path = os.path.join(project_path, "systemd_reports")
+    os.makedirs(systemd_reports_path, exist_ok=True)
+    logger.info(f"Created systemd_reports directory: {systemd_reports_path}")
 
-# Install and Upgrade Python Modules
-commands = config["commands"]
+    # Install and Upgrade Python Modules
+    commands = config["commands"]
 
-for cmd in commands:
-    stdout, stderr = run_command(cmd, continue_on_error=True)
-    logger.debug(stdout)
+    for cmd in commands:
+        stdout, stderr = run_command(cmd, continue_on_error=True)
+        logger.debug(f"Command output: {stdout}")
+        if stderr:
+            logger.warning(f"Command error output: {stderr}")
 
-sudo_path = shutil.which("sudo")
+    sudo_path = shutil.which("sudo")
+    logger.info(f"Sudo path: {sudo_path}")
 
-# Create and Configure Systemd Services and Timers
-units = config["units"]
+    # Create and Configure Systemd Services and Timers
+    units = config["units"]
 
-# Create, enable, and start the systemd units
-for unit in units:
-    logger.debug(f"Creating systemd unit: {unit['name']}.service")
-    service_content = unit["service"].format(
-        project_path=project_path, systemd_reports_path=systemd_reports_path
-    )
-    service_file = create_file(f"{unit['name']}.service", service_content)
-    run_command(
-        f"sudo cp {service_file} /etc/systemd/system/{service_file}",
-        continue_on_error=True,
-    )
-    enable_and_start_systemd(service_file)
-
-    if "timer" in unit:
-        logger.debug(f"Creating systemd timer: {unit['name']}.timer")
-        timer_file = create_file(f"{unit['name']}.timer", unit["timer"])
+    # Create, enable, and start the systemd units
+    for unit in units:
+        logger.info(f"Creating systemd unit: {unit['name']}.service")
+        service_content = unit["service"].format(
+            project_path=project_path, systemd_reports_path=systemd_reports_path
+        )
+        service_file = create_file(f"{unit['name']}.service", service_content)
         run_command(
-            f"sudo cp {timer_file} /etc/systemd/system/{timer_file}",
+            f"sudo cp {service_file} /etc/systemd/system/{service_file}",
             continue_on_error=True,
         )
-        enable_and_start_systemd(timer_file)
+        enable_and_start_systemd(service_file)
 
-logger.debug("Script finished")
+        if "timer" in unit:
+            logger.info(f"Creating systemd timer: {unit['name']}.timer")
+            timer_file = create_file(f"{unit['name']}.timer", unit["timer"])
+            run_command(
+                f"sudo cp {timer_file} /etc/systemd/system/{timer_file}",
+                continue_on_error=True,
+            )
+            enable_and_start_systemd(timer_file)
+
+    logger.info("Setup process completed successfully")
+
+
+if __name__ == "__main__":
+    main()
 
         </content>
     </file>
@@ -2336,11 +2457,13 @@ EndProg
         <content>
 from google.cloud import bigquery
 from google.api_core.exceptions import NotFound
-import logging
 import subprocess
 from datetime import datetime
+import pandas as pd
+from .utils import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger("cloud_functions", "cloud_functions.log")
+
 
 def update_system_time():
     try:
@@ -2351,8 +2474,10 @@ def update_system_time():
         logger.error(f"Failed to update system time: {e}")
         raise
 
+
 def get_schema(list_dicts):
     if not list_dicts:
+        logger.warning("Empty list provided for schema generation")
         return []
 
     def get_bq_type(value):
@@ -2367,6 +2492,7 @@ def get_schema(list_dicts):
         elif isinstance(value, (datetime, pd.Timestamp)):
             return "TIMESTAMP"
         else:
+            logger.error(f"Unsupported data type: {type(value)}")
             raise ValueError(f"Unsupported data type: {type(value)}")
 
     sample_dict = list_dicts[0]
@@ -2374,18 +2500,20 @@ def get_schema(list_dicts):
         bigquery.SchemaField(field_name, get_bq_type(sample_value))
         for field_name, sample_value in sample_dict.items()
     ]
-    logger.info("Generated BigQuery schema")
+    logger.info(f"Generated BigQuery schema with {len(schema)} fields")
     return schema
+
 
 def update_bqtable(schema, table_id, table_data):
     client = bigquery.Client()
-    
+
     job_config = bigquery.LoadJobConfig(
         schema=schema,
         autodetect=False,
         source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
     )
 
+    logger.info(f"Attempting to load data into BigQuery table: {table_id}")
     job = client.load_table_from_json(table_data, table_id, job_config=job_config)
 
     try:
@@ -2395,15 +2523,18 @@ def update_bqtable(schema, table_id, table_data):
         logger.error(f"Error loading data into BigQuery: {e}")
         raise
 
+
 def get_latest_entry_time(table_id):
     client = bigquery.Client()
 
     try:
         table = client.get_table(table_id)
         if "TIMESTAMP" not in [field.name for field in table.schema]:
+            logger.warning(f"TIMESTAMP column not found in table {table_id}")
             return None
 
         query = f"SELECT MAX(TIMESTAMP) as latest FROM `{table_id}`"
+        logger.debug(f"Executing query: {query}")
         query_job = client.query(query)
         results = query_job.result()
 
@@ -2411,13 +2542,38 @@ def get_latest_entry_time(table_id):
             if row.latest is not None:
                 logger.info(f"Retrieved latest entry time: {row.latest}")
                 return row.latest
+
+        logger.warning(f"No entries found in table {table_id}")
     except NotFound:
-        logger.warning(f"Table '{table_id}' does not exist. A new table will be created.")
+        logger.warning(
+            f"Table '{table_id}' does not exist. A new table will be created."
+        )
     except Exception as e:
         logger.error(f"Error retrieving latest entry time: {e}")
         raise
 
     return None
+
+
+if __name__ == "__main__":
+    # Test update_system_time
+    update_system_time()
+
+    # Test get_schema
+    test_data = [
+        {"field1": 1, "field2": "test", "field3": True, "field4": datetime.now()},
+        {"field1": 2, "field2": "test2", "field3": False, "field4": datetime.now()},
+    ]
+    schema = get_schema(test_data)
+    print("Generated schema:", schema)
+
+    # Test update_bqtable (requires valid BigQuery credentials and table)
+    # update_bqtable(schema, "your-project.your_dataset.your_table", test_data)
+
+    # Test get_latest_entry_time (requires valid BigQuery credentials and table)
+    # latest_time = get_latest_entry_time("your-project.your_dataset.your_table")
+    # print("Latest entry time:", latest_time)
+
         </content>
     </file>
     <file>

@@ -12,3 +12,10 @@
 2024-07-03 15:12:07,846 - data_logger - INFO - Determined time range: start=2024-07-01 15:12:07.846512, stop=2024-07-03 15:12:07.846746
 2024-07-03 15:12:07,847 - data_logger - INFO - Attempting to retrieve data from b'Status' between 2024-07-01 15:12:07.846512 and 2024-07-03 15:12:07.846746
 2024-07-03 15:12:07,883 - data_logger - ERROR - Failed to get data from b'Status': encoding without a string argument
+2024-07-03 15:25:20,893 - data_logger - INFO - Successfully connected to datalogger on port /dev/ttyUSB0
+2024-07-03 15:25:21,936 - data_logger - INFO - Retrieved 4 table names: [b'Status', b'RandomData', b'DataTableInfo', b'Public']
+2024-07-03 15:25:21,936 - data_logger - INFO - Selected table for data retrieval: b'RandomData'
+2024-07-03 15:25:21,989 - data_logger - INFO - No latest time found, using default start time: 2024-07-01 15:25:21.989425
+2024-07-03 15:25:21,990 - data_logger - INFO - Determined time range: start=2024-07-01 15:25:21.989425, stop=2024-07-03 15:25:21.989982
+2024-07-03 15:25:21,990 - data_logger - INFO - Attempting to retrieve data from RandomData between 2024-07-01 15:25:21.989425 and 2024-07-03 15:25:21.989982
+2024-07-03 15:25:27,046 - data_logger - INFO - Retrieved and cleaned data from RandomData

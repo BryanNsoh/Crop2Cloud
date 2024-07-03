@@ -18,3 +18,27 @@ Traceback (most recent call last):
     tablename = bytes(tablename, encoding="utf-8")
                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 TypeError: encoding without a string argument
+2024-07-03 15:25:10,854 - main - INFO - Loaded metadata for 44 sensors
+2024-07-03 15:25:33,140 - main - ERROR - An error occurred in the main process: Your default credentials were not found. To set up Application Default Credentials, see https://cloud.google.com/docs/authentication/external/set-up-adc for more information.
+Traceback (most recent call last):
+  File "/home/bryan/Desktop/Logger_Lora/main.py", line 63, in main
+    update_bqtable(schema, config["cloud"]["table_id"], table_data)
+  File "/home/bryan/Desktop/Logger_Lora/src/cloud_functions.py", line 51, in update_bqtable
+    client = bigquery.Client()
+             ^^^^^^^^^^^^^^^^^
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/google/cloud/bigquery/client.py", line 243, in __init__
+    super(Client, self).__init__(
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/google/cloud/client/__init__.py", line 320, in __init__
+    _ClientProjectMixin.__init__(self, project=project, credentials=credentials)
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/google/cloud/client/__init__.py", line 268, in __init__
+    project = self._determine_default(project)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/google/cloud/client/__init__.py", line 287, in _determine_default
+    return _determine_default_project(project)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/google/cloud/_helpers/__init__.py", line 152, in _determine_default_project
+    _, project = google.auth.default()
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/google/auth/_default.py", line 691, in default
+    raise exceptions.DefaultCredentialsError(_CLOUD_SDK_MISSING_CREDENTIALS)
+google.auth.exceptions.DefaultCredentialsError: Your default credentials were not found. To set up Application Default Credentials, see https://cloud.google.com/docs/authentication/external/set-up-adc for more information.

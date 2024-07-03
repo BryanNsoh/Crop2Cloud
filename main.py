@@ -30,8 +30,6 @@ logger = setup_logger("main", "main.log")
 
 def main():
     try:
-        logger.info("Starting data collection and transmission process")
-
         # Update system time
         update_system_time()
 
@@ -45,12 +43,11 @@ def main():
         # Get table names
         table_names = get_tables(datalogger)
         if not table_names:
-            logger.error("No tables found in datalogger")
+            logger.error("No suitable tables found in datalogger")
             return
 
         # Get latest timestamp from local database
         latest_time = get_latest_timestamp(config["database"]["name"])
-        logger.info(f"Latest timestamp from local database: {latest_time}")
 
         # Determine start and stop times
         start, stop = determine_time_range(latest_time)
@@ -60,8 +57,6 @@ def main():
         if not table_data:
             logger.info("No new data to process")
             return
-
-        logger.info(f"Retrieved {len(table_data)} new data points")
 
         # Update BigQuery table
         schema = get_schema(table_data)
