@@ -2,6 +2,8 @@
 
 .vscode/
 __pycache__/
+.env
+.venv
 timekeeper.txt
 CR800data.json
 sensor_data.json
