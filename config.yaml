@@ -1,0 +1,31 @@
+# General configuration
+node_id: "B"  # A, B, or C
+project_name: "span2nodeB"
+
+# Datalogger configuration
+datalogger:
+  port: "/dev/ttyUSB0"
+  baud_rate: 38400
+
+# Database configuration
+database:
+  name: "span2nodeB.db"
+
+# Cloud configuration
+cloud:
+  project_id: "your_project_id"
+  dataset_id: "your_dataset_id"
+  table_id: "your_table_id"
+
+# LoRa configuration
+lora:
+  region: "US915"
+  data_rate: 3
+
+# Scheduling
+schedule:
+  interval_minutes: 30
+  max_random_delay_seconds: 600  # 10 minutes
+
+# Sensor metadata file
+sensor_metadata: "sensor_mapping.yaml"
