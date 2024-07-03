@@ -1,8 +1,8 @@
-# Comprehensive File Structure Guide for crop2cloud24 Project
+# Comprehensive File Structure Guide for Logger_Lora Project
 
 ## Overview
 
-The crop2cloud24 project employs a dual-structure approach to accommodate various development environments, AI assistance, and execution requirements. This guide explains the rationale, implementation, and usage of both structures, and is intended for AI models, human developers, and any other stakeholders involved in the project.
+The Logger_Lora project employs a dual-structure approach to accommodate various development environments, AI assistance, and execution requirements. This guide explains the rationale, implementation, and usage of both structures, and is intended for AI models, human developers, and any other stakeholders involved in the project.
 
 ## Dual Structure Approach
 
@@ -17,35 +17,51 @@ Purpose:
 
 Naming Convention:
 ```
-crop2cloud24.<module>.<submodule>.<file_name>
+Logger_Lora.<module>.<file_name>
 ```
 
-Example: `crop2cloud24.src.S1_data_ingestion.ingest_data.py`
+Example: `Logger_Lora.src.data_logger.py`
 
 ### 2. Nested Structure (Execution and Testing)
 
-Located in: Parent `crop2cloud24` directory
+Located in: Parent `Logger_Lora` directory
 
 Purpose:
 - Represents the actual runtime structure of the project
 - Used for execution, testing, and deployment
 
-Structure Example:
-```
-crop2cloud24/
+## File Structure
+
+```markdown
+Logger_Lora/
+├── claude-project/
+│   ├── Logger_Lora.main.py
+│   ├── Logger_Lora.setup.py
+│   ├── Logger_Lora.src.cloud_functions.py
+│   ├── Logger_Lora.src.database_functions.py
+│   ├── Logger_Lora.src.data_logger.py
+│   ├── Logger_Lora.src.lora_functions.py
+│   ├── Logger_Lora.src.utils.py
+│   ├── Logger_Lora.src.__init__.py
+│   └── Logger_Lora.update_claude_project.py
 ├── src/
-│   ├── S1_data_ingestion/
-│   │   └── ingest_data.py
-│   └── ...
-├── tests/
+│   ├── cloud_functions.py
+│   ├── database_functions.py
+│   ├── data_logger.py
+│   ├── lora_functions.py
+│   ├── utils.py
+│   └── __init__.py
+├── main.py
+├── setup.py
+├── config.yaml
+├── sensor_mapping.yaml
 ├── .env
-├── requirements.txt
-└── ...
+└── requirements.txt
 ```
 
 ## Structure Conversion
 
-File: `expand_structure.py` (located in `claude-project` directory)
+File: `Logger_Lora.update_claude_project.py` (located in `claude-project` directory)
 
 Functionality:
 1. Reads files from the flat structure
@@ -64,30 +80,54 @@ Usage: Run this script after making changes in the flat structure to update the 
 
 ### For Human Developers:
 1. Make changes in the flat structure (`claude-project` directory)
-2. Run `expand_structure.py` to update the nested structure
+2. Run `update_claude_project.py` to update the nested structure
 3. Execute and test the project using the nested structure
 4. Use version control on the flat structure
 
 ### Code Execution:
 - Always performed by human users, never by AI models
-- Always use the nested structure in the `crop2cloud24` directory for execution
+- Always use the nested structure in the `Logger_Lora` directory for execution
 
 ## File Handling Nuances
 
 1. **Root-Level Files**: 
-   - Flat: `crop2cloud24.<filename>`
-   - Nested: `crop2cloud24/<filename>`
+   - Flat: `Logger_Lora.<filename>`
+   - Nested: `Logger_Lora/<filename>`
 
 2. **Hidden Files**:
-   - Flat: Use double dots (e.g., `crop2cloud24..env`)
-   - Nested: Standard hidden file format (e.g., `crop2cloud24/.env`)
+   - Flat: Use double dots (e.g., `Logger_Lora..env`)
+   - Nested: Standard hidden file format (e.g., `Logger_Lora/.env`)
 
-3. **Deep Nesting**:
-   - Flat: Use additional dot separators (e.g., `crop2cloud24.src.deep.deeper.deepest.file.py`)
-   - Nested: Corresponds to additional subdirectories
+3. **Configuration Files**:
+   - `config.yaml`: Contains general configuration settings
+   - `sensor_mapping.yaml`: Defines sensor metadata and mappings
 
-4. **Empty Directories**:
-   - May require placeholder files in the flat structure to ensure creation in the nested structure
+## Key Components
+
+1. **Main Script**: `main.py`
+   - Entry point for the Logger_Lora application
+
+2. **Setup Script**: `setup.py`
+   - Handles project setup, including systemd service configuration
+
+3. **Source Files**:
+   - `cloud_functions.py`: Manages interaction with cloud services
+   - `database_functions.py`: Handles local database operations
+   - `data_logger.py`: Interfaces with the data logging hardware
+   - `lora_functions.py`: Manages LoRa communication
+   - `utils.py`: Contains utility functions used across the project
+
+4. **LoRa Communication**:
+   - Utilizes the RAK811 LoRa module for data transmission
+
+5. **Data Logging**:
+   - Interfaces with Campbell Scientific CR1000 data logger
+
+6. **Database**:
+   - Uses SQLite for local data storage
+
+7. **Cloud Integration**:
+   - Interacts with Google BigQuery for cloud data storage
 
 ## Best Practices
 
@@ -99,30 +139,8 @@ Usage: Run this script after making changes in the flat structure to update the 
 
 4. **Documentation**: Keep this guide updated as the project structure evolves
 
-5. **IDE/Editor Configuration**: Set up your development environment to understand and work with both structures
+5. **Environment Variables**: Use the `.env` file for sensitive information and environment-specific settings
 
-6. **Continuous Integration**: Ensure CI/CD pipelines are aware of and can handle the dual-structure approach
-
-## Benefits
-
-1. **Universal Compatibility**: Works across various environments, including AI assistance platforms
-
-2. **Clear Representation**: Maintains an unambiguous project structure in all contexts
-
-3. **Flexible Development**: Allows for easy file manipulation even in constrained environments
-
-4. **Execution Readiness**: The nested structure is always prepared for actual project runtime
-
-5. **Version Control Efficiency**: Simplified tracking of changes in a flat structure
-
-## Considerations
-
-1. **Learning Curve**: New team members may need time to understand and adapt to the dual-structure approach
-
-2. **Maintenance Overhead**: Requires diligence in keeping both structures synchronized
-
-3. **Potential for Confusion**: Clear communication is crucial to avoid misunderstandings about which structure to use in different contexts
-
-4. **Tool Compatibility**: Some development tools may need configuration to work seamlessly with this approach
+6. **Logging**: Utilize the custom logging solution provided in `src/utils.py`
 
 By thoroughly understanding and correctly utilizing this dual-structure approach, all stakeholders can contribute effectively to the project while maintaining consistency and operational efficiency across different environments and use cases.

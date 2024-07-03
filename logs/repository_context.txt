@@ -1,499 +1,6 @@
 <repository_structure>
 <directory name="claude-project">
     <file>
-        <name>Logger_Lora..gitignore</name>
-        <path>Logger_Lora..gitignore</path>
-        <content>
-# .gitignore
-
-.vscode/
-__pycache__/
-.env
-.venv
-timekeeper.txt
-CR800data.json
-sensor_data.json
-
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeA.CR8</name>
-        <path>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeA.CR8</path>
-        <content>
-' CR800 Program for Node A
-' Declare Public Variables
-Public BatV As Float ' Battery voltage
-Public PanelTempC As Float ' Panel temperature in Celsius
-
-' IRT variables
-Public IRT5023A1xx24 As Float  ' Treatment 1
-Public IRT5020A3xx24 As Float  ' Treatment 3
-Public IRT5018A3xx24 As Float  ' Treatment 3
-
-' TDR variables for field 5023 (Treatment 1)
-Public TDR5023A10624 As Float
-Public TDR5023A11824 As Float
-Public TDR5023A13024 As Float
-Public TDR5023A14224 As Float
-
-' TDR variables for field 5026 (Treatment 2)
-Public TDR5026A20624 As Float
-Public TDR5026A21824 As Float
-Public TDR5026A23824 As Float
-
-' TDR variables for field 5027 (Treatment 4)
-Public TDR5027A40624 As Float
-Public TDR5027A41824 As Float
-Public TDR5027A43024 As Float
-
-' SDI-12 Addresses
-Const IRT5023A1xx24_ADDR = "0"
-Const IRT5020A3xx24_ADDR = "1"
-Const IRT5018A3xx24_ADDR = "9"
-Const TDR5023A10624_ADDR = "2"
-Const TDR5023A11824_ADDR = "3"
-Const TDR5023A13024_ADDR = "4"
-Const TDR5023A14224_ADDR = "5"
-Const TDR5026A20624_ADDR = "6"
-Const TDR5026A21824_ADDR = "7"
-Const TDR5026A23024_ADDR = "8"
-Const TDR5027A40624_ADDR = "a"
-Const TDR5027A41824_ADDR = "b"
-Const TDR5027A43024_ADDR = "c"
-
-' SDI-12 Measurement Commands
-Const CMD_IRT = "M!"
-Const CMD_TDR = "M!"
-
-' Temporary array for SDI-12 responses
-Dim Temp_Array(2) As Float
-
-' Define Data Table
-DataTable(NodeA, True, -1)
-  DataInterval(0, 30, Min, 10)
-  Average(1, BatV, FP2, False)
-  Average(1, PanelTempC, FP2, False)
-  Average(1, IRT5023A1xx24, IEEE4, False)
-  Average(1, IRT5020A3xx24, IEEE4, False)
-  Average(1, IRT5018A3xx24, IEEE4, False)
-  Average(1, TDR5023A10624, IEEE4, False)
-  Average(1, TDR5023A11824, IEEE4, False)
-  Average(1, TDR5023A13024, IEEE4, False)
-  Average(1, TDR5023A14224, IEEE4, False)
-  Average(1, TDR5026A20624, IEEE4, False)
-  Average(1, TDR5026A21824, IEEE4, False)
-  Average(1, TDR5026A23824, IEEE4, False)
-  Average(1, TDR5027A40624, IEEE4, False)
-  Average(1, TDR5027A41824, IEEE4, False)
-  Average(1, TDR5027A43024, IEEE4, False)
-EndTable
-
-' Main Program
-BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
-    ' Measure battery voltage and panel temperature
-    Battery(BatV)
-    PanelTemp(PanelTempC, 250)
-    
-    ' Read IRTs
-    SDI12Recorder(Temp_Array(), 1, IRT5023A1xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5023A1xx24 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT5020A3xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5020A3xx24 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT5018A3xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5018A3xx24 = Temp_Array(1)
-    
-    ' Read TDRs for field 5023 (Treatment 1)
-    SDI12Recorder(Temp_Array(), 1, TDR5023A10624_ADDR, CMD_TDR, 1, 0)
-    TDR5023A10624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5023A11824_ADDR, CMD_TDR, 1, 0)
-    TDR5023A11824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5023A13024_ADDR, CMD_TDR, 1, 0)
-    TDR5023A13024 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5023A14224_ADDR, CMD_TDR, 1, 0)
-    TDR5023A14224 = Temp_Array(1)
-    
-    ' Read TDRs for field 5026 (Treatment 2)
-    SDI12Recorder(Temp_Array(), 1, TDR5026A20624_ADDR, CMD_TDR, 1, 0)
-    TDR5026A20624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5026A21824_ADDR, CMD_TDR, 1, 0)
-    TDR5026A21824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5026A23824_ADDR, CMD_TDR, 1, 0)
-    TDR5026A23824 = Temp_Array(1)
-    
-    ' Read TDRs for field 5027 (Treatment 4)
-    SDI12Recorder(Temp_Array(), 1, TDR5027A40624_ADDR, CMD_TDR, 1, 0)
-    TDR5027A40624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5027A41824_ADDR, CMD_TDR, 1, 0)
-    TDR5027A41824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5027A43024_ADDR, CMD_TDR, 1, 0)
-    TDR5027A43024 = Temp_Array(1)
-    
-    ' Call Data Table
-    CallTable(NodeA)
-  NextScan
-EndProg
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeB.CR8</name>
-        <path>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeB.CR8</path>
-        <content>
-' CR800 Program for Node B
-' Declare Public Variables
-Public BatV As Float ' Battery voltage
-Public PanelTempC As Float ' Panel temperature in Celsius
-
-' IRT variables
-Public IRT5006B1xx24 As Float  ' Treatment 1
-Public IRT5012B2xx24 As Float  ' Treatment 2
-
-' TDR variables for field 5007 (Treatment 4)
-Public TDR5007B40624 As Float
-Public TDR5007B41824 As Float
-Public TDR5007B43024 As Float
-Public TDR5007B44224 As Float
-
-' TDR variables for field 5006 (Treatment 1)
-Public TDR5006B10624 As Float
-Public TDR5006B11724 As Float
-Public TDR5006B13024 As Float
-Public TDR5006B14224 As Float
-
-' TDR variables for field 5012 (Treatment 2)
-Public TDR5012B20624 As Float
-Public TDR5012B21824 As Float
-Public TDR5012B23024 As Float
-
-' SDI-12 Addresses
-Const IRT5006B1xx24_ADDR = "0"
-Const IRT5012B2xx24_ADDR = "1"
-Const TDR5007B40624_ADDR = "2"
-Const TDR5007B41824_ADDR = "3"
-Const TDR5007B43024_ADDR = "4"
-Const TDR5007B44224_ADDR = "5"
-Const TDR5006B10624_ADDR = "6"
-Const TDR5006B11724_ADDR = "7"
-Const TDR5006B13024_ADDR = "8"
-Const TDR5006B14224_ADDR = "9"
-Const TDR5012B20624_ADDR = "a"
-Const TDR5012B21824_ADDR = "b"
-Const TDR5012B23024_ADDR = "c"
-
-' SDI-12 Measurement Commands
-Const CMD_IRT = "M!"
-Const CMD_TDR = "M!"
-
-' Temporary array for SDI-12 responses
-Dim Temp_Array(2) As Float
-
-' Define Data Table
-DataTable(NodeB, True, -1)
-  DataInterval(0, 30, Min, 10)
-  Average(1, BatV, FP2, False)
-  Average(1, PanelTempC, FP2, False)
-  Average(1, IRT5006B1xx24, IEEE4, False)
-  Average(1, IRT5012B2xx24, IEEE4, False)
-  Average(1, TDR5007B40624, IEEE4, False)
-  Average(1, TDR5007B41824, IEEE4, False)
-  Average(1, TDR5007B43024, IEEE4, False)
-  Average(1, TDR5007B44224, IEEE4, False)
-  Average(1, TDR5006B10624, IEEE4, False)
-  Average(1, TDR5006B11724, IEEE4, False)
-  Average(1, TDR5006B13024, IEEE4, False)
-  Average(1, TDR5006B14224, IEEE4, False)
-  Average(1, TDR5012B20624, IEEE4, False)
-  Average(1, TDR5012B21824, IEEE4, False)
-  Average(1, TDR5012B23024, IEEE4, False)
-EndTable
-
-' Main Program
-BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
-    ' Measure battery voltage and panel temperature
-    Battery(BatV)
-    PanelTemp(PanelTempC, 250)
-    
-    ' Read IRTs
-    SDI12Recorder(Temp_Array(), 1, IRT5006B1xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5006B1xx24 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT5012B2xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5012B2xx24 = Temp_Array(1)
-    
-    ' Read TDRs for field 5007 (Treatment 4)
-    SDI12Recorder(Temp_Array(), 1, TDR5007B40624_ADDR, CMD_TDR, 1, 0)
-    TDR5007B40624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5007B41824_ADDR, CMD_TDR, 1, 0)
-    TDR5007B41824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5007B43024_ADDR, CMD_TDR, 1, 0)
-    TDR5007B43024 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5007B44224_ADDR, CMD_TDR, 1, 0)
-    TDR5007B44224 = Temp_Array(1)
-    
-    ' Read TDRs for field 5006 (Treatment 1)
-    SDI12Recorder(Temp_Array(), 1, TDR5006B10624_ADDR, CMD_TDR, 1, 0)
-    TDR5006B10624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5006B11724_ADDR, CMD_TDR, 1, 0)
-    TDR5006B11724 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5006B13024_ADDR, CMD_TDR, 1, 0)
-    TDR5006B13024 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5006B14224_ADDR, CMD_TDR, 1, 0)
-    TDR5006B14224 = Temp_Array(1)
-    
-    ' Read TDRs for field 5012 (Treatment 2)
-    SDI12Recorder(Temp_Array(), 1, TDR5012B20624_ADDR, CMD_TDR, 1, 0)
-    TDR5012B20624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5012B21824_ADDR, CMD_TDR, 1, 0)
-    TDR5012B21824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5012B23024_ADDR, CMD_TDR, 1, 0)
-    TDR5012B23024 = Temp_Array(1)
-    
-    ' Call Data Table
-    CallTable(NodeB)
-  NextScan
-EndProg
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeC.CR8</name>
-        <path>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeC.CR8</path>
-        <content>
-' CR800 Program for Node C
-' Declare Public Variables
-Public BatV As Float ' Battery voltage
-Public PanelTempC As Float ' Panel temperature in Celsius
-
-' IRT variables
-Public IRT5001C3xx24 As Float  ' Treatment 3
-Public IRT5003C2xx24 As Float  ' Treatment 2
-Public IRT5010C1xx24 As Float  ' Treatment 1
-
-' TDR variables for field 5003 (Treatment 2)
-Public TDR5003C20624 As Float
-Public TDR5003C21824 As Float
-Public TDR5003C23024 As Float
-
-' TDR variables for field 5010 (Treatment 1)
-Public TDR5010C10624 As Float
-Public TDR5010C11824 As Float
-Public TDR5010C13024 As Float
-
-' TDR variables for field 5009 (Treatment 4)
-Public TDR5009C40624 As Float
-Public TDR5009C41824 As Float
-Public TDR5009C43024 As Float
-
-' SDI-12 Addresses
-Const IRT5001C3xx24_ADDR = "0"
-Const IRT5003C2xx24_ADDR = "1"
-Const IRT5010C1xx24_ADDR = "c"
-Const TDR5003C20624_ADDR = "3"
-Const TDR5003C21824_ADDR = "4"
-Const TDR5003C23024_ADDR = "5"
-Const TDR5010C10624_ADDR = "6"
-Const TDR5010C11824_ADDR = "7"
-Const TDR5010C13024_ADDR = "8"
-Const TDR5009C40624_ADDR = "9"
-Const TDR5009C41824_ADDR = "a"
-Const TDR5009C43024_ADDR = "b"
-
-' SDI-12 Measurement Commands
-Const CMD_IRT = "M!"
-Const CMD_TDR = "M!"
-
-' Temporary array for SDI-12 responses
-Dim Temp_Array(2) As Float
-
-' Define Data Table
-DataTable(NodeC, True, -1)
-  DataInterval(0, 30, Min, 10)
-  Average(1, BatV, FP2, False)
-  Average(1, PanelTempC, FP2, False)
-  Average(1, IRT5001C3xx24, IEEE4, False)
-  Average(1, IRT5003C2xx24, IEEE4, False)
-  Average(1, IRT5010C1xx24, IEEE4, False)
-  Average(1, TDR5003C20624, IEEE4, False)
-  Average(1, TDR5003C21824, IEEE4, False)
-  Average(1, TDR5003C23024, IEEE4, False)
-  Average(1, TDR5010C10624, IEEE4, False)
-  Average(1, TDR5010C11824, IEEE4, False)
-  Average(1, TDR5010C13024, IEEE4, False)
-  Average(1, TDR5009C40624, IEEE4, False)
-  Average(1, TDR5009C41824, IEEE4, False)
-  Average(1, TDR5009C43024, IEEE4, False)
-EndTable
-
-' Main Program
-BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
-    ' Measure battery voltage and panel temperature
-    Battery(BatV)
-    PanelTemp(PanelTempC, 250)
-    
-    ' Read IRTs
-    SDI12Recorder(Temp_Array(), 1, IRT5001C3xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5001C3xx24 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT5003C2xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5003C2xx24 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT5010C1xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5010C1xx24 = Temp_Array(1)
-    
-    ' Read TDRs for field 5003 (Treatment 2)
-    SDI12Recorder(Temp_Array(), 1, TDR5003C20624_ADDR, CMD_TDR, 1, 0)
-    TDR5003C20624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5003C21824_ADDR, CMD_TDR, 1, 0)
-    TDR5003C21824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5003C23024_ADDR, CMD_TDR, 1, 0)
-    TDR5003C23024 = Temp_Array(1)
-    
-    ' Read TDRs for field 5010 (Treatment 1)
-    SDI12Recorder(Temp_Array(), 1, TDR5010C10624_ADDR, CMD_TDR, 1, 0)
-    TDR5010C10624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5010C11824_ADDR, CMD_TDR, 1, 0)
-    TDR5010C11824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5010C13024_ADDR, CMD_TDR, 1, 0)
-    TDR5010C13024 = Temp_Array(1)
-    
-    ' Read TDRs for field 5009 (Treatment 4)
-    SDI12Recorder(Temp_Array(), 1, TDR5009C40624_ADDR, CMD_TDR, 1, 0)
-    TDR5009C40624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5009C41824_ADDR, CMD_TDR, 1, 0)
-    TDR5009C41824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5009C43024_ADDR, CMD_TDR, 1, 0)
-    TDR5009C43024 = Temp_Array(1)
-    
-    ' Call Data Table
-    CallTable(NodeC)
-  NextScan
-EndProg
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.Campbell_Programs.2024_V1_Corn.SDI1C.CR8</name>
-        <path>Logger_Lora.Campbell_Programs.2024_V1_Corn.SDI1C.CR8</path>
-        <content>
-' CR800 Program for SDI1C Node
-' Declare Public Variables
-Public BatV As Float ' Battery voltage
-Public PanelTempC As Float ' Panel temperature in Celsius
-
-' IRT variables (SDI-12)
-Public IRT0011C5xxSD As Float  ' Treatment 5
-Public IRT0012C1xxSD As Float  ' Treatment 1
-Public IRT0014C3xxSD As Float  ' Treatment 3
-Public IRT0032C1xxSD As Float  ' Treatment 1
-Public IRT0029C3xxSD As Float  ' Treatment 3
-
-' Analog IRT variables (for IRT0036C5xxSD, using sensor 1374)
-Public BodC_1374 As Float
-Public TarmV_1374 As Float
-Public IRT0036C5xxSD As Float  ' Final calculated temperature for analog sensor
-
-' Constants for analog IRT sensor (using sensor 1374 constants)
-Const mC2_1374 = 4204.25
-Const mC1_1374 = 106949
-Const mC0_1374 = 9387600
-Const bC2_1374 = 1655170000
-Const bC1_1374 = 102781
-Const bC0_1374 = 450621
-
-' SDI-12 Addresses
-Const IRT0011C5xxSD_ADDR = "0"
-Const IRT0012C1xxSD_ADDR = "1"
-Const IRT0014C3xxSD_ADDR = "2"
-Const IRT0032C1xxSD_ADDR = "3"
-Const IRT0029C3xxSD_ADDR = "4"
-
-' SDI-12 Measurement Command
-Const CMD_IRT = "M!"
-
-' Temporary array for SDI-12 responses
-Dim Temp_Array(2) As Float
-
-' Function for computing target temperature in Celsius
-Function ComputeIRTTemp(SBTempC, TargmV, mC2, mC1, mC0, bC2, bC1, bC0) As Float
-  Dim m, b, SBTempK, TargTempK As Float
-  m = mC2 * SBTempC^2 + mC1 * SBTempC + mC0
-  b = bC2 * SBTempC^2 + bC1 * SBTempC + bC0
-  SBTempK = SBTempC + 273.15
-  TargTempK = ((SBTempK^4) + m * TargmV + b)^0.25
-  ComputeIRTTemp = TargTempK - 273.15
-End Function
-
-' Define Data Table
-DataTable(SDI1C, True, -1)
-  DataInterval(0, 30, Min, 10)
-  Average(1, BatV, FP2, False)
-  Average(1, PanelTempC, FP2, False)
-  Average(1, IRT0011C5xxSD, IEEE4, False)
-  Average(1, IRT0012C1xxSD, IEEE4, False)
-  Average(1, IRT0014C3xxSD, IEEE4, False)
-  Average(1, IRT0036C5xxSD, IEEE4, False)  ' Analog IRT final temperature
-  Average(1, IRT0032C1xxSD, IEEE4, False)
-  Average(1, IRT0029C3xxSD, IEEE4, False)
-EndTable
-
-' Main Program
-BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
-    ' Measure battery voltage and panel temperature
-    Battery(BatV)
-    PanelTemp(PanelTempC, 250)
-    
-    ' Read SDI-12 IRTs
-    SDI12Recorder(Temp_Array(), 1, IRT0011C5xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0011C5xxSD = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT0012C1xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0012C1xxSD = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT0014C3xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0014C3xxSD = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT0032C1xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0032C1xxSD = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT0029C3xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0029C3xxSD = Temp_Array(1)
-    
-    ' Read Analog IRT (using sensor 1374 for IRT0036C5xxSD)
-    Therm109(BodC_1374, 1, 3, Vx1, 0, 60, 1, 0)  ' SE3 for Green wire, Vx1 for White wire
-    VoltDiff(TarmV_1374, 1, mV2_5, 1, True, 0, _60Hz, 1, 0)  ' DIFF1 for Red (H) and Black (L) wires
-    IRT0036C5xxSD = ComputeIRTTemp(BodC_1374, TarmV_1374, mC2_1374, mC1_1374, mC0_1374, bC2_1374, bC1_1374, bC0_1374)
-    
-    ' Call Data Table
-    CallTable SDI1C
-  NextScan
-EndProg
-        </content>
-    </file>
-    <file>
         <name>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeA.CR8</name>
         <path>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeA.CR8</path>
         <content>
@@ -630,647 +137,136 @@ EndProg
         </content>
     </file>
     <file>
-        <name>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeB.CR8</name>
-        <path>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeB.CR8</path>
-        <content>
-' CR800 Program for Node B
-' Declare Public Variables
-Public BatV As Float ' Battery voltage
-Public PanelTempC As Float ' Panel temperature in Celsius
-
-' IRT variables
-Public IRT5006B1xx24 As Float  ' Treatment 1
-Public IRT5012B2xx24 As Float  ' Treatment 2
-
-' TDR variables for field 5007 (Treatment 4)
-Public TDR5007B40624 As Float
-Public TDR5007B41824 As Float
-Public TDR5007B43024 As Float
-Public TDR5007B44224 As Float
-
-' TDR variables for field 5006 (Treatment 1)
-Public TDR5006B10624 As Float
-Public TDR5006B11724 As Float
-Public TDR5006B13024 As Float
-Public TDR5006B14224 As Float
-
-' TDR variables for field 5012 (Treatment 2)
-Public TDR5012B20624 As Float
-Public TDR5012B21824 As Float
-Public TDR5012B23024 As Float
-
-' Dendrometer variable
-Public DEN5006B1xx24 As Float
-
-' SDI-12 Addresses
-Const IRT5006B1xx24_ADDR = "0"
-Const IRT5012B2xx24_ADDR = "1"
-Const TDR5007B40624_ADDR = "2"
-Const TDR5007B41824_ADDR = "3"
-Const TDR5007B43024_ADDR = "4"
-Const TDR5007B44224_ADDR = "5"
-Const TDR5006B10624_ADDR = "6"
-Const TDR5006B11724_ADDR = "7"
-Const TDR5006B13024_ADDR = "8"
-Const TDR5006B14224_ADDR = "9"
-Const TDR5012B20624_ADDR = "a"
-Const TDR5012B21824_ADDR = "b"
-Const TDR5012B23024_ADDR = "c"
-
-' SDI-12 Measurement Commands
-Const CMD_IRT = "M!"
-Const CMD_TDR = "M!"
-
-' Temporary array for SDI-12 responses
-Dim Temp_Array(2) As Float
-
-' Define Data Table
-DataTable(NodeB, True, -1)
-  DataInterval(0, 30, Min, 10)
-  Average(1, BatV, FP2, False)
-  Average(1, PanelTempC, FP2, False)
-  Average(1, IRT5006B1xx24, IEEE4, False)
-  Average(1, IRT5012B2xx24, IEEE4, False)
-  Average(1, TDR5007B40624, IEEE4, False)
-  Average(1, TDR5007B41824, IEEE4, False)
-  Average(1, TDR5007B43024, IEEE4, False)
-  Average(1, TDR5007B44224, IEEE4, False)
-  Average(1, TDR5006B10624, IEEE4, False)
-  Average(1, TDR5006B11724, IEEE4, False)
-  Average(1, TDR5006B13024, IEEE4, False)
-  Average(1, TDR5006B14224, IEEE4, False)
-  Average(1, TDR5012B20624, IEEE4, False)
-  Average(1, TDR5012B21824, IEEE4, False)
-  Average(1, TDR5012B23024, IEEE4, False)
-  Average(1, DEN5006B1xx24, IEEE4, False)
-EndTable
-
-' Main Program
-BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
-    ' Measure battery voltage and panel temperature
-    Battery(BatV)
-    PanelTemp(PanelTempC, 250)
-    
-    ' Read IRTs
-    SDI12Recorder(Temp_Array(), 1, IRT5006B1xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5006B1xx24 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT5012B2xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5012B2xx24 = Temp_Array(1)
-    
-    ' Read TDRs for field 5007 (Treatment 4)
-    SDI12Recorder(Temp_Array(), 1, TDR5007B40624_ADDR, CMD_TDR, 1, 0)
-    TDR5007B40624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5007B41824_ADDR, CMD_TDR, 1, 0)
-    TDR5007B41824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5007B43024_ADDR, CMD_TDR, 1, 0)
-    TDR5007B43024 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5007B44224_ADDR, CMD_TDR, 1, 0)
-    TDR5007B44224 = Temp_Array(1)
-    
-    ' Read TDRs for field 5006 (Treatment 1)
-    SDI12Recorder(Temp_Array(), 1, TDR5006B10624_ADDR, CMD_TDR, 1, 0)
-    TDR5006B10624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5006B11724_ADDR, CMD_TDR, 1, 0)
-    TDR5006B11724 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5006B13024_ADDR, CMD_TDR, 1, 0)
-    TDR5006B13024 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5006B14224_ADDR, CMD_TDR, 1, 0)
-    TDR5006B14224 = Temp_Array(1)
-    
-    ' Read TDRs for field 5012 (Treatment 2)
-    SDI12Recorder(Temp_Array(), 1, TDR5012B20624_ADDR, CMD_TDR, 1, 0)
-    TDR5012B20624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5012B21824_ADDR, CMD_TDR, 1, 0)
-    TDR5012B21824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5012B23024_ADDR, CMD_TDR, 1, 0)
-    TDR5012B23024 = Temp_Array(1)
-    
-    ' Read DD-S2 Dendrometer
-    ExciteV(Vx1, 2500, 0)
-    VoltDiff(DEN5006B1xx24, 1, mV2500, 1, True, 0, _50Hz, 4.4, 0)
-    
-    ' Call Data Table
-    CallTable(NodeB)
-  NextScan
-EndProg
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeC.CR8</name>
-        <path>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeC.CR8</path>
-        <content>
-' CR800 Program for Node C
-' Declare Public Variables
-Public BatV As Float ' Battery voltage
-Public PanelTempC As Float ' Panel temperature in Celsius
-
-' IRT variables
-Public IRT5001C3xx24 As Float  ' Treatment 3
-Public IRT5003C2xx24 As Float  ' Treatment 2
-Public IRT5010C1xx24 As Float  ' Treatment 1
-
-' TDR variables for field 5003 (Treatment 2)
-Public TDR5003C20624 As Float
-Public TDR5003C21824 As Float
-Public TDR5003C23024 As Float
-
-' TDR variables for field 5010 (Treatment 1)
-Public TDR5010C10624 As Float
-Public TDR5010C11824 As Float
-Public TDR5010C13024 As Float
-
-' TDR variables for field 5009 (Treatment 4)
-Public TDR5009C40624 As Float
-Public TDR5009C41824 As Float
-Public TDR5009C43024 As Float
-
-' Dendrometer variable
-Public DEN5010C1xx24 As Float
-
-' SDI-12 Addresses
-Const IRT5001C3xx24_ADDR = "0"
-Const IRT5003C2xx24_ADDR = "1"
-Const IRT5010C1xx24_ADDR = "c"
-Const TDR5003C20624_ADDR = "3"
-Const TDR5003C21824_ADDR = "4"
-Const TDR5003C23024_ADDR = "5"
-Const TDR5010C10624_ADDR = "6"
-Const TDR5010C11824_ADDR = "7"
-Const TDR5010C13024_ADDR = "8"
-Const TDR5009C40624_ADDR = "9"
-Const TDR5009C41824_ADDR = "a"
-Const TDR5009C43024_ADDR = "b"
-
-' SDI-12 Measurement Commands
-Const CMD_IRT = "M!"
-Const CMD_TDR = "M!"
-
-' Temporary array for SDI-12 responses
-Dim Temp_Array(2) As Float
-
-' Define Data Table
-DataTable(NodeC, True, -1)
-  DataInterval(0, 30, Min, 10)
-  Average(1, BatV, FP2, False)
-  Average(1, PanelTempC, FP2, False)
-  Average(1, IRT5001C3xx24, IEEE4, False)
-  Average(1, IRT5003C2xx24, IEEE4, False)
-  Average(1, IRT5010C1xx24, IEEE4, False)
-  Average(1, TDR5003C20624, IEEE4, False)
-  Average(1, TDR5003C21824, IEEE4, False)
-  Average(1, TDR5003C23024, IEEE4, False)
-  Average(1, TDR5010C10624, IEEE4, False)
-  Average(1, TDR5010C11824, IEEE4, False)
-  Average(1, TDR5010C13024, IEEE4, False)
-  Average(1, TDR5009C40624, IEEE4, False)
-  Average(1, TDR5009C41824, IEEE4, False)
-  Average(1, TDR5009C43024, IEEE4, False)
-  Average(1, DEN5010C1xx24, IEEE4, False)
-EndTable
-
-' Main Program
-BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
-    ' Measure battery voltage and panel temperature
-    Battery(BatV)
-    PanelTemp(PanelTempC, 250)
-    
-    ' Read IRTs
-    SDI12Recorder(Temp_Array(), 1, IRT5001C3xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5001C3xx24 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT5003C2xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5003C2xx24 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT5010C1xx24_ADDR, CMD_IRT, 1, 0)
-    IRT5010C1xx24 = Temp_Array(1)
-    
-    ' Read TDRs for field 5003 (Treatment 2)
-    SDI12Recorder(Temp_Array(), 1, TDR5003C20624_ADDR, CMD_TDR, 1, 0)
-    TDR5003C20624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5003C21824_ADDR, CMD_TDR, 1, 0)
-    TDR5003C21824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5003C23024_ADDR, CMD_TDR, 1, 0)
-    TDR5003C23024 = Temp_Array(1)
-    
-    ' Read TDRs for field 5010 (Treatment 1)
-    SDI12Recorder(Temp_Array(), 1, TDR5010C10624_ADDR, CMD_TDR, 1, 0)
-    TDR5010C10624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5010C11824_ADDR, CMD_TDR, 1, 0)
-    TDR5010C11824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5010C13024_ADDR, CMD_TDR, 1, 0)
-    TDR5010C13024 = Temp_Array(1)
-    
-    ' Read TDRs for field 5009 (Treatment 4)
-    SDI12Recorder(Temp_Array(), 1, TDR5009C40624_ADDR, CMD_TDR, 1, 0)
-    TDR5009C40624 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5009C41824_ADDR, CMD_TDR, 1, 0)
-    TDR5009C41824 = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, TDR5009C43024_ADDR, CMD_TDR, 1, 0)
-    TDR5009C43024 = Temp_Array(1)
-    
-    ' Read DD-S2 Dendrometer
-    ExciteV(Vx1, 2500, 0)
-    VoltDiff(DEN5010C1xx24, 1, mV2500, 1, True, 0, _50Hz, 4.4, 0)
-    
-    ' Call Data Table
-    CallTable(NodeC)
-  NextScan
-EndProg
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.Campbell_Programs.2024_V2_Corn.SDI1C.CR8</name>
-        <path>Logger_Lora.Campbell_Programs.2024_V2_Corn.SDI1C.CR8</path>
-        <content>
-' CR800 Program for SDI1C Node
-' Declare Public Variables
-Public BatV As Float ' Battery voltage
-Public PanelTempC As Float ' Panel temperature in Celsius
-
-' IRT variables (SDI-12)
-Public IRT0011C5xxSD As Float  ' Treatment 5
-Public IRT0012C1xxSD As Float  ' Treatment 1
-Public IRT0014C3xxSD As Float  ' Treatment 3
-Public IRT0032C1xxSD As Float  ' Treatment 1
-Public IRT0029C3xxSD As Float  ' Treatment 3
-
-' Analog IRT variables (for IRT0036C5xxSD, using sensor 1374)
-Public BodC_1374 As Float
-Public TarmV_1374 As Float
-Public IRT0036C5xxSD As Float  ' Final calculated temperature for analog sensor
-
-' Constants for analog IRT sensor (using sensor 1374 constants)
-Const mC2_1374 = 4204.25
-Const mC1_1374 = 106949
-Const mC0_1374 = 9387600
-Const bC2_1374 = 1655170000
-Const bC1_1374 = 102781
-Const bC0_1374 = 450621
-
-' SDI-12 Addresses
-Const IRT0011C5xxSD_ADDR = "0"
-Const IRT0012C1xxSD_ADDR = "1"
-Const IRT0014C3xxSD_ADDR = "2"
-Const IRT0032C1xxSD_ADDR = "3"
-Const IRT0029C3xxSD_ADDR = "4"
-
-' SDI-12 Measurement Command
-Const CMD_IRT = "M!"
-
-' Temporary array for SDI-12 responses
-Dim Temp_Array(2) As Float
-
-' Function for computing target temperature in Celsius
-Function ComputeIRTTemp(SBTempC, TargmV, mC2, mC1, mC0, bC2, bC1, bC0) As Float
-  Dim m, b, SBTempK, TargTempK As Float
-  m = mC2 * SBTempC^2 + mC1 * SBTempC + mC0
-  b = bC2 * SBTempC^2 + bC1 * SBTempC + bC0
-  SBTempK = SBTempC + 273.15
-  TargTempK = ((SBTempK^4) + m * TargmV + b)^0.25
-  ComputeIRTTemp = TargTempK - 273.15
-End Function
-
-' Define Data Table
-DataTable(SDI1C, True, -1)
-  DataInterval(0, 30, Min, 10)
-  Average(1, BatV, FP2, False)
-  Average(1, PanelTempC, FP2, False)
-  Average(1, IRT0011C5xxSD, IEEE4, False)
-  Average(1, IRT0012C1xxSD, IEEE4, False)
-  Average(1, IRT0014C3xxSD, IEEE4, False)
-  Average(1, IRT0036C5xxSD, IEEE4, False)  ' Analog IRT final temperature
-  Average(1, IRT0032C1xxSD, IEEE4, False)
-  Average(1, IRT0029C3xxSD, IEEE4, False)
-EndTable
-
-' Main Program
-BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
-    ' Measure battery voltage and panel temperature
-    Battery(BatV)
-    PanelTemp(PanelTempC, 250)
-    
-    ' Read SDI-12 IRTs
-    SDI12Recorder(Temp_Array(), 1, IRT0011C5xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0011C5xxSD = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT0012C1xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0012C1xxSD = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT0014C3xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0014C3xxSD = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT0032C1xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0032C1xxSD = Temp_Array(1)
-    
-    SDI12Recorder(Temp_Array(), 1, IRT0029C3xxSD_ADDR, CMD_IRT, 1, 0)
-    IRT0029C3xxSD = Temp_Array(1)
-    
-    ' Read Analog IRT (using sensor 1374 for IRT0036C5xxSD)
-    Therm109(BodC_1374, 1, 3, Vx1, 0, 60, 1, 0)  ' SE3 for Green wire, Vx1 for White wire
-    VoltDiff(TarmV_1374, 1, mV2_5, 1, True, 0, _60Hz, 1, 0)  ' DIFF1 for Red (H) and Black (L) wires
-    IRT0036C5xxSD = ComputeIRTTemp(BodC_1374, TarmV_1374, mC2_1374, mC1_1374, mC0_1374, bC2_1374, bC1_1374, bC0_1374)
-    
-    ' Call Data Table
-    CallTable SDI1C
-  NextScan
-EndProg
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.config.yaml</name>
-        <path>Logger_Lora.config.yaml</path>
-        <content>
-# General configuration
-node_id: "B"  # A, B, or C
-project_name: "span2nodeB"
-
-# Datalogger configuration
-datalogger:
-  port: "/dev/ttyUSB0"
-  baud_rate: 38400
-
-# Database configuration
-database:
-  name: "span2nodeB.db"
-
-# Cloud configuration
-cloud:
-  project_id: "your_project_id"
-  dataset_id: "your_dataset_id"
-  table_id: "your_table_id"
-
-# LoRa configuration
-lora:
-  region: "US915"
-  data_rate: 3
-
-# Scheduling
-schedule:
-  interval_minutes: 30
-  max_random_delay_seconds: 600  # 10 minutes
-
-# Sensor metadata file
-sensor_metadata: "sensor_mapping.yaml"
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.custom_instructions.md</name>
-        <path>Logger_Lora.custom_instructions.md</path>
-        <content>
-- This project is in the Chicago timezone but data is stored in UTC on bigquery. Thus all computations must convert from UTC to central time. This must be unambiguously understood.
-- Always provide full updated code. never include placeholders in code
-- See the Data_Flow_Process.tsc to understand the full structure of the project repo
-- Whenever you want to do a bigquery operation think: will this operation be done repeatedly? would it do to create a general fuinction for it in bigquery operations so we can import and use?
-- Always use the custom logger module logger.py for logging:
-To use this logging solution in your other modules, you can simply import and use it like this:
-
-```python
-from src.utils.logger import get_logger
-
-logger = get_logger()  # Uses the calling module's name
-# or
-logger = get_logger("custom_name")  # Uses a custom name
-
-logger.info("This is an info message")
-logger.error("This is an error message")
-```
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.file_structure_guide.md</name>
-        <path>Logger_Lora.file_structure_guide.md</path>
-        <content>
-# Comprehensive File Structure Guide for crop2cloud24 Project
-
-## Overview
-
-The crop2cloud24 project employs a dual-structure approach to accommodate various development environments, AI assistance, and execution requirements. This guide explains the rationale, implementation, and usage of both structures, and is intended for AI models, human developers, and any other stakeholders involved in the project.
-
-## Dual Structure Approach
-
-### 1. Flat Structure (Development and AI Assistance)
-
-Located in: `claude-project` directory
-
-Purpose: 
-- Facilitates easy sharing of the entire project structure with AI models
-- Simplifies version control
-- Allows for straightforward file updates in constrained environments
-
-Naming Convention:
-```
-crop2cloud24.<module>.<submodule>.<file_name>
-```
-
-Example: `crop2cloud24.src.S1_data_ingestion.ingest_data.py`
-
-### 2. Nested Structure (Execution and Testing)
-
-Located in: Parent `crop2cloud24` directory
-
-Purpose:
-- Represents the actual runtime structure of the project
-- Used for execution, testing, and deployment
-
-Structure Example:
-```
-crop2cloud24/
-├── src/
-│   ├── S1_data_ingestion/
-│   │   └── ingest_data.py
-│   └── ...
-├── tests/
-├── .env
-├── requirements.txt
-└── ...
-```
-
-## Structure Conversion
-
-File: `expand_structure.py` (located in `claude-project` directory)
-
-Functionality:
-1. Reads files from the flat structure
-2. Creates corresponding nested directory structure
-3. Copies files to their appropriate nested locations
-4. Overwrites existing files in the nested structure
-
-Usage: Run this script after making changes in the flat structure to update the nested structure.
-
-## Workflow
-
-### For AI Model Assistance:
-1. The entire flat structure is provided for context and understanding
-2. When discussing or modifying files, use the flat structure naming convention
-3. Assume the existence of the nested structure for runtime considerations
-
-### For Human Developers:
-1. Make changes in the flat structure (`claude-project` directory)
-2. Run `expand_structure.py` to update the nested structure
-3. Execute and test the project using the nested structure
-4. Use version control on the flat structure
-
-### Code Execution:
-- Always performed by human users, never by AI models
-- Always use the nested structure in the `crop2cloud24` directory for execution
-
-## File Handling Nuances
-
-1. **Root-Level Files**: 
-   - Flat: `crop2cloud24.<filename>`
-   - Nested: `crop2cloud24/<filename>`
-
-2. **Hidden Files**:
-   - Flat: Use double dots (e.g., `crop2cloud24..env`)
-   - Nested: Standard hidden file format (e.g., `crop2cloud24/.env`)
-
-3. **Deep Nesting**:
-   - Flat: Use additional dot separators (e.g., `crop2cloud24.src.deep.deeper.deepest.file.py`)
-   - Nested: Corresponds to additional subdirectories
-
-4. **Empty Directories**:
-   - May require placeholder files in the flat structure to ensure creation in the nested structure
-
-## Best Practices
-
-1. **Consistency**: Always use the appropriate structure convention based on the context (flat for development, nested for execution)
-
-2. **Updates**: Make all updates in the flat structure, then propagate to nested
-
-3. **Version Control**: Focus on the flat structure for version control operations
-
-4. **Documentation**: Keep this guide updated as the project structure evolves
-
-5. **IDE/Editor Configuration**: Set up your development environment to understand and work with both structures
-
-6. **Continuous Integration**: Ensure CI/CD pipelines are aware of and can handle the dual-structure approach
-
-## Benefits
-
-1. **Universal Compatibility**: Works across various environments, including AI assistance platforms
-
-2. **Clear Representation**: Maintains an unambiguous project structure in all contexts
-
-3. **Flexible Development**: Allows for easy file manipulation even in constrained environments
-
-4. **Execution Readiness**: The nested structure is always prepared for actual project runtime
-
-5. **Version Control Efficiency**: Simplified tracking of changes in a flat structure
-
-## Considerations
-
-1. **Learning Curve**: New team members may need time to understand and adapt to the dual-structure approach
-
-2. **Maintenance Overhead**: Requires diligence in keeping both structures synchronized
-
-3. **Potential for Confusion**: Clear communication is crucial to avoid misunderstandings about which structure to use in different contexts
-
-4. **Tool Compatibility**: Some development tools may need configuration to work seamlessly with this approach
-
-By thoroughly understanding and correctly utilizing this dual-structure approach, all stakeholders can contribute effectively to the project while maintaining consistency and operational efficiency across different environments and use cases.
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.main.py</name>
-        <path>Logger_Lora.main.py</path>
+        <name>Logger_Lora.update_claude_project.py</name>
+        <path>Logger_Lora.update_claude_project.py</path>
         <content>
 import os
-import logging
-from datetime import datetime
-from src import (
-    connect_to_datalogger, get_tables, get_data, determine_time_range,
-    update_system_time, get_schema, update_bqtable,
-    setup_database, insert_data_to_db, get_latest_timestamp,
-    send_lora_data, load_config, load_sensor_metadata
-)
-from dotenv import load_dotenv
+import shutil
+import tempfile
 
-# Load environment variables
-load_dotenv()
+def collapse_structure():
+    # Get the current directory (where the script is run from)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    claude_project_dir = os.path.join(current_dir, "claude-project")
 
-# Load configuration
-config = load_config('config.yaml')
+    # Create a temporary directory for backup
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # If claude-project exists, move it to the temp directory
+        if os.path.exists(claude_project_dir):
+            temp_claude_project = os.path.join(temp_dir, "claude-project-backup")
+            shutil.move(claude_project_dir, temp_claude_project)
+            print(f"Existing claude-project backed up to temporary directory")
 
-# Configure logging
-logging.basicConfig(
-    filename=os.path.join('logs', 'application.log'),
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] - %(message)s",
-)
+        # Create a fresh claude-project directory
+        os.makedirs(claude_project_dir)
+        print(f"Created fresh claude-project directory")
 
-logger = logging.getLogger(__name__)
+        # List of directories and files to exclude
+        exclude_list = ['.git', '.venv', '__pycache__', 'claude-project', 'logs']
+        exclude_extensions = ['.pyc', '.log']  
+        # Walk through the current directory structure
+        for root, dirs, files in os.walk(current_dir):
+            # Remove excluded directories
+            dirs[:] = [d for d in dirs if d not in exclude_list]
 
-def main():
-    try:
-        # Update system time
-        update_system_time()
+            for file in files:
+                # Skip excluded files
+                if any(file.endswith(ext) for ext in exclude_extensions) or any(excl in root.split(os.sep) for excl in exclude_list):
+                    continue
 
-        # Load sensor metadata
-        sensor_metadata = load_sensor_metadata(config['sensor_metadata'])
+                # Get the full path of the file
+                full_path = os.path.join(root, file)
+                
+                # Get the relative path from the current directory
+                rel_path = os.path.relpath(full_path, current_dir)
+                
+                # Create the flattened file name
+                flattened_name = "Logger_Lora." + rel_path.replace(os.path.sep, ".")
+                
+                # Create the new path in claude-project
+                new_path = os.path.join(claude_project_dir, flattened_name)
+                
+                # Ensure the directory exists
+                os.makedirs(os.path.dirname(new_path), exist_ok=True)
+                
+                # Copy the file
+                shutil.copy2(full_path, new_path)
+                print(f"Copied '{rel_path}' to '{flattened_name}'")
 
-        # Connect to datalogger
-        datalogger = connect_to_datalogger(config['datalogger'])
+        # Copy update_claude_project.py to the claude-project directory
+        collapse_structure_path = os.path.join(claude_project_dir, "Logger_lora.update_claude_project.py")
+        shutil.copy2(__file__, collapse_structure_path)
+        print(f"Copied 'update_claude_project.py' to 'Logger_lora.update_claude_project.py'")
 
-        # Get table names
-        table_names = get_tables(datalogger)
-        if not table_names:
-            logger.error("No tables found in datalogger")
-            return
+        print("Structure collapse completed")
 
-        # Get latest timestamp from local database
-        latest_time = get_latest_timestamp(config['database']['name'])
-
-        # Determine start and stop times
-        start, stop = determine_time_range(latest_time)
-
-        # Get table data
-        table_data = get_data(datalogger, table_names[0], start, stop)
-        if not table_data:
-            logger.info("No new data to process")
-            return
-
-        # Update BigQuery table
-        schema = get_schema(table_data)
-        update_bqtable(schema, config['cloud']['table_id'], table_data)
-
-        # Update local SQLite database
-        setup_database(schema, config['database']['name'])
-        insert_data_to_db(table_data, config['database']['name'])
-
-        # Send data via LoRa
-        send_lora_data(table_data, config['lora'], sensor_metadata)
-
-        logger.info("Data processing and upload successful!")
-
-    except Exception as e:
-        logger.error(f"An error occurred in the main process: {e}", exc_info=True)
-        print(f"An error occurred: {e}")
+        # Here, the temporary directory (including the old claude-project backup) will be automatically deleted
 
 if __name__ == "__main__":
-    main()
+    collapse_structure()
         </content>
     </file>
     <file>
-        <name>Logger_Lora.sensor_mapping.yaml</name>
-        <path>Logger_Lora.sensor_mapping.yaml</path>
+        <name>Logger_Lora.src.utils.logger.py</name>
+        <path>Logger_Lora.src.utils.logger.py</path>
+        <content>
+import logging
+from logging.handlers import RotatingFileHandler
+import os
+
+
+def get_logger(name=None):
+    logger = logging.getLogger(name or __name__)
+
+    if not logger.handlers:
+        logger.setLevel(logging.DEBUG)
+
+        # Create logs directory if it doesn't exist
+        log_dir = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs"
+        )
+        os.makedirs(log_dir, exist_ok=True)
+
+        # Create a rotating file handler
+        file_handler = RotatingFileHandler(
+            os.path.join(log_dir, "application.log"),
+            maxBytes=5 * 1024 * 1024,  # 5 MB
+            backupCount=5,
+        )
+        file_handler.setLevel(logging.DEBUG)
+
+        # Create console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+
+        # Create formatter and add it to the handlers
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
+        file_handler.setFormatter(formatter)
+        console_handler.setFormatter(formatter)
+
+        # Add the handlers to the logger
+        logger.addHandler(file_handler)
+        logger.addHandler(console_handler)
+
+    return logger
+
+
+if __name__ == "__main__":
+    # Test the logger
+    logger = get_logger("test_logger")
+    logger.debug("This is a debug message")
+    logger.info("This is an info message")
+    logger.warning("This is a warning message")
+    logger.error("This is an error message")
+    logger.critical("This is a critical message")
+
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.config.sensor_mapping.yaml</name>
+        <path>Logger_Lora.config.sensor_mapping.yaml</path>
         <content>
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   #         CORN FIELDS
@@ -1815,6 +811,1194 @@ if __name__ == "__main__":
         </content>
     </file>
     <file>
+        <name>Logger_Lora.src.__init__.py</name>
+        <path>Logger_Lora.src.__init__.py</path>
+        <content>
+from .data_logger import connect_to_datalogger, get_tables, get_data, determine_time_range
+from .cloud_functions import update_system_time, get_schema, update_bqtable, get_latest_entry_time
+from .database_functions import setup_database, insert_data_to_db, get_latest_timestamp
+from .utils import load_config, load_sensor_metadata, get_sensor_hash, get_logger
+from .lora_functions import send_lora_data
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.Campbell_Programs.2024_V1_Corn.SDI1C.CR8</name>
+        <path>Logger_Lora.Campbell_Programs.2024_V1_Corn.SDI1C.CR8</path>
+        <content>
+' CR800 Program for SDI1C Node
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
+
+' IRT variables (SDI-12)
+Public IRT0011C5xxSD As Float  ' Treatment 5
+Public IRT0012C1xxSD As Float  ' Treatment 1
+Public IRT0014C3xxSD As Float  ' Treatment 3
+Public IRT0032C1xxSD As Float  ' Treatment 1
+Public IRT0029C3xxSD As Float  ' Treatment 3
+
+' Analog IRT variables (for IRT0036C5xxSD, using sensor 1374)
+Public BodC_1374 As Float
+Public TarmV_1374 As Float
+Public IRT0036C5xxSD As Float  ' Final calculated temperature for analog sensor
+
+' Constants for analog IRT sensor (using sensor 1374 constants)
+Const mC2_1374 = 4204.25
+Const mC1_1374 = 106949
+Const mC0_1374 = 9387600
+Const bC2_1374 = 1655170000
+Const bC1_1374 = 102781
+Const bC0_1374 = 450621
+
+' SDI-12 Addresses
+Const IRT0011C5xxSD_ADDR = "0"
+Const IRT0012C1xxSD_ADDR = "1"
+Const IRT0014C3xxSD_ADDR = "2"
+Const IRT0032C1xxSD_ADDR = "3"
+Const IRT0029C3xxSD_ADDR = "4"
+
+' SDI-12 Measurement Command
+Const CMD_IRT = "M!"
+
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
+
+' Function for computing target temperature in Celsius
+Function ComputeIRTTemp(SBTempC, TargmV, mC2, mC1, mC0, bC2, bC1, bC0) As Float
+  Dim m, b, SBTempK, TargTempK As Float
+  m = mC2 * SBTempC^2 + mC1 * SBTempC + mC0
+  b = bC2 * SBTempC^2 + bC1 * SBTempC + bC0
+  SBTempK = SBTempC + 273.15
+  TargTempK = ((SBTempK^4) + m * TargmV + b)^0.25
+  ComputeIRTTemp = TargTempK - 273.15
+End Function
+
+' Define Data Table
+DataTable(SDI1C, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT0011C5xxSD, IEEE4, False)
+  Average(1, IRT0012C1xxSD, IEEE4, False)
+  Average(1, IRT0014C3xxSD, IEEE4, False)
+  Average(1, IRT0036C5xxSD, IEEE4, False)  ' Analog IRT final temperature
+  Average(1, IRT0032C1xxSD, IEEE4, False)
+  Average(1, IRT0029C3xxSD, IEEE4, False)
+EndTable
+
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
+    
+    ' Read SDI-12 IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT0011C5xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0011C5xxSD = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT0012C1xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0012C1xxSD = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT0014C3xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0014C3xxSD = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT0032C1xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0032C1xxSD = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT0029C3xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0029C3xxSD = Temp_Array(1)
+    
+    ' Read Analog IRT (using sensor 1374 for IRT0036C5xxSD)
+    Therm109(BodC_1374, 1, 3, Vx1, 0, 60, 1, 0)  ' SE3 for Green wire, Vx1 for White wire
+    VoltDiff(TarmV_1374, 1, mV2_5, 1, True, 0, _60Hz, 1, 0)  ' DIFF1 for Red (H) and Black (L) wires
+    IRT0036C5xxSD = ComputeIRTTemp(BodC_1374, TarmV_1374, mC2_1374, mC1_1374, mC0_1374, bC2_1374, bC1_1374, bC0_1374)
+    
+    ' Call Data Table
+    CallTable SDI1C
+  NextScan
+EndProg
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeC.CR8</name>
+        <path>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeC.CR8</path>
+        <content>
+' CR800 Program for Node C
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
+
+' IRT variables
+Public IRT5001C3xx24 As Float  ' Treatment 3
+Public IRT5003C2xx24 As Float  ' Treatment 2
+Public IRT5010C1xx24 As Float  ' Treatment 1
+
+' TDR variables for field 5003 (Treatment 2)
+Public TDR5003C20624 As Float
+Public TDR5003C21824 As Float
+Public TDR5003C23024 As Float
+
+' TDR variables for field 5010 (Treatment 1)
+Public TDR5010C10624 As Float
+Public TDR5010C11824 As Float
+Public TDR5010C13024 As Float
+
+' TDR variables for field 5009 (Treatment 4)
+Public TDR5009C40624 As Float
+Public TDR5009C41824 As Float
+Public TDR5009C43024 As Float
+
+' SDI-12 Addresses
+Const IRT5001C3xx24_ADDR = "0"
+Const IRT5003C2xx24_ADDR = "1"
+Const IRT5010C1xx24_ADDR = "c"
+Const TDR5003C20624_ADDR = "3"
+Const TDR5003C21824_ADDR = "4"
+Const TDR5003C23024_ADDR = "5"
+Const TDR5010C10624_ADDR = "6"
+Const TDR5010C11824_ADDR = "7"
+Const TDR5010C13024_ADDR = "8"
+Const TDR5009C40624_ADDR = "9"
+Const TDR5009C41824_ADDR = "a"
+Const TDR5009C43024_ADDR = "b"
+
+' SDI-12 Measurement Commands
+Const CMD_IRT = "M!"
+Const CMD_TDR = "M!"
+
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
+
+' Define Data Table
+DataTable(NodeC, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT5001C3xx24, IEEE4, False)
+  Average(1, IRT5003C2xx24, IEEE4, False)
+  Average(1, IRT5010C1xx24, IEEE4, False)
+  Average(1, TDR5003C20624, IEEE4, False)
+  Average(1, TDR5003C21824, IEEE4, False)
+  Average(1, TDR5003C23024, IEEE4, False)
+  Average(1, TDR5010C10624, IEEE4, False)
+  Average(1, TDR5010C11824, IEEE4, False)
+  Average(1, TDR5010C13024, IEEE4, False)
+  Average(1, TDR5009C40624, IEEE4, False)
+  Average(1, TDR5009C41824, IEEE4, False)
+  Average(1, TDR5009C43024, IEEE4, False)
+EndTable
+
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
+    
+    ' Read IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT5001C3xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5001C3xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT5003C2xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5003C2xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT5010C1xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5010C1xx24 = Temp_Array(1)
+    
+    ' Read TDRs for field 5003 (Treatment 2)
+    SDI12Recorder(Temp_Array(), 1, TDR5003C20624_ADDR, CMD_TDR, 1, 0)
+    TDR5003C20624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5003C21824_ADDR, CMD_TDR, 1, 0)
+    TDR5003C21824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5003C23024_ADDR, CMD_TDR, 1, 0)
+    TDR5003C23024 = Temp_Array(1)
+    
+    ' Read TDRs for field 5010 (Treatment 1)
+    SDI12Recorder(Temp_Array(), 1, TDR5010C10624_ADDR, CMD_TDR, 1, 0)
+    TDR5010C10624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5010C11824_ADDR, CMD_TDR, 1, 0)
+    TDR5010C11824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5010C13024_ADDR, CMD_TDR, 1, 0)
+    TDR5010C13024 = Temp_Array(1)
+    
+    ' Read TDRs for field 5009 (Treatment 4)
+    SDI12Recorder(Temp_Array(), 1, TDR5009C40624_ADDR, CMD_TDR, 1, 0)
+    TDR5009C40624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5009C41824_ADDR, CMD_TDR, 1, 0)
+    TDR5009C41824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5009C43024_ADDR, CMD_TDR, 1, 0)
+    TDR5009C43024 = Temp_Array(1)
+    
+    ' Call Data Table
+    CallTable(NodeC)
+  NextScan
+EndProg
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora..gitignore</name>
+        <path>Logger_Lora..gitignore</path>
+        <content>
+# .gitignore
+
+.vscode/
+__pycache__/
+.env
+.venv
+timekeeper.txt
+CR800data.json
+sensor_data.json
+
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeB.CR8</name>
+        <path>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeB.CR8</path>
+        <content>
+' CR800 Program for Node B
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
+
+' IRT variables
+Public IRT5006B1xx24 As Float  ' Treatment 1
+Public IRT5012B2xx24 As Float  ' Treatment 2
+
+' TDR variables for field 5007 (Treatment 4)
+Public TDR5007B40624 As Float
+Public TDR5007B41824 As Float
+Public TDR5007B43024 As Float
+Public TDR5007B44224 As Float
+
+' TDR variables for field 5006 (Treatment 1)
+Public TDR5006B10624 As Float
+Public TDR5006B11724 As Float
+Public TDR5006B13024 As Float
+Public TDR5006B14224 As Float
+
+' TDR variables for field 5012 (Treatment 2)
+Public TDR5012B20624 As Float
+Public TDR5012B21824 As Float
+Public TDR5012B23024 As Float
+
+' Dendrometer variable
+Public DEN5006B1xx24 As Float
+
+' SDI-12 Addresses
+Const IRT5006B1xx24_ADDR = "0"
+Const IRT5012B2xx24_ADDR = "1"
+Const TDR5007B40624_ADDR = "2"
+Const TDR5007B41824_ADDR = "3"
+Const TDR5007B43024_ADDR = "4"
+Const TDR5007B44224_ADDR = "5"
+Const TDR5006B10624_ADDR = "6"
+Const TDR5006B11724_ADDR = "7"
+Const TDR5006B13024_ADDR = "8"
+Const TDR5006B14224_ADDR = "9"
+Const TDR5012B20624_ADDR = "a"
+Const TDR5012B21824_ADDR = "b"
+Const TDR5012B23024_ADDR = "c"
+
+' SDI-12 Measurement Commands
+Const CMD_IRT = "M!"
+Const CMD_TDR = "M!"
+
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
+
+' Define Data Table
+DataTable(NodeB, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT5006B1xx24, IEEE4, False)
+  Average(1, IRT5012B2xx24, IEEE4, False)
+  Average(1, TDR5007B40624, IEEE4, False)
+  Average(1, TDR5007B41824, IEEE4, False)
+  Average(1, TDR5007B43024, IEEE4, False)
+  Average(1, TDR5007B44224, IEEE4, False)
+  Average(1, TDR5006B10624, IEEE4, False)
+  Average(1, TDR5006B11724, IEEE4, False)
+  Average(1, TDR5006B13024, IEEE4, False)
+  Average(1, TDR5006B14224, IEEE4, False)
+  Average(1, TDR5012B20624, IEEE4, False)
+  Average(1, TDR5012B21824, IEEE4, False)
+  Average(1, TDR5012B23024, IEEE4, False)
+  Average(1, DEN5006B1xx24, IEEE4, False)
+EndTable
+
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
+    
+    ' Read IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT5006B1xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5006B1xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT5012B2xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5012B2xx24 = Temp_Array(1)
+    
+    ' Read TDRs for field 5007 (Treatment 4)
+    SDI12Recorder(Temp_Array(), 1, TDR5007B40624_ADDR, CMD_TDR, 1, 0)
+    TDR5007B40624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5007B41824_ADDR, CMD_TDR, 1, 0)
+    TDR5007B41824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5007B43024_ADDR, CMD_TDR, 1, 0)
+    TDR5007B43024 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5007B44224_ADDR, CMD_TDR, 1, 0)
+    TDR5007B44224 = Temp_Array(1)
+    
+    ' Read TDRs for field 5006 (Treatment 1)
+    SDI12Recorder(Temp_Array(), 1, TDR5006B10624_ADDR, CMD_TDR, 1, 0)
+    TDR5006B10624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5006B11724_ADDR, CMD_TDR, 1, 0)
+    TDR5006B11724 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5006B13024_ADDR, CMD_TDR, 1, 0)
+    TDR5006B13024 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5006B14224_ADDR, CMD_TDR, 1, 0)
+    TDR5006B14224 = Temp_Array(1)
+    
+    ' Read TDRs for field 5012 (Treatment 2)
+    SDI12Recorder(Temp_Array(), 1, TDR5012B20624_ADDR, CMD_TDR, 1, 0)
+    TDR5012B20624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5012B21824_ADDR, CMD_TDR, 1, 0)
+    TDR5012B21824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5012B23024_ADDR, CMD_TDR, 1, 0)
+    TDR5012B23024 = Temp_Array(1)
+    
+    ' Read DD-S2 Dendrometer
+    ExciteV(Vx1, 2500, 0)
+    VoltDiff(DEN5006B1xx24, 1, mV2500, 1, True, 0, _50Hz, 4.4, 0)
+    
+    ' Call Data Table
+    CallTable(NodeB)
+  NextScan
+EndProg
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.data.span2nodeB.db</name>
+        <path>Logger_Lora.data.span2nodeB.db</path>
+        <content>
+
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeC.CR8</name>
+        <path>Logger_Lora.Campbell_Programs.2024_V2_Corn.nodeC.CR8</path>
+        <content>
+' CR800 Program for Node C
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
+
+' IRT variables
+Public IRT5001C3xx24 As Float  ' Treatment 3
+Public IRT5003C2xx24 As Float  ' Treatment 2
+Public IRT5010C1xx24 As Float  ' Treatment 1
+
+' TDR variables for field 5003 (Treatment 2)
+Public TDR5003C20624 As Float
+Public TDR5003C21824 As Float
+Public TDR5003C23024 As Float
+
+' TDR variables for field 5010 (Treatment 1)
+Public TDR5010C10624 As Float
+Public TDR5010C11824 As Float
+Public TDR5010C13024 As Float
+
+' TDR variables for field 5009 (Treatment 4)
+Public TDR5009C40624 As Float
+Public TDR5009C41824 As Float
+Public TDR5009C43024 As Float
+
+' Dendrometer variable
+Public DEN5010C1xx24 As Float
+
+' SDI-12 Addresses
+Const IRT5001C3xx24_ADDR = "0"
+Const IRT5003C2xx24_ADDR = "1"
+Const IRT5010C1xx24_ADDR = "c"
+Const TDR5003C20624_ADDR = "3"
+Const TDR5003C21824_ADDR = "4"
+Const TDR5003C23024_ADDR = "5"
+Const TDR5010C10624_ADDR = "6"
+Const TDR5010C11824_ADDR = "7"
+Const TDR5010C13024_ADDR = "8"
+Const TDR5009C40624_ADDR = "9"
+Const TDR5009C41824_ADDR = "a"
+Const TDR5009C43024_ADDR = "b"
+
+' SDI-12 Measurement Commands
+Const CMD_IRT = "M!"
+Const CMD_TDR = "M!"
+
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
+
+' Define Data Table
+DataTable(NodeC, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT5001C3xx24, IEEE4, False)
+  Average(1, IRT5003C2xx24, IEEE4, False)
+  Average(1, IRT5010C1xx24, IEEE4, False)
+  Average(1, TDR5003C20624, IEEE4, False)
+  Average(1, TDR5003C21824, IEEE4, False)
+  Average(1, TDR5003C23024, IEEE4, False)
+  Average(1, TDR5010C10624, IEEE4, False)
+  Average(1, TDR5010C11824, IEEE4, False)
+  Average(1, TDR5010C13024, IEEE4, False)
+  Average(1, TDR5009C40624, IEEE4, False)
+  Average(1, TDR5009C41824, IEEE4, False)
+  Average(1, TDR5009C43024, IEEE4, False)
+  Average(1, DEN5010C1xx24, IEEE4, False)
+EndTable
+
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
+    
+    ' Read IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT5001C3xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5001C3xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT5003C2xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5003C2xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT5010C1xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5010C1xx24 = Temp_Array(1)
+    
+    ' Read TDRs for field 5003 (Treatment 2)
+    SDI12Recorder(Temp_Array(), 1, TDR5003C20624_ADDR, CMD_TDR, 1, 0)
+    TDR5003C20624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5003C21824_ADDR, CMD_TDR, 1, 0)
+    TDR5003C21824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5003C23024_ADDR, CMD_TDR, 1, 0)
+    TDR5003C23024 = Temp_Array(1)
+    
+    ' Read TDRs for field 5010 (Treatment 1)
+    SDI12Recorder(Temp_Array(), 1, TDR5010C10624_ADDR, CMD_TDR, 1, 0)
+    TDR5010C10624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5010C11824_ADDR, CMD_TDR, 1, 0)
+    TDR5010C11824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5010C13024_ADDR, CMD_TDR, 1, 0)
+    TDR5010C13024 = Temp_Array(1)
+    
+    ' Read TDRs for field 5009 (Treatment 4)
+    SDI12Recorder(Temp_Array(), 1, TDR5009C40624_ADDR, CMD_TDR, 1, 0)
+    TDR5009C40624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5009C41824_ADDR, CMD_TDR, 1, 0)
+    TDR5009C41824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5009C43024_ADDR, CMD_TDR, 1, 0)
+    TDR5009C43024 = Temp_Array(1)
+    
+    ' Read DD-S2 Dendrometer
+    ExciteV(Vx1, 2500, 0)
+    VoltDiff(DEN5010C1xx24, 1, mV2500, 1, True, 0, _50Hz, 4.4, 0)
+    
+    ' Call Data Table
+    CallTable(NodeC)
+  NextScan
+EndProg
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.src.database_functions.py</name>
+        <path>Logger_Lora.src.database_functions.py</path>
+        <content>
+import sqlite3
+import logging
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+def setup_database(schema, db_name):
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    columns = ", ".join([f"{field.name} {field.field_type}" for field in schema])
+    create_table_stmt = f"CREATE TABLE IF NOT EXISTS data_table ({columns})"
+
+    try:
+        cursor.execute(create_table_stmt)
+        conn.commit()
+        logger.info(f"Database {db_name} set up successfully")
+    except Exception as e:
+        logger.error(f"Error setting up database {db_name}: {e}")
+        raise
+    finally:
+        conn.close()
+
+def insert_data_to_db(data, db_name):
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    columns = ", ".join(data[0].keys())
+    placeholders = ", ".join(["?" for _ in data[0]])
+    insert_stmt = f"INSERT INTO data_table ({columns}) VALUES ({placeholders})"
+
+    try:
+        cursor.executemany(insert_stmt, [tuple(row.values()) for row in data])
+        conn.commit()
+        logger.info(f"Inserted {len(data)} rows into {db_name}")
+    except Exception as e:
+        logger.error(f"Error inserting data into {db_name}: {e}")
+        raise
+    finally:
+        conn.close()
+
+def get_latest_timestamp(db_name):
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT TIMESTAMP FROM data_table ORDER BY TIMESTAMP DESC LIMIT 1")
+        result = cursor.fetchone()
+        if result:
+            logger.info(f"Retrieved latest timestamp: {result[0]}")
+            return result[0]
+        else:
+            logger.info("No data found in the database")
+            return None
+    except sqlite3.OperationalError as e:
+        logger.warning(f"Table might not exist in {db_name}: {e}")
+        return None
+    except Exception as e:
+        logger.error(f"Error retrieving latest timestamp from {db_name}: {e}")
+        raise
+    finally:
+        conn.close()
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.requirements.txt</name>
+        <path>Logger_Lora.requirements.txt</path>
+        <content>
+pycampbellcr1000
+google-cloud-bigquery
+rak811
+python-dotenv
+pyyaml
+pyserial
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.Campbell_Programs.2024_V2_Corn.SDI1C.CR8</name>
+        <path>Logger_Lora.Campbell_Programs.2024_V2_Corn.SDI1C.CR8</path>
+        <content>
+' CR800 Program for SDI1C Node
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
+
+' IRT variables (SDI-12)
+Public IRT0011C5xxSD As Float  ' Treatment 5
+Public IRT0012C1xxSD As Float  ' Treatment 1
+Public IRT0014C3xxSD As Float  ' Treatment 3
+Public IRT0032C1xxSD As Float  ' Treatment 1
+Public IRT0029C3xxSD As Float  ' Treatment 3
+
+' Analog IRT variables (for IRT0036C5xxSD, using sensor 1374)
+Public BodC_1374 As Float
+Public TarmV_1374 As Float
+Public IRT0036C5xxSD As Float  ' Final calculated temperature for analog sensor
+
+' Constants for analog IRT sensor (using sensor 1374 constants)
+Const mC2_1374 = 4204.25
+Const mC1_1374 = 106949
+Const mC0_1374 = 9387600
+Const bC2_1374 = 1655170000
+Const bC1_1374 = 102781
+Const bC0_1374 = 450621
+
+' SDI-12 Addresses
+Const IRT0011C5xxSD_ADDR = "0"
+Const IRT0012C1xxSD_ADDR = "1"
+Const IRT0014C3xxSD_ADDR = "2"
+Const IRT0032C1xxSD_ADDR = "3"
+Const IRT0029C3xxSD_ADDR = "4"
+
+' SDI-12 Measurement Command
+Const CMD_IRT = "M!"
+
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
+
+' Function for computing target temperature in Celsius
+Function ComputeIRTTemp(SBTempC, TargmV, mC2, mC1, mC0, bC2, bC1, bC0) As Float
+  Dim m, b, SBTempK, TargTempK As Float
+  m = mC2 * SBTempC^2 + mC1 * SBTempC + mC0
+  b = bC2 * SBTempC^2 + bC1 * SBTempC + bC0
+  SBTempK = SBTempC + 273.15
+  TargTempK = ((SBTempK^4) + m * TargmV + b)^0.25
+  ComputeIRTTemp = TargTempK - 273.15
+End Function
+
+' Define Data Table
+DataTable(SDI1C, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT0011C5xxSD, IEEE4, False)
+  Average(1, IRT0012C1xxSD, IEEE4, False)
+  Average(1, IRT0014C3xxSD, IEEE4, False)
+  Average(1, IRT0036C5xxSD, IEEE4, False)  ' Analog IRT final temperature
+  Average(1, IRT0032C1xxSD, IEEE4, False)
+  Average(1, IRT0029C3xxSD, IEEE4, False)
+EndTable
+
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
+    
+    ' Read SDI-12 IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT0011C5xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0011C5xxSD = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT0012C1xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0012C1xxSD = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT0014C3xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0014C3xxSD = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT0032C1xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0032C1xxSD = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT0029C3xxSD_ADDR, CMD_IRT, 1, 0)
+    IRT0029C3xxSD = Temp_Array(1)
+    
+    ' Read Analog IRT (using sensor 1374 for IRT0036C5xxSD)
+    Therm109(BodC_1374, 1, 3, Vx1, 0, 60, 1, 0)  ' SE3 for Green wire, Vx1 for White wire
+    VoltDiff(TarmV_1374, 1, mV2_5, 1, True, 0, _60Hz, 1, 0)  ' DIFF1 for Red (H) and Black (L) wires
+    IRT0036C5xxSD = ComputeIRTTemp(BodC_1374, TarmV_1374, mC2_1374, mC1_1374, mC0_1374, bC2_1374, bC1_1374, bC0_1374)
+    
+    ' Call Data Table
+    CallTable SDI1C
+  NextScan
+EndProg
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.src.utils.py</name>
+        <path>Logger_Lora.src.utils.py</path>
+        <content>
+import yaml
+import logging
+import os
+import sys
+
+class RepoLogger:
+    def __init__(self, log_dir="src/logs"):
+        """
+        Initializes the logger.
+
+        Args:
+            log_dir (str, optional): The directory to store log files. Defaults to 'src/logs'.
+        """
+        self.log_dir = log_dir
+
+    def setup_logger(self, level=logging.INFO):
+        """Sets up the logger with a file handler and formatter."""
+        if not os.path.exists(self.log_dir):
+            os.makedirs(self.log_dir)
+
+        # Get the name of the calling script for the log file name
+        log_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
+        log_file = os.path.join(self.log_dir, f"{log_name}.log")
+
+        logging.basicConfig(
+            filename=log_file,
+            level=level,
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            filemode="w",
+        )
+
+    def get_logger(self, level=logging.INFO):
+        """
+        Retrieves a logger, using the calling script's name for the log file.
+
+        Args:
+            level (int, optional): The logging level to be set. Defaults to logging.INFO.
+
+        Returns:
+            logging.Logger: The logger instance.
+        """
+        self.setup_logger(level)
+        return logging.getLogger(__name__)
+
+def get_logger(log_dir="src/logs", level=logging.INFO):
+    """
+    Helper function to get a logger instance.
+
+    Args:
+        log_dir (str, optional): The directory to store log files. Defaults to 'src/logs'.
+        level (int, optional): The logging level to be set. Defaults to logging.INFO.
+
+    Returns:
+        logging.Logger: The logger instance.
+    """
+    repo_logger = RepoLogger(log_dir)
+    return repo_logger.get_logger(level)
+
+def load_config(config_file):
+    logger = get_logger()
+    try:
+        with open(config_file, 'r') as f:
+            config = yaml.safe_load(f)
+        logger.info(f"Configuration loaded from {config_file}")
+        return config
+    except Exception as e:
+        logger.error(f"Error loading configuration from {config_file}: {e}")
+        raise
+
+def load_sensor_metadata(sensor_file):
+    logger = get_logger()
+    try:
+        with open(sensor_file, 'r') as f:
+            sensor_metadata = yaml.safe_load(f)
+        logger.info(f"Sensor metadata loaded from {sensor_file}")
+        return sensor_metadata
+    except Exception as e:
+        logger.error(f"Error loading sensor metadata from {sensor_file}: {e}")
+        raise
+
+def get_sensor_hash(sensor_id, sensor_metadata):
+    logger = get_logger()
+    for sensor in sensor_metadata:
+        if sensor['sensor_id'] == sensor_id:
+            return sensor['hash']
+    logger.warning(f"No hash found for sensor_id: {sensor_id}")
+    return None
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.config.config.yaml</name>
+        <path>Logger_Lora.config.config.yaml</path>
+        <content>
+# General configuration
+node_id: "B"  # A, B, or C
+project_name: "span2nodeB"
+
+# Datalogger configuration
+datalogger:
+  port: "/dev/ttyUSB0"
+  baud_rate: 38400
+
+# Database configuration
+database:
+  name: "data/span2nodeB.db"
+
+# Cloud configuration
+cloud:
+  project_id: "your_project_id"
+  dataset_id: "your_dataset_id"
+  table_id: "your_table_id"
+
+# LoRa configuration
+lora:
+  region: "US915"
+  data_rate: 3
+
+# Scheduling
+schedule:
+  interval_minutes: 30
+  max_random_delay_seconds: 600  # 10 minutes
+
+# Sensor metadata file
+sensor_metadata: "config/sensor_mapping.yaml"
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.main.py</name>
+        <path>Logger_Lora.main.py</path>
+        <content>
+import os
+from datetime import datetime
+from src import (
+    connect_to_datalogger,
+    get_tables,
+    get_data,
+    determine_time_range,
+    update_system_time,
+    get_schema,
+    update_bqtable,
+    setup_database,
+    insert_data_to_db,
+    get_latest_timestamp,
+    send_lora_data,
+    load_config,
+    load_sensor_metadata,
+    get_logger,
+)
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Load configuration
+config = load_config("config/config.yaml")
+
+# Set up custom logger
+logger = get_logger(__name__)
+
+
+def main():
+    try:
+        # Update system time
+        update_system_time()
+
+        # Load sensor metadata
+        sensor_metadata = load_sensor_metadata(config["sensor_metadata"])
+
+        # Connect to datalogger
+        datalogger = connect_to_datalogger(config["datalogger"])
+
+        # Get table names
+        table_names = get_tables(datalogger)
+        if not table_names:
+            logger.error("No tables found in datalogger")
+            return
+
+        # Get latest timestamp from local database
+        latest_time = get_latest_timestamp(config["database"]["name"])
+
+        # Determine start and stop times
+        start, stop = determine_time_range(latest_time)
+
+        # Get table data
+        table_data = get_data(datalogger, table_names[0], start, stop)
+        if not table_data:
+            logger.info("No new data to process")
+            return
+
+        # Update BigQuery table
+        schema = get_schema(table_data)
+        update_bqtable(schema, config["cloud"]["table_id"], table_data)
+
+        # Update local SQLite database
+        setup_database(schema, config["database"]["name"])
+        insert_data_to_db(table_data, config["database"]["name"])
+
+        # Send data via LoRa
+        send_lora_data(table_data, config["lora"], sensor_metadata)
+
+        logger.info("Data processing and upload successful!")
+
+    except Exception as e:
+        logger.error(f"An error occurred in the main process: {e}", exc_info=True)
+        print(f"An error occurred: {e}")
+
+
+if __name__ == "__main__":
+    main()
+
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.custom_instructions.md</name>
+        <path>Logger_Lora.custom_instructions.md</path>
+        <content>
+- This project is in the Chicago timezone but data is stored in UTC on bigquery. Thus all computations must convert from UTC to central time. This must be unambiguously understood.
+- Always provide full updated code. never include placeholders in code
+- See the Data_Flow_Process.tsc to understand the full structure of the project repo
+- Whenever you want to do a bigquery operation think: will this operation be done repeatedly? would it do to create a general fuinction for it in bigquery operations so we can import and use?
+- Always use the custom logger module logger.py for logging:
+To use this logging solution in your other modules, you can simply import and use it like this:
+
+```python
+from src.utils.logger import get_logger
+
+logger = get_logger()  # Uses the calling module's name
+# or
+logger = get_logger("custom_name")  # Uses a custom name
+
+logger.info("This is an info message")
+logger.error("This is an error message")
+```
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.src.data_logger.py</name>
+        <path>Logger_Lora.src.data_logger.py</path>
+        <content>
+from pycampbellcr1000 import CR1000
+import logging
+from datetime import datetime, timedelta
+import math
+
+logger = logging.getLogger(__name__)
+
+def connect_to_datalogger(config):
+    try:
+        datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
+        logger.info("Successfully connected to datalogger")
+        return datalogger
+    except Exception as e:
+        logger.error(f"Failed to connect to datalogger: {e}")
+        raise
+
+def get_tables(datalogger):
+    try:
+        table_names = datalogger.list_tables()
+        logger.info(f"Retrieved table names: {table_names}")
+        return table_names
+    except Exception as e:
+        logger.error(f"Failed to get table names: {e}")
+        raise
+
+def get_data(datalogger, table_name, start, stop):
+    try:
+        table_data = datalogger.get_data(table_name, start, stop)
+        cleaned_data = []
+
+        for label in table_data:
+            dict_entry = {}
+            for key, value in label.items():
+                key = key.replace("b'", "").replace("'", "")
+
+                if key == "Datetime":
+                    key = "TIMESTAMP"
+
+                dict_entry[key] = value
+
+                try:
+                    if math.isnan(value):
+                        dict_entry[key] = -9999
+                except TypeError:
+                    continue
+
+            cleaned_data.append(dict_entry)
+
+        cleaned_data.sort(key=lambda x: x["TIMESTAMP"])
+        logger.info(f"Retrieved and cleaned data from {table_name}")
+        return cleaned_data
+    except Exception as e:
+        logger.error(f"Failed to get data from {table_name}: {e}")
+        raise
+
+def determine_time_range(latest_time):
+    if latest_time:
+        start = datetime.fromisoformat(latest_time) + timedelta(seconds=1)
+    else:
+        start = datetime.now() - timedelta(days=2)
+    
+    stop = datetime.now()
+    logger.info(f"Determined time range: start={start}, stop={stop}")
+    return start, stop
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.src.lora_functions.py</name>
+        <path>Logger_Lora.src.lora_functions.py</path>
+        <content>
+import json
+import logging
+from time import sleep
+
+
+# from rak811.rak811_v3 import Rak811
+
+
+class Rak811:
+    def __init__(self):
+        pass
+
+    def set_config(self, config):
+        pass
+
+    def join(self):
+        pass
+
+    def send(self, data):
+        pass
+
+    def close(self):
+        pass
+
+
+import os
+from dotenv import load_dotenv
+from .utils import get_sensor_hash
+
+load_dotenv()
+
+logger = logging.getLogger(__name__)
+
+
+class LoRaManager:
+    def __init__(self, config):
+        self.lora = Rak811()
+        self.config = config
+        self.setup_lora()
+
+    def setup_lora(self):
+        try:
+            self.lora.set_config("lora:work_mode:0")
+            self.lora.set_config("lora:join_mode:1")
+            self.lora.set_config(f'lora:region:{self.config["region"]}')
+            self.lora.set_config(f'lora:dev_addr:{os.getenv("DEV_ADDR")}')
+            self.lora.set_config(f'lora:apps_key:{os.getenv("APPS_KEY")}')
+            self.lora.set_config(f'lora:nwks_key:{os.getenv("NWKS_KEY")}')
+            self.lora.set_config(f'lora:dr:{self.config["data_rate"]}')
+
+            self.lora.join()
+            logger.info("Joined LoRaWAN network")
+        except Exception as e:
+            logger.error(f"Error setting up LoRa: {e}")
+            raise
+
+    def send_data(self, data):
+        try:
+            json_payload = json.dumps(data)
+            payload = json_payload.encode("utf-8")
+            self.lora.send(payload)
+            logger.info(f"Sent payload: {json_payload}")
+        except Exception as e:
+            logger.error(f"Error sending LoRa data: {e}")
+            raise
+
+    def close(self):
+        try:
+            self.lora.close()
+            logger.info("LoRa connection closed")
+        except Exception as e:
+            logger.error(f"Error closing LoRa connection: {e}")
+
+
+def send_lora_data(data, config, sensor_metadata):
+    lora_manager = LoRaManager(config)
+
+    try:
+        # Convert full sensor names to hashes
+        hashed_data = {
+            get_sensor_hash(k, sensor_metadata): v
+            for k, v in data.items()
+            if get_sensor_hash(k, sensor_metadata)
+        }
+
+        # Split data into chunks of 5 key-value pairs (leaving room for timestamp)
+        chunks = [
+            dict(list(hashed_data.items())[i : i + 5])
+            for i in range(0, len(hashed_data), 5)
+        ]
+
+        for chunk in chunks:
+            # Add timestamp to each chunk
+            chunk["time"] = data["TIMESTAMP"].strftime("%Y%m%d%H%M%S")
+            lora_manager.send_data(chunk)
+            sleep(10)  # Wait 10 seconds between transmissions
+
+        logger.info(f"Sent {len(chunks)} LoRa packets")
+    except Exception as e:
+        logger.error(f"Error in send_lora_data: {e}")
+    finally:
+        lora_manager.close()
+
+        </content>
+    </file>
+    <file>
+        <name>Logger_lora.update_claude_project.py</name>
+        <path>Logger_lora.update_claude_project.py</path>
+        <content>
+import os
+import shutil
+import tempfile
+
+def collapse_structure():
+    # Get the current directory (where the script is run from)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    claude_project_dir = os.path.join(current_dir, "claude-project")
+
+    # Create a temporary directory for backup
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # If claude-project exists, move it to the temp directory
+        if os.path.exists(claude_project_dir):
+            temp_claude_project = os.path.join(temp_dir, "claude-project-backup")
+            shutil.move(claude_project_dir, temp_claude_project)
+            print(f"Existing claude-project backed up to temporary directory")
+
+        # Create a fresh claude-project directory
+        os.makedirs(claude_project_dir)
+        print(f"Created fresh claude-project directory")
+
+        # List of directories and files to exclude
+        exclude_list = ['.git', '.venv', '__pycache__', 'claude-project', 'logs']
+        exclude_extensions = ['.pyc', '.log']  
+        # Walk through the current directory structure
+        for root, dirs, files in os.walk(current_dir):
+            # Remove excluded directories
+            dirs[:] = [d for d in dirs if d not in exclude_list]
+
+            for file in files:
+                # Skip excluded files
+                if any(file.endswith(ext) for ext in exclude_extensions) or any(excl in root.split(os.sep) for excl in exclude_list):
+                    continue
+
+                # Get the full path of the file
+                full_path = os.path.join(root, file)
+                
+                # Get the relative path from the current directory
+                rel_path = os.path.relpath(full_path, current_dir)
+                
+                # Create the flattened file name
+                flattened_name = "Logger_Lora." + rel_path.replace(os.path.sep, ".")
+                
+                # Create the new path in claude-project
+                new_path = os.path.join(claude_project_dir, flattened_name)
+                
+                # Ensure the directory exists
+                os.makedirs(os.path.dirname(new_path), exist_ok=True)
+                
+                # Copy the file
+                shutil.copy2(full_path, new_path)
+                print(f"Copied '{rel_path}' to '{flattened_name}'")
+
+        # Copy update_claude_project.py to the claude-project directory
+        collapse_structure_path = os.path.join(claude_project_dir, "Logger_lora.update_claude_project.py")
+        shutil.copy2(__file__, collapse_structure_path)
+        print(f"Copied 'update_claude_project.py' to 'Logger_lora.update_claude_project.py'")
+
+        print("Structure collapse completed")
+
+        # Here, the temporary directory (including the old claude-project backup) will be automatically deleted
+
+if __name__ == "__main__":
+    collapse_structure()
+        </content>
+    </file>
+    <file>
         <name>Logger_Lora.setup.py</name>
         <path>Logger_Lora.setup.py</path>
         <content>
@@ -1923,6 +2107,230 @@ logger.debug("Script finished")
         </content>
     </file>
     <file>
+        <name>Logger_Lora.repo_context_extractor.py</name>
+        <path>Logger_Lora.repo_context_extractor.py</path>
+        <content>
+import os
+import sys
+
+EXCLUDED_DIRS = {".git", "__pycache__", "node_modules", "venv", ".venv"}
+EXCLUDED_FILES = {".gitignore", "README.md"}
+
+def create_file_element(file_path, root_folder):
+    """
+    Create an XML element for a file, including its content.
+
+    Args:
+        file_path (str): The path to the file.
+        root_folder (str): The root directory of the repository.
+
+    Returns:
+        str: The formatted XML element for the file.
+    """
+    relative_path = os.path.relpath(file_path, root_folder)
+    file_name = os.path.basename(file_path)
+
+    file_element = [
+        f"    <file>\n        <name>{file_name}</name>\n        <path>{relative_path}</path>\n"
+    ]
+
+    file_element.append("        <content>\n")
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            file_element.append(file.read())
+    except Exception as e:
+        file_element.append(f"Error reading file: {str(e)}")
+    file_element.append("\n        </content>\n")
+
+    file_element.append("    </file>\n")
+    return "".join(file_element)
+
+def get_repo_structure(root_folder):
+    """
+    Get the directory structure of the repository with embedded file content.
+
+    Args:
+        root_folder (str): The root directory of the repository.
+
+    Returns:
+        str: The formatted XML structure of the repository.
+    """
+    structure = ["<repository_structure>\n"]
+
+    for subdir, dirs, files in os.walk(root_folder):
+        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
+        level = subdir.replace(root_folder, "").count(os.sep)
+        indent = " " * 4 * level
+        structure.append(f'{indent}<directory name="{os.path.basename(subdir)}">\n')
+
+        for file in files:
+            if file not in EXCLUDED_FILES:
+                file_path = os.path.join(subdir, file)
+                file_element = create_file_element(file_path, root_folder)
+                structure.append(file_element)
+
+        structure.append(f"{indent}</directory>\n")
+
+    structure.append("</repository_structure>\n")
+    return "".join(structure)
+
+def main():
+    """
+    Main function to execute the script.
+    """
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    claude_project_dir = os.path.join(script_dir, "claude-project")
+
+    if not os.path.exists(claude_project_dir):
+        print(f"Error: 'claude-project' folder not found in {script_dir}")
+        sys.exit(1)
+
+    logs_folder = os.path.join(script_dir, "logs")
+    if not os.path.exists(logs_folder):
+        os.makedirs(logs_folder)
+
+    output_file = os.path.join(logs_folder, "repository_context.txt")
+
+    repo_structure = get_repo_structure(claude_project_dir)
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(repo_structure)
+
+    print(f"Repository context has been extracted to {output_file}")
+
+if __name__ == "__main__":
+    main()
+        </content>
+    </file>
+    <file>
+        <name>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeA.CR8</name>
+        <path>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeA.CR8</path>
+        <content>
+' CR800 Program for Node A
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
+
+' IRT variables
+Public IRT5023A1xx24 As Float  ' Treatment 1
+Public IRT5020A3xx24 As Float  ' Treatment 3
+Public IRT5018A3xx24 As Float  ' Treatment 3
+
+' TDR variables for field 5023 (Treatment 1)
+Public TDR5023A10624 As Float
+Public TDR5023A11824 As Float
+Public TDR5023A13024 As Float
+Public TDR5023A14224 As Float
+
+' TDR variables for field 5026 (Treatment 2)
+Public TDR5026A20624 As Float
+Public TDR5026A21824 As Float
+Public TDR5026A23824 As Float
+
+' TDR variables for field 5027 (Treatment 4)
+Public TDR5027A40624 As Float
+Public TDR5027A41824 As Float
+Public TDR5027A43024 As Float
+
+' SDI-12 Addresses
+Const IRT5023A1xx24_ADDR = "0"
+Const IRT5020A3xx24_ADDR = "1"
+Const IRT5018A3xx24_ADDR = "9"
+Const TDR5023A10624_ADDR = "2"
+Const TDR5023A11824_ADDR = "3"
+Const TDR5023A13024_ADDR = "4"
+Const TDR5023A14224_ADDR = "5"
+Const TDR5026A20624_ADDR = "6"
+Const TDR5026A21824_ADDR = "7"
+Const TDR5026A23024_ADDR = "8"
+Const TDR5027A40624_ADDR = "a"
+Const TDR5027A41824_ADDR = "b"
+Const TDR5027A43024_ADDR = "c"
+
+' SDI-12 Measurement Commands
+Const CMD_IRT = "M!"
+Const CMD_TDR = "M!"
+
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
+
+' Define Data Table
+DataTable(NodeA, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT5023A1xx24, IEEE4, False)
+  Average(1, IRT5020A3xx24, IEEE4, False)
+  Average(1, IRT5018A3xx24, IEEE4, False)
+  Average(1, TDR5023A10624, IEEE4, False)
+  Average(1, TDR5023A11824, IEEE4, False)
+  Average(1, TDR5023A13024, IEEE4, False)
+  Average(1, TDR5023A14224, IEEE4, False)
+  Average(1, TDR5026A20624, IEEE4, False)
+  Average(1, TDR5026A21824, IEEE4, False)
+  Average(1, TDR5026A23824, IEEE4, False)
+  Average(1, TDR5027A40624, IEEE4, False)
+  Average(1, TDR5027A41824, IEEE4, False)
+  Average(1, TDR5027A43024, IEEE4, False)
+EndTable
+
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
+    
+    ' Read IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT5023A1xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5023A1xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT5020A3xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5020A3xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT5018A3xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5018A3xx24 = Temp_Array(1)
+    
+    ' Read TDRs for field 5023 (Treatment 1)
+    SDI12Recorder(Temp_Array(), 1, TDR5023A10624_ADDR, CMD_TDR, 1, 0)
+    TDR5023A10624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5023A11824_ADDR, CMD_TDR, 1, 0)
+    TDR5023A11824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5023A13024_ADDR, CMD_TDR, 1, 0)
+    TDR5023A13024 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5023A14224_ADDR, CMD_TDR, 1, 0)
+    TDR5023A14224 = Temp_Array(1)
+    
+    ' Read TDRs for field 5026 (Treatment 2)
+    SDI12Recorder(Temp_Array(), 1, TDR5026A20624_ADDR, CMD_TDR, 1, 0)
+    TDR5026A20624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5026A21824_ADDR, CMD_TDR, 1, 0)
+    TDR5026A21824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5026A23824_ADDR, CMD_TDR, 1, 0)
+    TDR5026A23824 = Temp_Array(1)
+    
+    ' Read TDRs for field 5027 (Treatment 4)
+    SDI12Recorder(Temp_Array(), 1, TDR5027A40624_ADDR, CMD_TDR, 1, 0)
+    TDR5027A40624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5027A41824_ADDR, CMD_TDR, 1, 0)
+    TDR5027A41824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5027A43024_ADDR, CMD_TDR, 1, 0)
+    TDR5027A43024 = Temp_Array(1)
+    
+    ' Call Data Table
+    CallTable(NodeA)
+  NextScan
+EndProg
+        </content>
+    </file>
+    <file>
         <name>Logger_Lora.src.cloud_functions.py</name>
         <path>Logger_Lora.src.cloud_functions.py</path>
         <content>
@@ -2013,336 +2421,283 @@ def get_latest_entry_time(table_id):
         </content>
     </file>
     <file>
-        <name>Logger_Lora.src.database_functions.py</name>
-        <path>Logger_Lora.src.database_functions.py</path>
+        <name>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeB.CR8</name>
+        <path>Logger_Lora.Campbell_Programs.2024_V1_Corn.nodeB.CR8</path>
         <content>
-import sqlite3
-import logging
-from datetime import datetime
+' CR800 Program for Node B
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
 
-logger = logging.getLogger(__name__)
+' IRT variables
+Public IRT5006B1xx24 As Float  ' Treatment 1
+Public IRT5012B2xx24 As Float  ' Treatment 2
 
-def setup_database(schema, db_name):
-    conn = sqlite3.connect(db_name)
-    cursor = conn.cursor()
+' TDR variables for field 5007 (Treatment 4)
+Public TDR5007B40624 As Float
+Public TDR5007B41824 As Float
+Public TDR5007B43024 As Float
+Public TDR5007B44224 As Float
 
-    columns = ", ".join([f"{field.name} {field.field_type}" for field in schema])
-    create_table_stmt = f"CREATE TABLE IF NOT EXISTS data_table ({columns})"
+' TDR variables for field 5006 (Treatment 1)
+Public TDR5006B10624 As Float
+Public TDR5006B11724 As Float
+Public TDR5006B13024 As Float
+Public TDR5006B14224 As Float
 
-    try:
-        cursor.execute(create_table_stmt)
-        conn.commit()
-        logger.info(f"Database {db_name} set up successfully")
-    except Exception as e:
-        logger.error(f"Error setting up database {db_name}: {e}")
-        raise
-    finally:
-        conn.close()
+' TDR variables for field 5012 (Treatment 2)
+Public TDR5012B20624 As Float
+Public TDR5012B21824 As Float
+Public TDR5012B23024 As Float
 
-def insert_data_to_db(data, db_name):
-    conn = sqlite3.connect(db_name)
-    cursor = conn.cursor()
+' SDI-12 Addresses
+Const IRT5006B1xx24_ADDR = "0"
+Const IRT5012B2xx24_ADDR = "1"
+Const TDR5007B40624_ADDR = "2"
+Const TDR5007B41824_ADDR = "3"
+Const TDR5007B43024_ADDR = "4"
+Const TDR5007B44224_ADDR = "5"
+Const TDR5006B10624_ADDR = "6"
+Const TDR5006B11724_ADDR = "7"
+Const TDR5006B13024_ADDR = "8"
+Const TDR5006B14224_ADDR = "9"
+Const TDR5012B20624_ADDR = "a"
+Const TDR5012B21824_ADDR = "b"
+Const TDR5012B23024_ADDR = "c"
 
-    columns = ", ".join(data[0].keys())
-    placeholders = ", ".join(["?" for _ in data[0]])
-    insert_stmt = f"INSERT INTO data_table ({columns}) VALUES ({placeholders})"
+' SDI-12 Measurement Commands
+Const CMD_IRT = "M!"
+Const CMD_TDR = "M!"
 
-    try:
-        cursor.executemany(insert_stmt, [tuple(row.values()) for row in data])
-        conn.commit()
-        logger.info(f"Inserted {len(data)} rows into {db_name}")
-    except Exception as e:
-        logger.error(f"Error inserting data into {db_name}: {e}")
-        raise
-    finally:
-        conn.close()
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
 
-def get_latest_timestamp(db_name):
-    conn = sqlite3.connect(db_name)
-    cursor = conn.cursor()
+' Define Data Table
+DataTable(NodeB, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT5006B1xx24, IEEE4, False)
+  Average(1, IRT5012B2xx24, IEEE4, False)
+  Average(1, TDR5007B40624, IEEE4, False)
+  Average(1, TDR5007B41824, IEEE4, False)
+  Average(1, TDR5007B43024, IEEE4, False)
+  Average(1, TDR5007B44224, IEEE4, False)
+  Average(1, TDR5006B10624, IEEE4, False)
+  Average(1, TDR5006B11724, IEEE4, False)
+  Average(1, TDR5006B13024, IEEE4, False)
+  Average(1, TDR5006B14224, IEEE4, False)
+  Average(1, TDR5012B20624, IEEE4, False)
+  Average(1, TDR5012B21824, IEEE4, False)
+  Average(1, TDR5012B23024, IEEE4, False)
+EndTable
 
-    try:
-        cursor.execute("SELECT TIMESTAMP FROM data_table ORDER BY TIMESTAMP DESC LIMIT 1")
-        result = cursor.fetchone()
-        if result:
-            logger.info(f"Retrieved latest timestamp: {result[0]}")
-            return result[0]
-        else:
-            logger.info("No data found in the database")
-            return None
-    except sqlite3.OperationalError as e:
-        logger.warning(f"Table might not exist in {db_name}: {e}")
-        return None
-    except Exception as e:
-        logger.error(f"Error retrieving latest timestamp from {db_name}: {e}")
-        raise
-    finally:
-        conn.close()
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.src.data_logger.py</name>
-        <path>Logger_Lora.src.data_logger.py</path>
-        <content>
-from pycampbellcr1000 import CR1000
-import logging
-from datetime import datetime, timedelta
-import math
-
-logger = logging.getLogger(__name__)
-
-def connect_to_datalogger(config):
-    try:
-        datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
-        logger.info("Successfully connected to datalogger")
-        return datalogger
-    except Exception as e:
-        logger.error(f"Failed to connect to datalogger: {e}")
-        raise
-
-def get_tables(datalogger):
-    try:
-        table_names = datalogger.list_tables()
-        logger.info(f"Retrieved table names: {table_names}")
-        return table_names
-    except Exception as e:
-        logger.error(f"Failed to get table names: {e}")
-        raise
-
-def get_data(datalogger, table_name, start, stop):
-    try:
-        table_data = datalogger.get_data(table_name, start, stop)
-        cleaned_data = []
-
-        for label in table_data:
-            dict_entry = {}
-            for key, value in label.items():
-                key = key.replace("b'", "").replace("'", "")
-
-                if key == "Datetime":
-                    key = "TIMESTAMP"
-
-                dict_entry[key] = value
-
-                try:
-                    if math.isnan(value):
-                        dict_entry[key] = -9999
-                except TypeError:
-                    continue
-
-            cleaned_data.append(dict_entry)
-
-        cleaned_data.sort(key=lambda x: x["TIMESTAMP"])
-        logger.info(f"Retrieved and cleaned data from {table_name}")
-        return cleaned_data
-    except Exception as e:
-        logger.error(f"Failed to get data from {table_name}: {e}")
-        raise
-
-def determine_time_range(latest_time):
-    if latest_time:
-        start = datetime.fromisoformat(latest_time) + timedelta(seconds=1)
-    else:
-        start = datetime.now() - timedelta(days=2)
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
     
-    stop = datetime.now()
-    logger.info(f"Determined time range: start={start}, stop={stop}")
-    return start, stop
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.src.lora_functions.py</name>
-        <path>Logger_Lora.src.lora_functions.py</path>
-        <content>
-import json
-import logging
-from time import sleep
-from rak811.rak811_v3 import Rak811
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-logger = logging.getLogger(__name__)
-
-class LoRaManager:
-    def __init__(self, config):
-        self.lora = Rak811()
-        self.config = config
-        self.setup_lora()
-
-    def setup_lora(self):
-        try:
-            self.lora.set_config('lora:work_mode:0')
-            self.lora.set_config('lora:join_mode:1')
-            self.lora.set_config(f'lora:region:{self.config["region"]}')
-            self.lora.set_config(f'lora:dev_addr:{os.getenv("DEV_ADDR")}')
-            self.lora.set_config(f'lora:apps_key:{os.getenv("APPS_KEY")}')
-            self.lora.set_config(f'lora:nwks_key:{os.getenv("NWKS_KEY")}')
-            self.lora.set_config(f'lora:dr:{self.config["data_rate"]}')
-            
-            self.lora.join()
-            logger.info("Joined LoRaWAN network")
-        except Exception as e:
-            logger.error(f"Error setting up LoRa: {e}")
-            raise
-
-    def send_data(self, data):
-        try:
-            json_payload = json.dumps(data)
-            payload = json_payload.encode('utf-8')
-            self.lora.send(payload)
-            logger.info(f"Sent payload: {json_payload}")
-        except Exception as e:
-            logger.error(f"Error sending LoRa data: {e}")
-            raise
-
-    def close(self):
-        try:
-            self.lora.close()
-            logger.info("LoRa connection closed")
-        except Exception as e:
-            logger.error(f"Error closing LoRa connection: {e}")
-
-def send_lora_data(data, config, sensor_metadata):
-    lora_manager = LoRaManager(config)
+    ' Read IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT5006B1xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5006B1xx24 = Temp_Array(1)
     
-    try:
-        # Convert full sensor names to hashes
-        hashed_data = {get_sensor_hash(k, sensor_metadata): v for k, v in data.items() if get_sensor_hash(k, sensor_metadata)}
-        
-        # Split data into chunks of 5 key-value pairs (leaving room for timestamp)
-        chunks = [dict(list(hashed_data.items())[i:i+5]) for i in range(0, len(hashed_data), 5)]
-        
-        for chunk in chunks:
-            # Add timestamp to each chunk
-            chunk['time'] = data['TIMESTAMP'].strftime('%Y%m%d%H%M%S')
-            lora_manager.send_data(chunk)
-            sleep(10)  # Wait 10 seconds between transmissions
-        
-        logger.info(f"Sent {len(chunks)} LoRa packets")
-    except Exception as e:
-        logger.error(f"Error in send_lora_data: {e}")
-    finally:
-        lora_manager.close()
+    SDI12Recorder(Temp_Array(), 1, IRT5012B2xx24_ADDR, CMD_IRT, 1, 0)
+    IRT5012B2xx24 = Temp_Array(1)
+    
+    ' Read TDRs for field 5007 (Treatment 4)
+    SDI12Recorder(Temp_Array(), 1, TDR5007B40624_ADDR, CMD_TDR, 1, 0)
+    TDR5007B40624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5007B41824_ADDR, CMD_TDR, 1, 0)
+    TDR5007B41824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5007B43024_ADDR, CMD_TDR, 1, 0)
+    TDR5007B43024 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5007B44224_ADDR, CMD_TDR, 1, 0)
+    TDR5007B44224 = Temp_Array(1)
+    
+    ' Read TDRs for field 5006 (Treatment 1)
+    SDI12Recorder(Temp_Array(), 1, TDR5006B10624_ADDR, CMD_TDR, 1, 0)
+    TDR5006B10624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5006B11724_ADDR, CMD_TDR, 1, 0)
+    TDR5006B11724 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5006B13024_ADDR, CMD_TDR, 1, 0)
+    TDR5006B13024 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5006B14224_ADDR, CMD_TDR, 1, 0)
+    TDR5006B14224 = Temp_Array(1)
+    
+    ' Read TDRs for field 5012 (Treatment 2)
+    SDI12Recorder(Temp_Array(), 1, TDR5012B20624_ADDR, CMD_TDR, 1, 0)
+    TDR5012B20624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5012B21824_ADDR, CMD_TDR, 1, 0)
+    TDR5012B21824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR5012B23024_ADDR, CMD_TDR, 1, 0)
+    TDR5012B23024 = Temp_Array(1)
+    
+    ' Call Data Table
+    CallTable(NodeB)
+  NextScan
+EndProg
         </content>
     </file>
     <file>
-        <name>Logger_Lora.src.utils.py</name>
-        <path>Logger_Lora.src.utils.py</path>
+        <name>Logger_Lora.file_structure_guide.md</name>
+        <path>Logger_Lora.file_structure_guide.md</path>
         <content>
-import yaml
-import logging
+# Comprehensive File Structure Guide for Logger_Lora Project
 
-logger = logging.getLogger(__name__)
+## Overview
 
-def load_config(config_file):
-    try:
-        with open(config_file, 'r') as f:
-            config = yaml.safe_load(f)
-        logger.info(f"Configuration loaded from {config_file}")
-        return config
-    except Exception as e:
-        logger.error(f"Error loading configuration from {config_file}: {e}")
-        raise
+The Logger_Lora project employs a dual-structure approach to accommodate various development environments, AI assistance, and execution requirements. This guide explains the rationale, implementation, and usage of both structures, and is intended for AI models, human developers, and any other stakeholders involved in the project.
 
-def load_sensor_metadata(sensor_file):
-    try:
-        with open(sensor_file, 'r') as f:
-            sensor_metadata = yaml.safe_load(f)
-        logger.info(f"Sensor metadata loaded from {sensor_file}")
-        return sensor_metadata
-    except Exception as e:
-        logger.error(f"Error loading sensor metadata from {sensor_file}: {e}")
-        raise
+## Dual Structure Approach
 
-def get_sensor_hash(sensor_id, sensor_metadata):
-    for sensor in sensor_metadata:
-        if sensor['sensor_id'] == sensor_id:
-            return sensor['hash']
-    logger.warning(f"No hash found for sensor_id: {sensor_id}")
-    return None
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.src.__init__.py</name>
-        <path>Logger_Lora.src.__init__.py</path>
-        <content>
-from .data_logger import connect_to_datalogger, get_tables, get_data, determine_time_range
-from .cloud_functions import update_system_time, get_schema, update_bqtable, get_latest_entry_time
-from .database_functions import setup_database, insert_data_to_db, get_latest_timestamp
-from .utils import load_config, load_sensor_metadata, get_sensor_hash
-from .lora_functions import send_lora_data
-        </content>
-    </file>
-    <file>
-        <name>Logger_Lora.update_claude_project.py</name>
-        <path>Logger_Lora.update_claude_project.py</path>
-        <content>
-import os
-import shutil
-import tempfile
+### 1. Flat Structure (Development and AI Assistance)
 
-def collapse_structure():
-    # Get the current directory (where the script is run from)
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    claude_project_dir = os.path.join(current_dir, "claude-project")
+Located in: `claude-project` directory
 
-    # Create a temporary directory for backup
-    with tempfile.TemporaryDirectory() as temp_dir:
-        # If claude-project exists, move it to the temp directory
-        if os.path.exists(claude_project_dir):
-            temp_claude_project = os.path.join(temp_dir, "claude-project-backup")
-            shutil.move(claude_project_dir, temp_claude_project)
-            print(f"Existing claude-project backed up to temporary directory")
+Purpose: 
+- Facilitates easy sharing of the entire project structure with AI models
+- Simplifies version control
+- Allows for straightforward file updates in constrained environments
 
-        # Create a fresh claude-project directory
-        os.makedirs(claude_project_dir)
-        print(f"Created fresh claude-project directory")
+Naming Convention:
+```
+Logger_Lora.<module>.<file_name>
+```
 
-        # List of directories and files to exclude
-        exclude_list = ['.git', '.venv', '__pycache__', 'claude-project', 'logs']
-        exclude_extensions = ['.pyc', '.log']  
-        # Walk through the current directory structure
-        for root, dirs, files in os.walk(current_dir):
-            # Remove excluded directories
-            dirs[:] = [d for d in dirs if d not in exclude_list]
+Example: `Logger_Lora.src.data_logger.py`
 
-            for file in files:
-                # Skip excluded files
-                if any(file.endswith(ext) for ext in exclude_extensions) or any(excl in root.split(os.sep) for excl in exclude_list):
-                    continue
+### 2. Nested Structure (Execution and Testing)
 
-                # Get the full path of the file
-                full_path = os.path.join(root, file)
-                
-                # Get the relative path from the current directory
-                rel_path = os.path.relpath(full_path, current_dir)
-                
-                # Create the flattened file name
-                flattened_name = "Logger_Lora." + rel_path.replace(os.path.sep, ".")
-                
-                # Create the new path in claude-project
-                new_path = os.path.join(claude_project_dir, flattened_name)
-                
-                # Ensure the directory exists
-                os.makedirs(os.path.dirname(new_path), exist_ok=True)
-                
-                # Copy the file
-                shutil.copy2(full_path, new_path)
-                print(f"Copied '{rel_path}' to '{flattened_name}'")
+Located in: Parent `Logger_Lora` directory
 
-        # Copy update_claude_project.py to the claude-project directory
-        collapse_structure_path = os.path.join(claude_project_dir, "Logger_lora.update_claude_project.py")
-        shutil.copy2(__file__, collapse_structure_path)
-        print(f"Copied 'update_claude_project.py' to 'Logger_lora.update_claude_project.py'")
+Purpose:
+- Represents the actual runtime structure of the project
+- Used for execution, testing, and deployment
 
-        print("Structure collapse completed")
+## File Structure
 
-        # Here, the temporary directory (including the old claude-project backup) will be automatically deleted
+```markdown
+Logger_Lora/
+├── claude-project/
+│   ├── Logger_Lora.main.py
+│   ├── Logger_Lora.setup.py
+│   ├── Logger_Lora.src.cloud_functions.py
+│   ├── Logger_Lora.src.database_functions.py
+│   ├── Logger_Lora.src.data_logger.py
+│   ├── Logger_Lora.src.lora_functions.py
+│   ├── Logger_Lora.src.utils.py
+│   ├── Logger_Lora.src.__init__.py
+│   └── Logger_Lora.update_claude_project.py
+├── src/
+│   ├── cloud_functions.py
+│   ├── database_functions.py
+│   ├── data_logger.py
+│   ├── lora_functions.py
+│   ├── utils.py
+│   └── __init__.py
+├── main.py
+├── setup.py
+├── config.yaml
+├── sensor_mapping.yaml
+├── .env
+└── requirements.txt
+```
 
-if __name__ == "__main__":
-    collapse_structure()
+## Structure Conversion
+
+File: `Logger_Lora.update_claude_project.py` (located in `claude-project` directory)
+
+Functionality:
+1. Reads files from the flat structure
+2. Creates corresponding nested directory structure
+3. Copies files to their appropriate nested locations
+4. Overwrites existing files in the nested structure
+
+Usage: Run this script after making changes in the flat structure to update the nested structure.
+
+## Workflow
+
+### For AI Model Assistance:
+1. The entire flat structure is provided for context and understanding
+2. When discussing or modifying files, use the flat structure naming convention
+3. Assume the existence of the nested structure for runtime considerations
+
+### For Human Developers:
+1. Make changes in the flat structure (`claude-project` directory)
+2. Run `update_claude_project.py` to update the nested structure
+3. Execute and test the project using the nested structure
+4. Use version control on the flat structure
+
+### Code Execution:
+- Always performed by human users, never by AI models
+- Always use the nested structure in the `Logger_Lora` directory for execution
+
+## File Handling Nuances
+
+1. **Root-Level Files**: 
+   - Flat: `Logger_Lora.<filename>`
+   - Nested: `Logger_Lora/<filename>`
+
+2. **Hidden Files**:
+   - Flat: Use double dots (e.g., `Logger_Lora..env`)
+   - Nested: Standard hidden file format (e.g., `Logger_Lora/.env`)
+
+3. **Configuration Files**:
+   - `config.yaml`: Contains general configuration settings
+   - `sensor_mapping.yaml`: Defines sensor metadata and mappings
+
+## Key Components
+
+1. **Main Script**: `main.py`
+   - Entry point for the Logger_Lora application
+
+2. **Setup Script**: `setup.py`
+   - Handles project setup, including systemd service configuration
+
+3. **Source Files**:
+   - `cloud_functions.py`: Manages interaction with cloud services
+   - `database_functions.py`: Handles local database operations
+   - `data_logger.py`: Interfaces with the data logging hardware
+   - `lora_functions.py`: Manages LoRa communication
+   - `utils.py`: Contains utility functions used across the project
+
+4. **LoRa Communication**:
+   - Utilizes the RAK811 LoRa module for data transmission
+
+5. **Data Logging**:
+   - Interfaces with Campbell Scientific CR1000 data logger
+
+6. **Database**:
+   - Uses SQLite for local data storage
+
+7. **Cloud Integration**:
+   - Interacts with Google BigQuery for cloud data storage
+
+## Best Practices
+
+1. **Consistency**: Always use the appropriate structure convention based on the context (flat for development, nested for execution)
+
+2. **Updates**: Make all updates in the flat structure, then propagate to nested
+
+3. **Version Control**: Focus on the flat structure for version control operations
+
+4. **Documentation**: Keep this guide updated as the project structure evolves
+
+5. **Environment Variables**: Use the `.env` file for sensitive information and environment-specific settings
+
+6. **Logging**: Utilize the custom logging solution provided in `src/utils.py`
+
+By thoroughly understanding and correctly utilizing this dual-structure approach, all stakeholders can contribute effectively to the project while maintaining consistency and operational efficiency across different environments and use cases.
         </content>
     </file>
 </directory>

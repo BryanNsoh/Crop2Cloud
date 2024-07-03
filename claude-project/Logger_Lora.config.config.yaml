@@ -9,7 +9,7 @@ datalogger:
 
 # Database configuration
 database:
-  name: "span2nodeB.db"
+  name: "data/span2nodeB.db"
 
 # Cloud configuration
 cloud:
@@ -28,4 +28,4 @@ schedule:
   max_random_delay_seconds: 600  # 10 minutes
 
 # Sensor metadata file
-sensor_metadata: "sensor_mapping.yaml"
+sensor_metadata: "config/sensor_mapping.yaml"

@@ -1,8 +1,9 @@
 import sqlite3
-import logging
 from datetime import datetime
+from .utils import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger("database_functions", "database_functions.log")
+
 
 def setup_database(schema, db_name):
     conn = sqlite3.connect(db_name)
@@ -20,6 +21,7 @@ def setup_database(schema, db_name):
         raise
     finally:
         conn.close()
+
 
 def insert_data_to_db(data, db_name):
     conn = sqlite3.connect(db_name)
@@ -39,12 +41,15 @@ def insert_data_to_db(data, db_name):
     finally:
         conn.close()
 
+
 def get_latest_timestamp(db_name):
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT TIMESTAMP FROM data_table ORDER BY TIMESTAMP DESC LIMIT 1")
+        cursor.execute(
+            "SELECT TIMESTAMP FROM data_table ORDER BY TIMESTAMP DESC LIMIT 1"
+        )
         result = cursor.fetchone()
         if result:
             logger.info(f"Retrieved latest timestamp: {result[0]}")
@@ -60,3 +65,26 @@ def get_latest_timestamp(db_name):
         raise
     finally:
         conn.close()
+
+
+if __name__ == "__main__":
+    # Test setup_database
+    from google.cloud import bigquery
+
+    test_schema = [
+        bigquery.SchemaField("TIMESTAMP", "TIMESTAMP"),
+        bigquery.SchemaField("sensor1", "FLOAT"),
+        bigquery.SchemaField("sensor2", "FLOAT"),
+    ]
+    setup_database(test_schema, "test_database.db")
+
+    # Test insert_data_to_db
+    test_data = [
+        {"TIMESTAMP": datetime.now(), "sensor1": 1.0, "sensor2": 2.0},
+        {"TIMESTAMP": datetime.now(), "sensor1": 3.0, "sensor2": 4.0},
+    ]
+    insert_data_to_db(test_data, "test_database.db")
+
+    # Test get_latest_timestamp
+    latest_timestamp = get_latest_timestamp("test_database.db")
+    print(f"Latest timestamp: {latest_timestamp}")

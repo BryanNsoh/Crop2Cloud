@@ -14,7 +14,7 @@ from src import (
     send_lora_data,
     load_config,
     load_sensor_metadata,
-    get_logger,
+    setup_logger,
 )
 from dotenv import load_dotenv
 
@@ -25,16 +25,19 @@ load_dotenv()
 config = load_config("config/config.yaml")
 
 # Set up custom logger
-logger = get_logger(__name__)
+logger = setup_logger("main", "main.log")
 
 
 def main():
     try:
+        logger.info("Starting data collection and transmission process")
+
         # Update system time
         update_system_time()
 
         # Load sensor metadata
         sensor_metadata = load_sensor_metadata(config["sensor_metadata"])
+        logger.info(f"Loaded metadata for {len(sensor_metadata)} sensors")
 
         # Connect to datalogger
         datalogger = connect_to_datalogger(config["datalogger"])
@@ -47,6 +50,7 @@ def main():
 
         # Get latest timestamp from local database
         latest_time = get_latest_timestamp(config["database"]["name"])
+        logger.info(f"Latest timestamp from local database: {latest_time}")
 
         # Determine start and stop times
         start, stop = determine_time_range(latest_time)
@@ -56,6 +60,8 @@ def main():
         if not table_data:
             logger.info("No new data to process")
             return
+
+        logger.info(f"Retrieved {len(table_data)} new data points")
 
         # Update BigQuery table
         schema = get_schema(table_data)

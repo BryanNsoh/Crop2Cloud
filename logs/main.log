@@ -1,0 +1,20 @@
+2024-07-03 15:11:39,913 - main - INFO - Starting data collection and transmission process
+2024-07-03 15:11:56,758 - main - INFO - Loaded metadata for 44 sensors
+2024-07-03 15:12:07,846 - main - INFO - Latest timestamp from local database: None
+2024-07-03 15:12:07,884 - main - ERROR - An error occurred in the main process: encoding without a string argument
+Traceback (most recent call last):
+  File "/home/bryan/Desktop/Logger_Lora/main.py", line 59, in main
+    table_data = get_data(datalogger, table_names[0], start, stop)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bryan/Desktop/Logger_Lora/src/data_logger.py", line 34, in get_data
+    table_data = datalogger.get_data(table_name, start, stop)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/pycampbellcr1000/device.py", line 229, in get_data
+    for items in self.get_data_generator(tablename, start_date, stop_date):
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/pycampbellcr1000/device.py", line 249, in get_data_generator
+    data, more = self._collect_data(tablename, start_date, stop_date)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bryan/Desktop/Logger_Lora/.venv/lib/python3.11/site-packages/pycampbellcr1000/device.py", line 201, in _collect_data
+    tablename = bytes(tablename, encoding="utf-8")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: encoding without a string argument

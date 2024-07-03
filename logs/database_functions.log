@@ -1,0 +1,4 @@
+2024-07-03 15:03:49,312 - database_functions - INFO - Database test_database.db set up successfully
+2024-07-03 15:03:49,316 - database_functions - INFO - Inserted 2 rows into test_database.db
+2024-07-03 15:03:49,317 - database_functions - INFO - Retrieved latest timestamp: 2024-07-03 15:03:49.313024
+2024-07-03 15:12:07,845 - database_functions - WARNING - Table might not exist in data/span2nodeB.db: no such table: data_table
