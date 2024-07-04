@@ -1,16 +1,10 @@
 import json
 from time import sleep
-import os
-from dotenv import load_dotenv
 from .utils import get_sensor_hash, setup_logger
 from datetime import datetime
-
-load_dotenv()
-
-logger = setup_logger("lora_functions", "lora_functions.log")
-
 from rak811.rak811_v3 import Rak811
 
+logger = setup_logger("lora_functions", "lora_functions.log")
 
 class LoRaManager:
     def __init__(self, config):
@@ -23,9 +17,9 @@ class LoRaManager:
             self.lora.set_config("lora:work_mode:0")
             self.lora.set_config("lora:join_mode:1")
             self.lora.set_config(f'lora:region:{self.config["region"]}')
-            self.lora.set_config(f'lora:dev_addr:{os.getenv("DEV_ADDR")}')
-            self.lora.set_config(f'lora:apps_key:{os.getenv("APPS_KEY")}')
-            self.lora.set_config(f'lora:nwks_key:{os.getenv("NWKS_KEY")}')
+            self.lora.set_config(f'lora:dev_addr:{self.config["dev_addr"]}')
+            self.lora.set_config(f'lora:apps_key:{self.config["apps_key"]}')
+            self.lora.set_config(f'lora:nwks_key:{self.config["nwks_key"]}')
             self.lora.set_config(f'lora:dr:{self.config["data_rate"]}')
 
             self.lora.join()
@@ -51,7 +45,6 @@ class LoRaManager:
         except Exception as e:
             logger.error(f"Error closing LoRa connection: {e}")
 
-
 def send_lora_data(data, config, sensor_metadata):
     logger.info("Initializing LoRa data transmission")
     lora_manager = LoRaManager(config)
@@ -61,23 +54,22 @@ def send_lora_data(data, config, sensor_metadata):
         hashed_data = {
             get_sensor_hash(k, sensor_metadata): v
             for k, v in data.items()
-            if get_sensor_hash(k, sensor_metadata)
+            if get_sensor_hash(k, sensor_metadata) and k != "TIMESTAMP"
         }
         logger.debug(f"Hashed data: {hashed_data}")
 
-        # Split data into chunks of 5 key-value pairs (leaving room for timestamp)
-        chunks = [
-            dict(list(hashed_data.items())[i : i + 5])
-            for i in range(0, len(hashed_data), 5)
-        ]
+        # Add timestamp to the data
+        hashed_data["time"] = data["TIMESTAMP"].strftime("%Y%m%d%H%M%S")
+
+        # Split data into chunks of 6 key-value pairs (including timestamp)
+        chunks = [dict(list(hashed_data.items())[i:i+6]) for i in range(0, len(hashed_data), 6)]
         logger.info(f"Data split into {len(chunks)} chunks")
 
         for i, chunk in enumerate(chunks):
-            # Add timestamp to each chunk
-            chunk["time"] = data["TIMESTAMP"].strftime("%Y%m%d%H%M%S")
             logger.debug(f"Sending chunk {i+1}: {chunk}")
             lora_manager.send_data(chunk)
-            sleep(10)  # Wait 10 seconds between transmissions
+            if i < len(chunks) - 1:  # If not the last chunk
+                sleep(60)  # Wait 60 seconds between transmissions
 
         logger.info(f"Successfully sent {len(chunks)} LoRa packets")
     except Exception as e:
@@ -85,10 +77,15 @@ def send_lora_data(data, config, sensor_metadata):
     finally:
         lora_manager.close()
 
-
 if __name__ == "__main__":
     # Test LoRaManager
-    test_config = {"region": "US915", "data_rate": 3}
+    test_config = {
+        "region": "US915",
+        "data_rate": 3,
+        "dev_addr": "260CA983",
+        "apps_key": "524F13A6AB0FAF4F92FFEA257DF53423",
+        "nwks_key": "E31284DAC1D3AED6A72CCDA217046B35"
+    }
     lora_manager = LoRaManager(test_config)
 
     # Test send_data

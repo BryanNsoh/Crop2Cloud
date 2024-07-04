@@ -9,14 +9,12 @@ from src.utils import setup_logger, load_config
 # Set up logging
 logger = setup_logger("setup", "setup.log")
 
-
 def check_permissions():
     if os.geteuid() != 0:
         logger.error(
             "This script requires root privileges to manage systemd services and timers. Please run with sudo."
         )
         exit(1)
-
 
 def run_command(command, continue_on_error=False):
     logger.debug(f"Running Command: {command}")
@@ -31,19 +29,16 @@ def run_command(command, continue_on_error=False):
 
     return result.stdout, result.stderr
 
-
 def create_file(file_name, content):
     with open(file_name, "w") as f:
         f.write(content)
     logger.info(f"Created file: {file_name}")
     return file_name
 
-
 def enable_and_start_systemd(unit_name):
     logger.info(f"Enabling and starting systemd unit: {unit_name}")
     run_command(f"sudo systemctl enable {unit_name}", continue_on_error=True)
     run_command(f"sudo systemctl start {unit_name}", continue_on_error=True)
-
 
 def rebuild_venv_if_needed():
     venv_path = os.path.join(os.getcwd(), ".venv")
@@ -51,7 +46,6 @@ def rebuild_venv_if_needed():
         logger.info("Rebuilding virtual environment")
         run_command(f"python3 -m venv {venv_path}")
         run_command(f"{venv_path}/bin/pip install -r requirements.txt")
-
 
 def main():
     logger.info("Starting setup process")
@@ -128,7 +122,6 @@ WantedBy=timers.target
     run_command(f"sudo chmod -R 755 {project_path}")
 
     logger.info("Setup process completed successfully")
-
 
 if __name__ == "__main__":
     main()

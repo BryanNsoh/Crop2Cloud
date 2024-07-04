@@ -4,7 +4,6 @@ from logging.handlers import RotatingFileHandler
 import os
 import sys
 
-
 class CustomFormatter(logging.Formatter):
     """Custom formatter with color coding for different log levels"""
 
@@ -28,11 +27,9 @@ class CustomFormatter(logging.Formatter):
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
 
-
 def get_project_root():
     """Get the project root directory."""
     return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-
 
 def setup_logger(name, log_file, level=logging.INFO):
     """Function to setup as many loggers as you want"""
@@ -58,7 +55,6 @@ def setup_logger(name, log_file, level=logging.INFO):
 
     return logger
 
-
 def load_config():
     logger = setup_logger("utils", "utils.log")
     try:
@@ -81,7 +77,6 @@ def load_config():
         logger.error(f"Error loading configuration: {e}")
         raise
 
-
 def load_sensor_metadata(sensor_file):
     logger = setup_logger("utils", "utils.log")
     project_root = get_project_root()
@@ -89,12 +84,11 @@ def load_sensor_metadata(sensor_file):
     try:
         with open(full_sensor_path, "r") as f:
             sensor_metadata = yaml.safe_load(f)
-        logger.info(f"Sensor metadata loaded from {full_sensor_path}")
+            logger.info(f"Sensor metadata loaded from {full_sensor_path}")
         return sensor_metadata
     except Exception as e:
         logger.error(f"Error loading sensor metadata from {full_sensor_path}: {e}")
         raise
-
 
 def get_sensor_hash(sensor_id, sensor_metadata):
     logger = setup_logger("utils", "utils.log")
@@ -104,7 +98,6 @@ def get_sensor_hash(sensor_id, sensor_metadata):
             return sensor["hash"]
     logger.warning(f"No hash found for sensor_id: {sensor_id}")
     return None
-
 
 if __name__ == "__main__":
     # Test the logger

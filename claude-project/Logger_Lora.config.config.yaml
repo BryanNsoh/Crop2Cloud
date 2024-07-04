@@ -1,23 +1,58 @@
 # Node configuration
-node_id: "A"  # Change this for each node (A, B, or C)
+node_id: "LINEAR_CORN_A"  # Change this for each node
 
 # Node-specific configurations
 node_configs:
-  A:
+  LINEAR_CORN_A:
     lora:
-      dev_addr: "DEV_ADDR_A"
-      apps_key: "APPS_KEY_A"
-      nwks_key: "NWKS_KEY_A"
-  B:
+      dev_addr: "260CA983"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_CORN_B:
     lora:
-      dev_addr: "DEV_ADDR_B"
-      apps_key: "APPS_KEY_B"
-      nwks_key: "NWKS_KEY_B"
-  C:
+      dev_addr: "260CA984"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_CORN_C:
     lora:
-      dev_addr: "DEV_ADDR_C"
-      apps_key: "APPS_KEY_C"
-      nwks_key: "NWKS_KEY_C"
+      dev_addr: "260CA985"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_SOY_A:
+    lora:
+      dev_addr: "260CA986"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_SOY_B:
+    lora:
+      dev_addr: "260CA987"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_SOY_C:
+    lora:
+      dev_addr: "260CA988"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  SDI1_CORN_A:
+    lora:
+      dev_addr: "260CA989"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  SDI1_CORN_B:
+    lora:
+      dev_addr: "260CA98A"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  SDI1_SOY_A:
+    lora:
+      dev_addr: "260CA98B"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  SDI1_SOY_B:
+    lora:
+      dev_addr: "260CA98C"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
 
 # Common configurations
 datalogger:
@@ -25,7 +60,7 @@ datalogger:
   baud_rate: 38400
 
 database:
-  name: "data/span2node{node_id}.db"
+  name: "data/span2node_{node_id}.db"
 
 lora:
   region: "US915"
