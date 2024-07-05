@@ -14,6 +14,7 @@ from src import (
 import os
 from datetime import datetime, timedelta
 import traceback
+import json
 
 logger = setup_logger("main", "main.log")
 
@@ -21,8 +22,6 @@ def main():
     try:
         logger.info("Starting main process")
         
-        # Load configuration
-        logger.debug("Loading configuration")
         config = load_config()
         logger.info(f"Running on Node {config['node_id']}")
         
@@ -30,8 +29,6 @@ def main():
         logger.debug(f"Project root: {project_root}")
         logger.debug(f"Sensor metadata path: {os.path.join(project_root, config['sensor_metadata'])}")
         
-        
-        # Check if the database directory exists and is writable
         db_dir = os.path.dirname(config['database']['name'])
         if not os.path.exists(db_dir):
             logger.info(f"Database directory does not exist. Attempting to create: {db_dir}")
@@ -41,53 +38,39 @@ def main():
             logger.error(f"No write permission for database directory: {db_dir}")
             return
 
-        # Update system time
-        logger.debug("Updating system time")
         update_system_time()
 
-        # Load sensor metadata
-        logger.debug("Loading sensor metadata")
         sensor_metadata = load_sensor_metadata(config["sensor_metadata"])
         logger.info(f"Loaded metadata for {len(sensor_metadata)} sensors")
 
-        # Connect to datalogger
-        logger.debug("Connecting to datalogger")
         datalogger = connect_to_datalogger(config["datalogger"])
 
-        # Get table names
-        logger.debug("Getting table names from datalogger")
         table_names = get_tables(datalogger)
         if not table_names:
             logger.error("No suitable tables found in datalogger")
             return
 
-        # Get data for the last hour
         stop = datetime.now()
         start = stop - timedelta(hours=1)
         logger.info(f"Retrieving data from logger for time range: start={start}, stop={stop}")
 
-        # Get table data
-        logger.debug("Getting data from datalogger")
         table_data = get_data(datalogger, table_names[0], start, stop)
         if not table_data:
             logger.info("No new data to process")
             return
 
         logger.info(f"Retrieved {len(table_data)} data points")
+        logger.debug(f"Sample of retrieved data: {json.dumps(table_data[:2], default=str)}")
 
-        # Get the latest data point
         latest_data = table_data[-1]
         logger.info(f"Latest timestamp from logger: {latest_data['TIMESTAMP']}")
+        logger.debug(f"Latest data point: {json.dumps(latest_data, default=str)}")
 
-        # Setup and update local SQLite database
-        logger.debug("Setting up database")
         setup_database(latest_data.keys(), config["database"]["name"])
-        logger.debug("Inserting data into database")
         insert_data_to_db([latest_data], config["database"]["name"])
 
-        # Send data via LoRa
-        logger.debug("Sending data via LoRa")
-        send_lora_data(latest_data, config["lora"], sensor_metadata)
+        # Pass the entire config, not just config["lora"]
+        send_lora_data(latest_data, config, sensor_metadata, clip_floats=config.get("clip_floats", False))
 
         logger.info("Data processing and transmission successful!")
 
@@ -95,6 +78,7 @@ def main():
         logger.error(f"An error occurred in the main process: {str(e)}")
         logger.error(traceback.format_exc())
         print(f"An error occurred: {str(e)}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

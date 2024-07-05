@@ -68,6 +68,10 @@ lora:
 
 schedule:
   interval_minutes: 30
-  max_random_delay_seconds: 600  # 10 minutes
+  transmission_window: 300  # 5 minutes
+  min_interval: 10  # 10 seconds minimum between transmissions
 
 sensor_metadata: "config/sensor_mapping.yaml"
+
+# Option to clip float values
+clip_floats: true  # Set to true to clip float values to 2 decimal places

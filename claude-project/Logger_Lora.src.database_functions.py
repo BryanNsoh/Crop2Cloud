@@ -2,6 +2,7 @@ import sqlite3
 from datetime import datetime
 from .utils import setup_logger
 import os
+import json
 
 logger = setup_logger("database_functions", "database_functions.log")
 
@@ -19,6 +20,7 @@ def setup_database(columns, db_name):
         cursor.execute(create_table_stmt)
         conn.commit()
         logger.info(f"Database {db_name} set up successfully")
+        logger.debug(f"Created table with columns: {columns_str}")
     except sqlite3.OperationalError as e:
         logger.error(f"SQLite operational error setting up database {db_name}: {e}")
         raise
@@ -41,6 +43,7 @@ def insert_data_to_db(data, db_name):
         cursor.executemany(insert_stmt, [tuple(row.values()) for row in data])
         conn.commit()
         logger.info(f"Inserted {len(data)} rows into {db_name}")
+        logger.debug(f"Sample of inserted data: {json.dumps(data[:2], default=str)}")
     except sqlite3.OperationalError as e:
         logger.error(f"SQLite operational error inserting data into {db_name}: {e}")
         raise

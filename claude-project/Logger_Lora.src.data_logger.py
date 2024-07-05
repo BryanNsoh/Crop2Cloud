@@ -2,6 +2,7 @@ from pycampbellcr1000 import CR1000
 from datetime import datetime, timedelta
 import math
 from .utils import setup_logger
+import json
 
 logger = setup_logger("data_logger", "data_logger.log")
 
@@ -68,7 +69,13 @@ def get_data(datalogger, table_name, start, stop):
             cleaned_data.append(dict_entry)
 
         cleaned_data.sort(key=lambda x: x["TIMESTAMP"])
-        logger.info(f"Retrieved and cleaned data from {table_name_str}")
+        logger.info(f"Retrieved and cleaned {len(cleaned_data)} data points from {table_name_str}")
+        
+        if cleaned_data:
+            logger.debug(f"Sample of cleaned data: {json.dumps(cleaned_data[:2], default=str)}")
+        else:
+            logger.warning("No data retrieved from datalogger")
+        
         return cleaned_data
     except Exception as e:
         logger.error(f"Failed to get data from {table_name_str}: {e}")

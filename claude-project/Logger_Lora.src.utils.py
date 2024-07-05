@@ -75,8 +75,12 @@ def load_config():
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
 
+        # Add clip_floats option (default to False if not present)
+        config["clip_floats"] = config.get("clip_floats", False)
+
         logger.info(f"Loaded configuration for Node {node_id}")
         logger.info(f"Database will be stored at: {config['database']['name']}")
+        logger.info(f"Clip floats option set to: {config['clip_floats']}")
         return config
     except Exception as e:
         logger.error(f"Error loading configuration: {e}")
