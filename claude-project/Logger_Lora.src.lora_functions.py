@@ -76,30 +76,3 @@ def send_lora_data(data, config, sensor_metadata):
         logger.error(f"Error in send_lora_data: {e}")
     finally:
         lora_manager.close()
-
-if __name__ == "__main__":
-    # Test LoRaManager
-    test_config = {
-        "region": "US915",
-        "data_rate": 3,
-        "dev_addr": "260CA983",
-        "apps_key": "524F13A6AB0FAF4F92FFEA257DF53423",
-        "nwks_key": "E31284DAC1D3AED6A72CCDA217046B35"
-    }
-    lora_manager = LoRaManager(test_config)
-
-    # Test send_data
-    test_data = {"sensor1": 1.0, "sensor2": 2.0, "time": "20230703120000"}
-    lora_manager.send_data(test_data)
-
-    # Test send_lora_data
-    test_sensor_metadata = [
-        {"sensor_id": "sensor1", "hash": "001"},
-        {"sensor_id": "sensor2", "hash": "002"},
-    ]
-    test_data_with_timestamp = {
-        "TIMESTAMP": datetime.now(),
-        "sensor1": 1.0,
-        "sensor2": 2.0,
-    }
-    send_lora_data(test_data_with_timestamp, test_config, test_sensor_metadata)

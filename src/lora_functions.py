@@ -1,5 +1,6 @@
 import json
-from time import sleep
+import time
+import random
 from .utils import get_sensor_hash, setup_logger
 from datetime import datetime
 from rak811.rak811_v3 import Rak811
@@ -7,9 +8,9 @@ from rak811.rak811_v3 import Rak811
 logger = setup_logger("lora_functions", "lora_functions.log")
 
 class LoRaManager:
-    def __init__(self, config):
+    def __init__(self, lora_config):
         self.lora = Rak811()
-        self.config = config
+        self.config = lora_config
         self.setup_lora()
 
     def setup_lora(self):
@@ -45,61 +46,72 @@ class LoRaManager:
         except Exception as e:
             logger.error(f"Error closing LoRa connection: {e}")
 
-def send_lora_data(data, config, sensor_metadata):
+def send_lora_data(data, config, sensor_metadata, clip_floats=False):
     logger.info("Initializing LoRa data transmission")
-    lora_manager = LoRaManager(config)
+    logger.debug(f"Original data to be sent: {json.dumps(data, default=str)}")
+
+    # Verify that required config keys exist
+    required_keys = ['lora', 'schedule']
+    for key in required_keys:
+        if key not in config:
+            raise KeyError(f"Required configuration key '{key}' is missing")
+
+    if 'transmission_window' not in config['schedule'] or 'min_interval' not in config['schedule']:
+        raise KeyError("'transmission_window' and 'min_interval' must be specified in the 'schedule' configuration")
+
+    lora_manager = LoRaManager(config['lora'])
 
     try:
-        # Convert full sensor names to hashes
         hashed_data = {
             get_sensor_hash(k, sensor_metadata): v
             for k, v in data.items()
             if get_sensor_hash(k, sensor_metadata) and k != "TIMESTAMP"
         }
-        logger.debug(f"Hashed data: {hashed_data}")
-
-        # Add timestamp to the data
+        
         hashed_data["time"] = data["TIMESTAMP"].strftime("%Y%m%d%H%M%S")
+        
+        if "BatV" in data:
+            hashed_data["BatV"] = data["BatV"]
 
-        # Split data into chunks of 6 key-value pairs (including timestamp)
+        if clip_floats:
+            hashed_data = {k: round(v, 2) if isinstance(v, float) else v for k, v in hashed_data.items()}
+
+        logger.debug(f"Hashed data: {json.dumps(hashed_data, default=str)}")
+
         chunks = [dict(list(hashed_data.items())[i:i+6]) for i in range(0, len(hashed_data), 6)]
         logger.info(f"Data split into {len(chunks)} chunks")
 
-        for i, chunk in enumerate(chunks):
-            logger.debug(f"Sending chunk {i+1}: {chunk}")
-            lora_manager.send_data(chunk)
-            if i < len(chunks) - 1:  # If not the last chunk
-                sleep(60)  # Wait 60 seconds between transmissions
+        transmission_window = config['schedule']['transmission_window']
+        min_interval = config['schedule']['min_interval']
 
-        logger.info(f"Successfully sent {len(chunks)} LoRa packets")
+        # Calculate the maximum delay for each transmission
+        max_delay = (transmission_window - (len(chunks) - 1) * min_interval) / len(chunks)
+
+        start_time = time.time()
+
+        for i, chunk in enumerate(chunks):
+            if "time" not in chunk:
+                chunk["time"] = hashed_data["time"]
+            
+            if i > 0 and "BatV" in chunk:
+                del chunk["BatV"]
+            
+            logger.debug(f"Sending chunk {i+1}: {json.dumps(chunk, default=str)}")
+            lora_manager.send_data(chunk)
+            
+            if i < len(chunks) - 1:
+                delay = random.uniform(min_interval, max_delay)
+                logger.info(f"Waiting {delay:.2f} seconds before sending next chunk")
+                time.sleep(delay)
+
+        total_time = time.time() - start_time
+        logger.info(f"Successfully sent {len(chunks)} LoRa packets in {total_time:.2f} seconds")
+        
+        if total_time > transmission_window:
+            logger.warning(f"Total transmission time exceeded window by {total_time - transmission_window:.2f} seconds")
+        
     except Exception as e:
         logger.error(f"Error in send_lora_data: {e}")
+        raise
     finally:
         lora_manager.close()
-
-if __name__ == "__main__":
-    # Test LoRaManager
-    test_config = {
-        "region": "US915",
-        "data_rate": 3,
-        "dev_addr": "260CA983",
-        "apps_key": "524F13A6AB0FAF4F92FFEA257DF53423",
-        "nwks_key": "E31284DAC1D3AED6A72CCDA217046B35"
-    }
-    lora_manager = LoRaManager(test_config)
-
-    # Test send_data
-    test_data = {"sensor1": 1.0, "sensor2": 2.0, "time": "20230703120000"}
-    lora_manager.send_data(test_data)
-
-    # Test send_lora_data
-    test_sensor_metadata = [
-        {"sensor_id": "sensor1", "hash": "001"},
-        {"sensor_id": "sensor2", "hash": "002"},
-    ]
-    test_data_with_timestamp = {
-        "TIMESTAMP": datetime.now(),
-        "sensor1": 1.0,
-        "sensor2": 2.0,
-    }
-    send_lora_data(test_data_with_timestamp, test_config, test_sensor_metadata)

@@ -2,9 +2,9 @@ from pycampbellcr1000 import CR1000
 from datetime import datetime, timedelta
 import math
 from .utils import setup_logger
+import json
 
 logger = setup_logger("data_logger", "data_logger.log")
-
 
 def connect_to_datalogger(config):
     try:
@@ -14,7 +14,6 @@ def connect_to_datalogger(config):
     except Exception as e:
         logger.error(f"Failed to connect to datalogger: {e}")
         raise
-
 
 def get_tables(datalogger):
     try:
@@ -40,7 +39,6 @@ def get_tables(datalogger):
     except Exception as e:
         logger.error(f"Failed to get table names: {e}")
         raise
-
 
 def get_data(datalogger, table_name, start, stop):
     try:
@@ -71,12 +69,17 @@ def get_data(datalogger, table_name, start, stop):
             cleaned_data.append(dict_entry)
 
         cleaned_data.sort(key=lambda x: x["TIMESTAMP"])
-        logger.info(f"Retrieved and cleaned data from {table_name_str}")
+        logger.info(f"Retrieved and cleaned {len(cleaned_data)} data points from {table_name_str}")
+        
+        if cleaned_data:
+            logger.debug(f"Sample of cleaned data: {json.dumps(cleaned_data[:2], default=str)}")
+        else:
+            logger.warning("No data retrieved from datalogger")
+        
         return cleaned_data
     except Exception as e:
         logger.error(f"Failed to get data from {table_name_str}: {e}")
         raise
-
 
 def determine_time_range(latest_time):
     if latest_time:
@@ -89,42 +92,3 @@ def determine_time_range(latest_time):
     stop = datetime.now()
     logger.info(f"Determined time range: start={start}, stop={stop}")
     return start, stop
-
-
-if __name__ == "__main__":
-    # Test connect_to_datalogger
-    test_config = {"port": "/dev/ttyUSB0", "baud_rate": 38400}
-    try:
-        datalogger = connect_to_datalogger(test_config)
-        print("Successfully connected to datalogger")
-    except Exception as e:
-        print(f"Failed to connect to datalogger: {e}")
-
-    # Test get_tables
-    if "datalogger" in locals():
-        try:
-            tables = get_tables(datalogger)
-            print(f"Retrieved tables: {tables}")
-        except Exception as e:
-            print(f"Failed to get tables: {e}")
-
-    # Test get_data
-    if "datalogger" in locals() and "tables" in locals() and tables:
-        start = datetime.now() - timedelta(hours=1)
-        stop = datetime.now()
-        try:
-            data = get_data(datalogger, tables[0], start, stop)
-            print(f"Retrieved {len(data)} data points")
-            if data:
-                print("Sample data point:", data[0])
-        except Exception as e:
-            print(f"Failed to get data: {e}")
-
-    # Test determine_time_range
-    latest_time = "2023-07-03T12:00:00"
-    start, stop = determine_time_range(latest_time)
-    print(f"Determined time range: start={start}, stop={stop}")
-
-    # Test determine_time_range with no latest time
-    start, stop = determine_time_range(None)
-    print(f"Determined time range (no latest time): start={start}, stop={stop}")

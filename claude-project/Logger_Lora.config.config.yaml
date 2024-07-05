@@ -60,7 +60,7 @@ datalogger:
   baud_rate: 38400
 
 database:
-  name: "data/span2node_{node_id}.db"
+  name: "data/{node_id}.db"
 
 lora:
   region: "US915"
