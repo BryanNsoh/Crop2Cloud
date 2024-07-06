@@ -13,6 +13,9 @@ logger = logging.getLogger(__name__)
 # Configuration
 PYTHON_VERSION = "python3.9"  # Adjust this to your preferred Python version
 SERVICE_NAME = "logger_lora"
+PROJECT_DIR = "/home/span2node-a/Desktop/Logger_Lora"
+VENV_PATH = os.path.join(PROJECT_DIR, '.venv')
+MAIN_SCRIPT = os.path.join(PROJECT_DIR, "main.py")
 
 def run_command(command):
     try:
@@ -28,53 +31,30 @@ def remove_existing_setup():
     try:
         run_command(f"sudo systemctl stop {SERVICE_NAME}.service")
         run_command(f"sudo systemctl disable {SERVICE_NAME}.service")
-        run_command(f"sudo systemctl stop {SERVICE_NAME}.timer")
-        run_command(f"sudo systemctl disable {SERVICE_NAME}.timer")
         run_command(f"sudo rm /etc/systemd/system/{SERVICE_NAME}.service")
-        run_command(f"sudo rm /etc/systemd/system/{SERVICE_NAME}.timer")
         run_command("sudo systemctl daemon-reload")
         logger.info("Existing setup removed successfully.")
     except Exception as e:
         logger.warning(f"Error removing existing setup: {e}")
 
-def main():
-    if os.geteuid() != 0:
-        logger.error("This script must be run with sudo privileges.")
-        sys.exit(1)
+def create_virtual_environment():
+    logger.info(f"Creating virtual environment using {PYTHON_VERSION}...")
+    run_command(f"{PYTHON_VERSION} -m venv {VENV_PATH}")
+    run_command(f"{VENV_PATH}/bin/pip install --upgrade pip")
+    run_command(f"{VENV_PATH}/bin/pip install -r {os.path.join(PROJECT_DIR, 'requirements.txt')}")
 
-    remove_existing_setup()
-
-    project_root = Path(__file__).parent.absolute()
-    venv_path = project_root / '.venv'
-
-    if not venv_path.exists():
-        logger.info(f"Creating virtual environment using {PYTHON_VERSION}...")
-        run_command(f"{PYTHON_VERSION} -m venv {venv_path}")
-    else:
-        logger.info("Virtual environment already exists.")
-
-    if not venv_path.exists():
-        logger.error(f"Failed to create virtual environment at {venv_path}. Please check your Python installation.")
-        sys.exit(1)
-
-    logger.info("Installing requirements...")
-    run_command(f"{venv_path}/bin/pip install --upgrade pip")
-    run_command(f"{venv_path}/bin/pip install -r {project_root}/requirements.txt")
-
+def create_systemd_service():
     service_content = f"""[Unit]
 Description=Logger Lora Data Collection Service
-After=network.target
+After=multi-user.target
 
 [Service]
-ExecStart={venv_path}/bin/python {project_root}/main.py
-WorkingDirectory={project_root}
-User={os.environ.get('SUDO_USER', os.environ.get('USER'))}
-Group={os.environ.get('SUDO_USER', os.environ.get('USER'))}
-Restart=on-failure
-RestartSec=60
-StartLimitIntervalSec=300
-StartLimitBurst=3
-Environment="PATH={venv_path}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart={VENV_PATH}/bin/python {MAIN_SCRIPT}
+WorkingDirectory={PROJECT_DIR}
+User=span2node-a
+Group=span2node-a
+Restart=always
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
@@ -84,35 +64,63 @@ WantedBy=multi-user.target
     with open(f'/etc/systemd/system/{SERVICE_NAME}.service', 'w') as f:
         f.write(service_content)
 
-    timer_content = f"""[Unit]
-Description=Run Logger Lora Data Collection every 30 minutes
+def update_main_script():
+    logger.info("Updating main.py script...")
+    with open(MAIN_SCRIPT, 'r') as f:
+        content = f.read()
 
-[Timer]
-OnBootSec=1min
-OnUnitActiveSec=30min
-AccuracySec=1s
+    if "def wait_for_usb_device" not in content:
+        new_content = """import os
+import time
 
-[Install]
-WantedBy=timers.target
-"""
+def wait_for_usb_device(device_path, timeout=300, check_interval=1):
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        if os.path.exists(device_path):
+            logger.info(f"USB device {device_path} is available")
+            return True
+        time.sleep(check_interval)
+    logger.error(f"Timeout waiting for USB device {device_path}")
+    return False
 
-    logger.info("Creating systemd timer file...")
-    with open(f'/etc/systemd/system/{SERVICE_NAME}.timer', 'w') as f:
-        f.write(timer_content)
+""" + content
 
-    logger.info("Reloading systemd and starting services...")
-    run_command("systemctl daemon-reload")
-    run_command(f"systemctl enable {SERVICE_NAME}.service")
-    run_command(f"systemctl enable {SERVICE_NAME}.timer")
-    run_command(f"systemctl start {SERVICE_NAME}.service")
-    run_command(f"systemctl start {SERVICE_NAME}.timer")
+        new_content = new_content.replace(
+            "datalogger = connect_to_datalogger(config[\"datalogger\"])",
+            """# Wait for USB device
+            if not wait_for_usb_device(config["datalogger"]["port"]):
+                logger.error("USB device not available. Skipping this iteration.")
+                continue
+
+            datalogger = connect_to_datalogger(config["datalogger"])"""
+        )
+
+        with open(MAIN_SCRIPT, 'w') as f:
+            f.write(new_content)
+
+def main():
+    if os.geteuid() != 0:
+        logger.error("This script must be run with sudo privileges.")
+        sys.exit(1)
+
+    remove_existing_setup()
+    create_virtual_environment()
+    create_systemd_service()
+    update_main_script()
+
+    logger.info("Reloading systemd daemon...")
+    run_command("sudo systemctl daemon-reload")
+
+    logger.info("Enabling and starting Logger_Lora service...")
+    run_command(f"sudo systemctl enable {SERVICE_NAME}.service")
+    run_command(f"sudo systemctl start {SERVICE_NAME}.service")
 
     logger.info("Adding user to dialout group...")
-    run_command(f"usermod -a -G dialout {os.environ.get('SUDO_USER', os.environ.get('USER'))}")
+    run_command(f"sudo usermod -a -G dialout span2node-a")
 
     logger.info("Setup completed successfully.")
     logger.info("Please reboot the system or log out and log back in for group changes to take effect.")
-    logger.info(f"The {SERVICE_NAME} service is active and will run on startup and every 30 minutes thereafter.")
+    logger.info(f"The {SERVICE_NAME} service is active and will run on startup.")
 
 if __name__ == "__main__":
     main()
