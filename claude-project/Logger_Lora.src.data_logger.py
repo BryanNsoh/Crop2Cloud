@@ -1,14 +1,32 @@
 from pycampbellcr1000 import CR1000
 from datetime import datetime, timedelta
 import math
-from .utils import setup_logger
 import json
 import time
+import subprocess
+from .utils import setup_logger, increment_reboot_counter
 
 logger = setup_logger("data_logger", "data_logger.log")
 
-MAX_RETRIES = 3
-RETRY_DELAY = 5
+MAX_RETRIES = 5
+MAX_DELAY = 180  # 3 minutes
+MAX_REBOOTS = 5
+
+def exponential_backoff(attempt):
+    return min(MAX_DELAY, (2 ** attempt) * 5)  # 5, 10, 20, 40, 80, 160 seconds
+
+def reboot_system():
+    reboot_count = increment_reboot_counter()
+    logger.warning(f"Initiating system reboot. Reboot count: {reboot_count}")
+    
+    if reboot_count > MAX_REBOOTS:
+        logger.error(f"Maximum reboot count ({MAX_REBOOTS}) exceeded. Halting automatic reboots.")
+        return
+
+    try:
+        subprocess.run(["sudo", "reboot"], check=True)
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Failed to reboot system: {e}")
 
 def connect_to_datalogger(config):
     for attempt in range(MAX_RETRIES):
@@ -20,35 +38,50 @@ def connect_to_datalogger(config):
         except Exception as e:
             logger.error(f"Failed to connect to datalogger: {e}")
             if attempt < MAX_RETRIES - 1:
-                logger.info(f"Retrying in {RETRY_DELAY} seconds...")
-                time.sleep(RETRY_DELAY)
+                delay = exponential_backoff(attempt)
+                logger.info(f"Retrying in {delay} seconds...")
+                time.sleep(delay)
             else:
                 logger.error("Max retries reached. Unable to connect to datalogger.")
                 raise
 
 def get_tables(datalogger):
-    try:
-        table_names = datalogger.list_tables()
-        logger.info(f"Retrieved {len(table_names)} table names: {table_names}")
+    for attempt in range(MAX_RETRIES):
+        try:
+            table_names = datalogger.list_tables()
+            logger.info(f"Retrieved {len(table_names)} table names: {table_names}")
 
-        desired_table = next(
-            (
-                table
-                for table in table_names
-                if table not in [b"Status", b"DataTableInfo", b"Public"]
-            ),
-            None,
-        )
+            desired_table = next(
+                (
+                    table
+                    for table in table_names
+                    if table not in [b"Status", b"DataTableInfo", b"Public"]
+                ),
+                None,
+            )
 
-        if desired_table:
-            logger.info(f"Selected table for data retrieval: {desired_table}")
-            return [desired_table]
-        else:
-            logger.error("No suitable table found for data retrieval")
-            return []
-    except Exception as e:
-        logger.error(f"Failed to get table names: {e}")
-        raise
+            if desired_table:
+                logger.info(f"Selected table for data retrieval: {desired_table}")
+                return [desired_table]
+            else:
+                logger.error("No suitable table found for data retrieval")
+                return []
+        except Exception as e:
+            delay = exponential_backoff(attempt)
+            logger.error(f"Error retrieving table names (Attempt {attempt + 1}/{MAX_RETRIES}): {e}")
+            if attempt < MAX_RETRIES - 1:
+                logger.info(f"Retrying in {delay} seconds...")
+                time.sleep(delay)
+                # Attempt to re-establish connection
+                try:
+                    datalogger = CR1000.from_url(f"serial:{datalogger.url.split(':')[1]}:{datalogger.url.split(':')[2]}")
+                except Exception as conn_err:
+                    logger.error(f"Failed to re-establish connection: {conn_err}")
+            else:
+                logger.error("Max retries reached. Unable to retrieve table names.")
+                return []
+
+    return []
 
 def get_data(datalogger, table_name, start, stop):
     try:

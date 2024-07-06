@@ -10,3 +10,1027 @@
 2024-07-05 15:19:23,055 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 15:19:00", "RecNbr": 3103, "BatV": 12.83, "PanelTempC": 25.49, "IRT5023A1xx24": 37.97981262207031, "IRT5020A3xx24": 2.7739343643188477, "IRT5018A3xx24": 30.64630889892578, "TDR5023A10624": 0.2929539680480957, "TDR5023A11824": 0.25156840682029724, "TDR5023A13024": 0.16630704700946808, "TDR5023A14224": 0.059844937175512314, "TDR5026A20624": 0.2418656051158905, "TDR5026A21824": 0.28287798166275024, "TDR5026A23024": 0.06350899487733841, "TDR5027A40624": 0.49356067180633545, "TDR5027A41824": 0.333764910697937, "TDR5027A43024": 0.255891352891922, "DEN5023A1xx24": 8.524761199951172}
 2024-07-05 15:22:11,019 - main - INFO - Data processing and transmission successful!
 2024-07-05 15:22:11,020 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 15:52:13,505 - main - INFO - Starting main process
+2024-07-05 15:52:13,590 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 15:52:13,590 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 15:52:13,590 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 15:52:13,912 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 15:52:23,935 - main - ERROR - An error occurred in the main process: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2024-07-05 15:52:23,949 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 322, in open
+    self.fd = os.open(self.portstr, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 51, in main
+    datalogger = connect_to_datalogger(config["datalogger"])
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 17, in connect_to_datalogger
+    datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 71, in from_url
+    link.settimeout(timeout)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 241, in settimeout
+    self.serial.timeout = self.timeout
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 254, in serial
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 231, in open
+    self._serial = serial.Serial(self.port, self.baudrate,
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialutil.py", line 244, in __init__
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 325, in open
+    raise SerialException(msg.errno, "could not open port {}: {}".format(self._port, msg))
+serial.serialutil.SerialException: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+2024-07-05 15:52:23,950 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 16:22:25,704 - main - INFO - Starting main process
+2024-07-05 16:22:25,811 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 16:22:25,811 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 16:22:25,811 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 16:22:26,137 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 16:22:36,156 - main - ERROR - An error occurred in the main process: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2024-07-05 16:22:36,158 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 322, in open
+    self.fd = os.open(self.portstr, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 51, in main
+    datalogger = connect_to_datalogger(config["datalogger"])
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 17, in connect_to_datalogger
+    datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 71, in from_url
+    link.settimeout(timeout)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 241, in settimeout
+    self.serial.timeout = self.timeout
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 254, in serial
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 231, in open
+    self._serial = serial.Serial(self.port, self.baudrate,
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialutil.py", line 244, in __init__
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 325, in open
+    raise SerialException(msg.errno, "could not open port {}: {}".format(self._port, msg))
+serial.serialutil.SerialException: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+2024-07-05 16:22:36,159 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 15:25:36,784 - main - INFO - Starting main process
+2024-07-05 15:25:36,888 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 15:25:36,889 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 15:25:36,889 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 15:25:37,596 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 15:25:47,616 - main - ERROR - An error occurred in the main process: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2024-07-05 15:25:47,779 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 322, in open
+    self.fd = os.open(self.portstr, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 51, in main
+    datalogger = connect_to_datalogger(config["datalogger"])
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 17, in connect_to_datalogger
+    datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 71, in from_url
+    link.settimeout(timeout)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 241, in settimeout
+    self.serial.timeout = self.timeout
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 254, in serial
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 231, in open
+    self._serial = serial.Serial(self.port, self.baudrate,
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialutil.py", line 244, in __init__
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 325, in open
+    raise SerialException(msg.errno, "could not open port {}: {}".format(self._port, msg))
+serial.serialutil.SerialException: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+2024-07-05 15:25:47,780 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 16:57:22,388 - main - INFO - Starting main process
+2024-07-05 16:57:22,449 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 16:57:22,450 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 16:57:22,451 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 16:57:23,018 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 16:57:33,034 - main - ERROR - An error occurred in the main process: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2024-07-05 16:57:33,218 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 322, in open
+    self.fd = os.open(self.portstr, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 51, in main
+    datalogger = connect_to_datalogger(config["datalogger"])
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 17, in connect_to_datalogger
+    datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 71, in from_url
+    link.settimeout(timeout)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 241, in settimeout
+    self.serial.timeout = self.timeout
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 254, in serial
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 231, in open
+    self._serial = serial.Serial(self.port, self.baudrate,
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialutil.py", line 244, in __init__
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 325, in open
+    raise SerialException(msg.errno, "could not open port {}: {}".format(self._port, msg))
+serial.serialutil.SerialException: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+2024-07-05 16:57:33,219 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 17:09:00,929 - main - INFO - Starting main process
+2024-07-05 17:09:00,962 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 17:09:00,963 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 17:09:00,963 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 17:09:01,802 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 17:09:12,929 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 16:09:12.929403, stop=2024-07-05 17:09:12.929403
+2024-07-05 17:09:14,297 - main - INFO - Retrieved 60 data points
+2024-07-05 17:09:14,298 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 16:10:00", "RecNbr": 3154, "BatV": 12.83, "PanelTempC": 24.19, "IRT5023A1xx24": 5.8112897872924805, "IRT5020A3xx24": -2.6775617599487305, "IRT5018A3xx24": 12.350286483764648, "TDR5023A10624": 0.11001350730657578, "TDR5023A11824": 0.2334035485982895, "TDR5023A13024": 0.23945093154907227, "TDR5023A14224": 0.4961830973625183, "TDR5026A20624": 0.14016138017177582, "TDR5026A21824": 0.013322396203875542, "TDR5026A23024": 0.4835783839225769, "TDR5027A40624": 0.15297099947929382, "TDR5027A41824": 0.4691798686981201, "TDR5027A43024": 0.1588827669620514, "DEN5023A1xx24": 9.322408676147461}, {"TIMESTAMP": "2024-07-05 16:11:00", "RecNbr": 3155, "BatV": 12.83, "PanelTempC": 24.22, "IRT5023A1xx24": 33.455020904541016, "IRT5020A3xx24": -7.978521823883057, "IRT5018A3xx24": 23.521774291992188, "TDR5023A10624": 0.4887975752353668, "TDR5023A11824": 0.4062051475048065, "TDR5023A13024": 0.20614944398403168, "TDR5023A14224": 0.134004145860672, "TDR5026A20624": 0.18207228183746338, "TDR5026A21824": 0.019932609051465988, "TDR5026A23024": 0.26635998487472534, "TDR5027A40624": 0.19867093861103058, "TDR5027A41824": 0.3550772964954376, "TDR5027A43024": 0.2990082800388336, "DEN5023A1xx24": 3.416236400604248}]
+2024-07-05 17:09:14,299 - main - INFO - Latest timestamp from logger: 2024-07-05 17:09:00
+2024-07-05 17:09:14,300 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 17:09:00", "RecNbr": 3213, "BatV": 12.83, "PanelTempC": 25.19, "IRT5023A1xx24": 30.054656982421875, "IRT5020A3xx24": 8.2236328125, "IRT5018A3xx24": 28.624961853027344, "TDR5023A10624": 0.11836536228656769, "TDR5023A11824": 0.3689427375793457, "TDR5023A13024": 0.3844992518424988, "TDR5023A14224": 0.3538534343242645, "TDR5026A20624": 0.4813847839832306, "TDR5026A21824": 0.3137665092945099, "TDR5026A23024": 0.15703441202640533, "TDR5027A40624": 0.24310560524463654, "TDR5027A41824": 0.0662044882774353, "TDR5027A43024": 0.053249508142471313, "DEN5023A1xx24": 9.716320991516113}
+2024-07-05 17:11:33,442 - main - INFO - Data processing and transmission successful!
+2024-07-05 17:11:33,443 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 17:17:54,626 - main - INFO - Starting main process
+2024-07-05 17:17:54,687 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 17:17:54,688 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 17:17:54,688 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 17:17:55,421 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 17:22:36,681 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 16:22:36.680925, stop=2024-07-05 17:22:36.680925
+2024-07-05 17:22:38,042 - main - INFO - Retrieved 60 data points
+2024-07-05 17:22:38,043 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 16:23:00", "RecNbr": 3167, "BatV": 12.83, "PanelTempC": 24.51, "IRT5023A1xx24": 5.809337615966797, "IRT5020A3xx24": 7.091447830200195, "IRT5018A3xx24": 27.86880111694336, "TDR5023A10624": 0.4526285231113434, "TDR5023A11824": 0.3196125328540802, "TDR5023A13024": 0.30423951148986816, "TDR5023A14224": 0.1164860650897026, "TDR5026A20624": 0.34828662872314453, "TDR5026A21824": 0.0872514620423317, "TDR5026A23024": 0.29142647981643677, "TDR5027A40624": 0.26148316264152527, "TDR5027A41824": 0.25980421900749207, "TDR5027A43024": 0.3783775568008423, "DEN5023A1xx24": 4.453105449676514}, {"TIMESTAMP": "2024-07-05 16:24:00", "RecNbr": 3168, "BatV": 12.83, "PanelTempC": 24.54, "IRT5023A1xx24": 9.888103485107422, "IRT5020A3xx24": 9.987260818481445, "IRT5018A3xx24": 29.26898193359375, "TDR5023A10624": 0.41596469283103943, "TDR5023A11824": 0.44025763869285583, "TDR5023A13024": 0.4156053364276886, "TDR5023A14224": 0.00834382139146328, "TDR5026A20624": 0.49491414427757263, "TDR5026A21824": 0.19314368069171906, "TDR5026A23024": 0.12073102593421936, "TDR5027A40624": 0.08841340988874435, "TDR5027A41824": 0.12769918143749237, "TDR5027A43024": 0.04689379781484604, "DEN5023A1xx24": 5.937956809997559}]
+2024-07-05 17:22:38,043 - main - INFO - Latest timestamp from logger: 2024-07-05 17:22:00
+2024-07-05 17:22:38,044 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 17:22:00", "RecNbr": 3226, "BatV": 12.83, "PanelTempC": 25.31, "IRT5023A1xx24": -9.95584487915039, "IRT5020A3xx24": 21.585697174072266, "IRT5018A3xx24": 26.097164154052734, "TDR5023A10624": 0.2052939087152481, "TDR5023A11824": 0.29586827754974365, "TDR5023A13024": 0.17469793558120728, "TDR5023A14224": 0.07414884120225906, "TDR5026A20624": 0.29385319352149963, "TDR5026A21824": 0.17841315269470215, "TDR5026A23024": 0.005805623717606068, "TDR5027A40624": 0.3773254156112671, "TDR5027A41824": 0.28860265016555786, "TDR5027A43024": 0.1346999555826187, "DEN5023A1xx24": 4.570339202880859}
+2024-07-05 17:23:51,682 - main - INFO - Data processing and transmission successful!
+2024-07-05 17:23:51,683 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 17:37:13,057 - main - INFO - Starting main process
+2024-07-05 17:37:13,130 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 17:37:13,131 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 17:37:13,131 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 17:37:14,163 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 17:44:31,677 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 16:44:31.677594, stop=2024-07-05 17:44:31.677594
+2024-07-05 17:44:33,025 - main - INFO - Retrieved 60 data points
+2024-07-05 17:44:33,025 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 16:45:00", "RecNbr": 3189, "BatV": 12.83, "PanelTempC": 24.92, "IRT5023A1xx24": 35.31249237060547, "IRT5020A3xx24": -6.023054122924805, "IRT5018A3xx24": 25.913227081298828, "TDR5023A10624": 0.19119130074977875, "TDR5023A11824": 0.005584662780165672, "TDR5023A13024": 0.42426353693008423, "TDR5023A14224": 0.005611860193312168, "TDR5026A20624": 0.01210714876651764, "TDR5026A21824": 0.40960508584976196, "TDR5026A23024": 0.013817555271089077, "TDR5027A40624": 0.40821245312690735, "TDR5027A41824": 0.19848418235778809, "TDR5027A43024": 0.14048069715499878, "DEN5023A1xx24": 5.208644390106201}, {"TIMESTAMP": "2024-07-05 16:46:00", "RecNbr": 3190, "BatV": 12.83, "PanelTempC": 24.92, "IRT5023A1xx24": 31.652294158935547, "IRT5020A3xx24": 13.764410018920898, "IRT5018A3xx24": 35.12986373901367, "TDR5023A10624": 0.3940170705318451, "TDR5023A11824": 0.2548264265060425, "TDR5023A13024": 0.46195197105407715, "TDR5023A14224": 0.059824131429195404, "TDR5026A20624": 0.001087928656488657, "TDR5026A21824": 0.3005704879760742, "TDR5026A23024": 0.3790898025035858, "TDR5027A40624": 0.3188239634037018, "TDR5027A41824": 0.45083776116371155, "TDR5027A43024": 0.14101099967956543, "DEN5023A1xx24": 5.4844560623168945}]
+2024-07-05 17:44:33,026 - main - INFO - Latest timestamp from logger: 2024-07-05 17:44:00
+2024-07-05 17:44:33,026 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 17:44:00", "RecNbr": 3248, "BatV": 12.83, "PanelTempC": 25.49, "IRT5023A1xx24": 30.733779907226562, "IRT5020A3xx24": 31.376964569091797, "IRT5018A3xx24": -3.007768154144287, "TDR5023A10624": 0.4370305836200714, "TDR5023A11824": 0.07601046562194824, "TDR5023A13024": 0.1294354647397995, "TDR5023A14224": 0.4408395290374756, "TDR5026A20624": 0.47364869713783264, "TDR5026A21824": 0.3818567097187042, "TDR5026A23024": 0.04691631346940994, "TDR5027A40624": 0.3127298951148987, "TDR5027A41824": 0.4180651307106018, "TDR5027A43024": 0.25881698727607727, "DEN5023A1xx24": 1.2487865686416626}
+2024-07-05 17:46:51,894 - main - INFO - Data processing and transmission successful!
+2024-07-05 17:46:51,894 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 17:46:07,921 - main - INFO - Starting main process
+2024-07-05 17:46:08,030 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 17:46:08,031 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 17:46:08,032 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 17:46:08,657 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 17:46:19,785 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 16:46:19.785146, stop=2024-07-05 17:46:19.785146
+2024-07-05 17:46:21,128 - main - INFO - Retrieved 60 data points
+2024-07-05 17:46:21,130 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 16:47:00", "RecNbr": 3191, "BatV": 12.83, "PanelTempC": 24.95, "IRT5023A1xx24": -1.885237693786621, "IRT5020A3xx24": -3.7498817443847656, "IRT5018A3xx24": 0.8061552047729492, "TDR5023A10624": 0.2909650504589081, "TDR5023A11824": 0.08367396146059036, "TDR5023A13024": 0.2577117681503296, "TDR5023A14224": 0.09666845947504044, "TDR5026A20624": 0.19694684445858002, "TDR5026A21824": 0.33943694829940796, "TDR5026A23024": 0.2976318895816803, "TDR5027A40624": 0.2809618413448334, "TDR5027A41824": 0.031840987503528595, "TDR5027A43024": 0.16558724641799927, "DEN5023A1xx24": 9.265961647033691}, {"TIMESTAMP": "2024-07-05 16:48:00", "RecNbr": 3192, "BatV": 12.83, "PanelTempC": 24.95, "IRT5023A1xx24": 9.54863166809082, "IRT5020A3xx24": 25.53528594970703, "IRT5018A3xx24": -0.6759452819824219, "TDR5023A10624": 0.3539729118347168, "TDR5023A11824": 0.31384599208831787, "TDR5023A13024": 0.4757145643234253, "TDR5023A14224": 0.44329094886779785, "TDR5026A20624": 0.2844991087913513, "TDR5026A21824": 0.2044970542192459, "TDR5026A23024": 0.1095002070069313, "TDR5027A40624": 0.23831364512443542, "TDR5027A41824": 0.04883580654859543, "TDR5027A43024": 0.10543837398290634, "DEN5023A1xx24": 2.4065003395080566}]
+2024-07-05 17:46:21,130 - main - INFO - Latest timestamp from logger: 2024-07-05 17:46:00
+2024-07-05 17:46:21,131 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 17:46:00", "RecNbr": 3250, "BatV": 12.83, "PanelTempC": 25.49, "IRT5023A1xx24": 7.791513442993164, "IRT5020A3xx24": 13.578195571899414, "IRT5018A3xx24": 24.809234619140625, "TDR5023A10624": 0.05044671893119812, "TDR5023A11824": 0.42470797896385193, "TDR5023A13024": 0.38564732670783997, "TDR5023A14224": 0.49839067459106445, "TDR5026A20624": 0.15495043992996216, "TDR5026A21824": 0.4993820786476135, "TDR5026A23024": 0.359989196062088, "TDR5027A40624": 0.48462340235710144, "TDR5027A41824": 0.3194918632507324, "TDR5027A43024": 0.34637942910194397, "DEN5023A1xx24": 5.64085578918457}
+2024-07-05 17:55:11,317 - main - INFO - Data processing and transmission successful!
+2024-07-05 17:55:11,318 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 17:54:54,255 - main - INFO - Starting main process
+2024-07-05 17:54:54,375 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 17:54:54,376 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 17:54:54,377 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 17:54:55,361 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 17:57:31,889 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 16:57:31.888976, stop=2024-07-05 17:57:31.888976
+2024-07-05 17:57:33,223 - main - INFO - Retrieved 60 data points
+2024-07-05 17:57:33,223 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 16:58:00", "RecNbr": 3202, "BatV": 12.83, "PanelTempC": 25.1, "IRT5023A1xx24": 13.623584747314453, "IRT5020A3xx24": -9.63387393951416, "IRT5018A3xx24": 19.010900497436523, "TDR5023A10624": 0.35805216431617737, "TDR5023A11824": 0.4281017482280731, "TDR5023A13024": 0.07736151665449142, "TDR5023A14224": 0.45921188592910767, "TDR5026A20624": 0.1210034117102623, "TDR5026A21824": 0.2706134617328644, "TDR5026A23024": 0.2683669924736023, "TDR5027A40624": 0.2840079665184021, "TDR5027A41824": 0.025630729272961617, "TDR5027A43024": 0.10977055877447128, "DEN5023A1xx24": 6.280447959899902}, {"TIMESTAMP": "2024-07-05 16:59:00", "RecNbr": 3203, "BatV": 12.83, "PanelTempC": 25.1, "IRT5023A1xx24": 5.761646270751953, "IRT5020A3xx24": 36.73023986816406, "IRT5018A3xx24": 31.2664794921875, "TDR5023A10624": 0.3677765429019928, "TDR5023A11824": 0.2507920563220978, "TDR5023A13024": 0.09479892998933792, "TDR5023A14224": 0.4109064042568207, "TDR5026A20624": 0.33854806423187256, "TDR5026A21824": 0.38802069425582886, "TDR5026A23024": 0.015450322069227695, "TDR5027A40624": 0.03649483993649483, "TDR5027A41824": 0.0585109144449234, "TDR5027A43024": 0.17958275973796844, "DEN5023A1xx24": 3.757303237915039}]
+2024-07-05 17:57:33,224 - main - INFO - Latest timestamp from logger: 2024-07-05 17:57:00
+2024-07-05 17:57:33,224 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 17:57:00", "RecNbr": 3261, "BatV": 12.83, "PanelTempC": 25.55, "IRT5023A1xx24": 15.225957870483398, "IRT5020A3xx24": 4.033237457275391, "IRT5018A3xx24": 25.912044525146484, "TDR5023A10624": 0.1381169855594635, "TDR5023A11824": 0.022965088486671448, "TDR5023A13024": 0.01606863923370838, "TDR5023A14224": 0.03572898358106613, "TDR5026A20624": 0.24248701333999634, "TDR5026A21824": 0.0037269156891852617, "TDR5026A23024": 0.15729644894599915, "TDR5027A40624": 0.43145546317100525, "TDR5027A41824": 0.4267345368862152, "TDR5027A43024": 0.05013548955321312, "DEN5023A1xx24": 3.243304491043091}
+2024-07-05 17:59:06,557 - main - INFO - Data processing and transmission successful!
+2024-07-05 17:59:06,558 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 18:01:35,906 - main - INFO - Starting main process
+2024-07-05 18:01:36,016 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 18:01:36,017 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 18:01:36,017 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 18:01:36,659 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 18:01:47,784 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 17:01:47.784068, stop=2024-07-05 18:01:47.784068
+2024-07-05 18:01:49,118 - main - INFO - Retrieved 60 data points
+2024-07-05 18:01:49,119 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 17:02:00", "RecNbr": 3206, "BatV": 12.83, "PanelTempC": 25.13, "IRT5023A1xx24": 6.415348052978516, "IRT5020A3xx24": -9.610864639282227, "IRT5018A3xx24": 1.517704963684082, "TDR5023A10624": 0.1195678859949112, "TDR5023A11824": 0.4469063878059387, "TDR5023A13024": 0.04004297032952309, "TDR5023A14224": 0.4117260277271271, "TDR5026A20624": 0.4584157168865204, "TDR5026A21824": 0.1815858632326126, "TDR5026A23024": 0.003944117110222578, "TDR5027A40624": 0.4761730432510376, "TDR5027A41824": 0.037527114152908325, "TDR5027A43024": 0.42049020528793335, "DEN5023A1xx24": 4.759243011474609}, {"TIMESTAMP": "2024-07-05 17:03:00", "RecNbr": 3207, "BatV": 12.83, "PanelTempC": 25.16, "IRT5023A1xx24": -1.826634407043457, "IRT5020A3xx24": 31.85342025756836, "IRT5018A3xx24": 5.017986297607422, "TDR5023A10624": 0.22209088504314423, "TDR5023A11824": 0.30922284722328186, "TDR5023A13024": 0.13750611245632172, "TDR5023A14224": 0.26463058590888977, "TDR5026A20624": 0.3971531093120575, "TDR5026A21824": 0.21089507639408112, "TDR5026A23024": 0.3237208127975464, "TDR5027A40624": 0.24074602127075195, "TDR5027A41824": 0.12161879986524582, "TDR5027A43024": 0.4348726272583008, "DEN5023A1xx24": 0.5600669384002686}]
+2024-07-05 18:01:49,120 - main - INFO - Latest timestamp from logger: 2024-07-05 18:01:00
+2024-07-05 18:01:49,121 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 18:01:00", "RecNbr": 3265, "BatV": 12.83, "PanelTempC": 25.58, "IRT5023A1xx24": 14.108072280883789, "IRT5020A3xx24": 8.779764175415039, "IRT5018A3xx24": -5.227632999420166, "TDR5023A10624": 0.021124081686139107, "TDR5023A11824": 0.1857372224330902, "TDR5023A13024": 0.195442333817482, "TDR5023A14224": 0.42089909315109253, "TDR5026A20624": 0.052248768508434296, "TDR5026A21824": 0.4699477553367615, "TDR5026A23024": 0.4712488353252411, "TDR5027A40624": 0.17260189354419708, "TDR5027A41824": 0.23908372223377228, "TDR5027A43024": 0.20438005030155182, "DEN5023A1xx24": 0.5257891416549683}
+2024-07-05 18:13:30,602 - main - INFO - Data processing and transmission successful!
+2024-07-05 18:13:30,603 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 18:12:39,939 - main - INFO - Starting main process
+2024-07-05 18:12:40,058 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 18:12:40,059 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 18:12:40,059 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 18:12:40,617 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 18:12:51,751 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 17:12:51.751302, stop=2024-07-05 18:12:51.751302
+2024-07-05 18:12:53,094 - main - INFO - Retrieved 60 data points
+2024-07-05 18:12:53,095 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 17:13:00", "RecNbr": 3217, "BatV": 12.83, "PanelTempC": 25.25, "IRT5023A1xx24": 39.394020080566406, "IRT5020A3xx24": 20.83072280883789, "IRT5018A3xx24": 20.813148498535156, "TDR5023A10624": 0.17084284126758575, "TDR5023A11824": 0.01603667251765728, "TDR5023A13024": 0.33886492252349854, "TDR5023A14224": 0.48500856757164, "TDR5026A20624": 0.1608283668756485, "TDR5026A21824": 0.3867602050304413, "TDR5026A23024": 0.09795285761356354, "TDR5027A40624": 0.39378559589385986, "TDR5027A41824": 0.2748967111110687, "TDR5027A43024": 0.09820219874382019, "DEN5023A1xx24": 0.6407273411750793}, {"TIMESTAMP": "2024-07-05 17:14:00", "RecNbr": 3218, "BatV": 12.83, "PanelTempC": 25.25, "IRT5023A1xx24": 14.237329483032227, "IRT5020A3xx24": 10.150245666503906, "IRT5018A3xx24": 1.2580957412719727, "TDR5023A10624": 0.2564947307109833, "TDR5023A11824": 0.1975383162498474, "TDR5023A13024": 0.37701377272605896, "TDR5023A14224": 0.165436252951622, "TDR5026A20624": 0.2580443024635315, "TDR5026A21824": 0.2529609799385071, "TDR5026A23024": 0.3337498605251312, "TDR5027A40624": 0.38672131299972534, "TDR5027A41824": 0.4485916793346405, "TDR5027A43024": 0.18265628814697266, "DEN5023A1xx24": 6.645755290985107}]
+2024-07-05 18:12:53,096 - main - INFO - Latest timestamp from logger: 2024-07-05 18:12:00
+2024-07-05 18:12:53,096 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 18:12:00", "RecNbr": 3276, "BatV": 12.83, "PanelTempC": 25.25, "IRT5023A1xx24": 21.2556095123291, "IRT5020A3xx24": 30.062633514404297, "IRT5018A3xx24": -0.11854362487792969, "TDR5023A10624": 0.16911466419696808, "TDR5023A11824": 0.3318551778793335, "TDR5023A13024": 0.4140384793281555, "TDR5023A14224": 0.3858400583267212, "TDR5026A20624": 0.12295287847518921, "TDR5026A21824": 0.21466241776943207, "TDR5026A23024": 0.3134672939777374, "TDR5027A40624": 0.44991856813430786, "TDR5027A41824": 0.4749075174331665, "TDR5027A43024": 0.43786802887916565, "DEN5023A1xx24": 5.274941921234131}
+2024-07-05 18:18:09,160 - main - INFO - Data processing and transmission successful!
+2024-07-05 18:18:09,161 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 18:48:12,565 - main - INFO - Starting main process
+2024-07-05 18:48:12,651 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 18:48:12,651 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 18:48:12,651 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 18:48:12,975 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 18:48:23,048 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-05 18:48:23,059 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-05 18:48:23,060 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 18:18:08,663 - main - INFO - Starting main process
+2024-07-05 18:18:08,694 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 18:18:08,694 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 18:18:08,694 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 18:18:09,634 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 18:54:27,883 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 17:54:27.883491, stop=2024-07-05 18:54:27.883491
+2024-07-05 18:54:29,238 - main - INFO - Retrieved 60 data points
+2024-07-05 18:54:29,239 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 17:55:00", "RecNbr": 3259, "BatV": 12.83, "PanelTempC": 25.55, "IRT5023A1xx24": -9.765543937683105, "IRT5020A3xx24": -5.851985454559326, "IRT5018A3xx24": -0.8906841278076172, "TDR5023A10624": 0.25204041600227356, "TDR5023A11824": 0.33659106492996216, "TDR5023A13024": 0.11985096335411072, "TDR5023A14224": 0.04294314607977867, "TDR5026A20624": 0.08878395706415176, "TDR5026A21824": 0.3548017144203186, "TDR5026A23024": 0.4251520335674286, "TDR5027A40624": 0.0029485845007002354, "TDR5027A41824": 0.04547244310379028, "TDR5027A43024": 0.37445271015167236, "DEN5023A1xx24": 8.028964042663574}, {"TIMESTAMP": "2024-07-05 17:56:00", "RecNbr": 3260, "BatV": 12.83, "PanelTempC": 25.55, "IRT5023A1xx24": 25.435260772705078, "IRT5020A3xx24": 13.915763854980469, "IRT5018A3xx24": 31.47168731689453, "TDR5023A10624": 0.049184851348400116, "TDR5023A11824": 0.3077753186225891, "TDR5023A13024": 0.23146963119506836, "TDR5023A14224": 0.07137780636548996, "TDR5026A20624": 0.20403137803077698, "TDR5026A21824": 0.13617466390132904, "TDR5026A23024": 0.41449055075645447, "TDR5027A40624": 0.4456987679004669, "TDR5027A41824": 0.2408297210931778, "TDR5027A43024": 0.48783302307128906, "DEN5023A1xx24": 1.9213998317718506}]
+2024-07-05 18:54:29,239 - main - INFO - Latest timestamp from logger: 2024-07-05 18:54:00
+2024-07-05 18:54:29,239 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 18:54:00", "RecNbr": 3318, "BatV": 12.83, "PanelTempC": 24.81, "IRT5023A1xx24": -9.310685157775879, "IRT5020A3xx24": 23.188533782958984, "IRT5018A3xx24": 28.830955505371094, "TDR5023A10624": 0.08257527649402618, "TDR5023A11824": 0.06474316120147705, "TDR5023A13024": 0.27275174856185913, "TDR5023A14224": 0.44091176986694336, "TDR5026A20624": 0.17735910415649414, "TDR5026A21824": 0.16056741774082184, "TDR5026A23024": 0.38005322217941284, "TDR5027A40624": 0.12053859233856201, "TDR5027A41824": 0.22372688353061676, "TDR5027A43024": 0.2867334187030792, "DEN5023A1xx24": 5.06951904296875}
+2024-07-05 18:56:14,277 - main - INFO - Data processing and transmission successful!
+2024-07-05 18:56:14,277 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 19:15:17,251 - main - INFO - Starting main process
+2024-07-05 19:15:17,366 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 19:15:17,366 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 19:15:17,367 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 19:15:18,206 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 19:24:03,218 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 18:24:03.218804, stop=2024-07-05 19:24:03.218804
+2024-07-05 19:24:04,588 - main - INFO - Retrieved 60 data points
+2024-07-05 19:24:04,589 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 18:25:00", "RecNbr": 3289, "BatV": 12.83, "PanelTempC": 24.75, "IRT5023A1xx24": 39.32417678833008, "IRT5020A3xx24": 33.44927978515625, "IRT5018A3xx24": -9.999987602233887, "TDR5023A10624": 0.29444044828414917, "TDR5023A11824": 0.05257343128323555, "TDR5023A13024": 0.1036170944571495, "TDR5023A14224": 0.010385243222117424, "TDR5026A20624": 0.1955924928188324, "TDR5026A21824": 0.49361780285835266, "TDR5026A23024": 0.14449290931224823, "TDR5027A40624": 0.4849272072315216, "TDR5027A41824": 0.43137040734291077, "TDR5027A43024": 0.31488555669784546, "DEN5023A1xx24": 0.20553866028785706}, {"TIMESTAMP": "2024-07-05 18:26:00", "RecNbr": 3290, "BatV": 12.83, "PanelTempC": 24.75, "IRT5023A1xx24": 24.00039291381836, "IRT5020A3xx24": 35.203861236572266, "IRT5018A3xx24": 32.2653694152832, "TDR5023A10624": 0.3109879791736603, "TDR5023A11824": 0.42902061343193054, "TDR5023A13024": 0.4204235076904297, "TDR5023A14224": 0.4443012773990631, "TDR5026A20624": 0.2248927652835846, "TDR5026A21824": 0.21024248003959656, "TDR5026A23024": 0.3938032388687134, "TDR5027A40624": 0.2726954519748688, "TDR5027A41824": 0.022970207035541534, "TDR5027A43024": 0.17858417332172394, "DEN5023A1xx24": 1.5873371362686157}]
+2024-07-05 19:24:04,589 - main - INFO - Latest timestamp from logger: 2024-07-05 19:24:00
+2024-07-05 19:24:04,590 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 19:24:00", "RecNbr": 3348, "BatV": 12.83, "PanelTempC": 23.78, "IRT5023A1xx24": 7.606267929077148, "IRT5020A3xx24": 16.00298500061035, "IRT5018A3xx24": 2.9320545196533203, "TDR5023A10624": 0.13546425104141235, "TDR5023A11824": 0.15101289749145508, "TDR5023A13024": 0.43982774019241333, "TDR5023A14224": 0.474932998418808, "TDR5026A20624": 0.14178453385829926, "TDR5026A21824": 0.39906007051467896, "TDR5026A23024": 0.15748898684978485, "TDR5027A40624": 0.06816764920949936, "TDR5027A41824": 0.050756774842739105, "TDR5027A43024": 0.20089896023273468, "DEN5023A1xx24": 4.1241841316223145}
+2024-07-05 19:25:31,601 - main - INFO - Data processing and transmission successful!
+2024-07-05 19:25:31,602 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 19:36:00,249 - main - INFO - Starting main process
+2024-07-05 19:36:00,310 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 19:36:00,311 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 19:36:00,312 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 19:36:01,091 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 19:39:42,401 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 18:39:42.401225, stop=2024-07-05 19:39:42.401225
+2024-07-05 19:39:43,746 - main - INFO - Retrieved 60 data points
+2024-07-05 19:39:43,746 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 18:40:00", "RecNbr": 3304, "BatV": 12.83, "PanelTempC": 24.72, "IRT5023A1xx24": -9.352897644042969, "IRT5020A3xx24": 38.85538864135742, "IRT5018A3xx24": -4.298850059509277, "TDR5023A10624": 0.2529574930667877, "TDR5023A11824": 0.406511127948761, "TDR5023A13024": 0.4013330936431885, "TDR5023A14224": 0.1691102534532547, "TDR5026A20624": 0.4432751536369324, "TDR5026A21824": 0.04097136855125427, "TDR5026A23024": 0.03591775894165039, "TDR5027A40624": 0.029091956093907356, "TDR5027A41824": 0.07008685916662216, "TDR5027A43024": 0.012800721451640129, "DEN5023A1xx24": 5.6367974281311035}, {"TIMESTAMP": "2024-07-05 18:41:00", "RecNbr": 3305, "BatV": 12.83, "PanelTempC": 24.72, "IRT5023A1xx24": 6.393135070800781, "IRT5020A3xx24": 11.290254592895508, "IRT5018A3xx24": -8.727164268493652, "TDR5023A10624": 0.1990489959716797, "TDR5023A11824": 0.18012958765029907, "TDR5023A13024": 0.17148564755916595, "TDR5023A14224": 0.2122117429971695, "TDR5026A20624": 0.2417905032634735, "TDR5026A21824": 0.4075583517551422, "TDR5026A23024": 0.45089828968048096, "TDR5027A40624": 0.2366342544555664, "TDR5027A41824": 0.3006763160228729, "TDR5027A43024": 0.41713714599609375, "DEN5023A1xx24": 7.226590156555176}]
+2024-07-05 19:39:43,747 - main - INFO - Latest timestamp from logger: 2024-07-05 19:39:00
+2024-07-05 19:39:43,747 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 19:39:00", "RecNbr": 3363, "BatV": 12.83, "PanelTempC": 23.41, "IRT5023A1xx24": 25.3004150390625, "IRT5020A3xx24": 19.66453742980957, "IRT5018A3xx24": -9.589275360107422, "TDR5023A10624": 0.45811766386032104, "TDR5023A11824": 0.08977659046649933, "TDR5023A13024": 0.30355560779571533, "TDR5023A14224": 0.14785628020763397, "TDR5026A20624": 0.3897552490234375, "TDR5026A21824": 0.3103717267513275, "TDR5026A23024": 0.39785152673721313, "TDR5027A40624": 0.36404168605804443, "TDR5027A41824": 0.15430304408073425, "TDR5027A43024": 0.46800148487091064, "DEN5023A1xx24": 8.120519638061523}
+2024-07-05 19:41:12,204 - main - INFO - Data processing and transmission successful!
+2024-07-05 19:41:12,205 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 19:50:16,969 - main - INFO - Starting main process
+2024-07-05 19:50:17,015 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 19:50:17,015 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 19:50:17,015 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 19:50:17,602 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 19:52:12,754 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 18:52:12.753973, stop=2024-07-05 19:52:12.753973
+2024-07-05 19:52:14,116 - main - INFO - Retrieved 60 data points
+2024-07-05 19:52:14,117 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 18:53:00", "RecNbr": 3317, "BatV": 12.83, "PanelTempC": 24.81, "IRT5023A1xx24": 33.58844757080078, "IRT5020A3xx24": 31.13431167602539, "IRT5018A3xx24": 4.140894889831543, "TDR5023A10624": 0.34179219603538513, "TDR5023A11824": 0.04175349697470665, "TDR5023A13024": 0.23204055428504944, "TDR5023A14224": 0.1006411612033844, "TDR5026A20624": 0.19303572177886963, "TDR5026A21824": 0.3725576102733612, "TDR5026A23024": 0.2074309140443802, "TDR5027A40624": 0.0714302584528923, "TDR5027A41824": 0.2914470136165619, "TDR5027A43024": 0.42670753598213196, "DEN5023A1xx24": 2.6286110877990723}, {"TIMESTAMP": "2024-07-05 18:54:00", "RecNbr": 3318, "BatV": 12.83, "PanelTempC": 24.81, "IRT5023A1xx24": -9.310685157775879, "IRT5020A3xx24": 23.188533782958984, "IRT5018A3xx24": 28.830955505371094, "TDR5023A10624": 0.08257527649402618, "TDR5023A11824": 0.06474316120147705, "TDR5023A13024": 0.27275174856185913, "TDR5023A14224": 0.44091176986694336, "TDR5026A20624": 0.17735910415649414, "TDR5026A21824": 0.16056741774082184, "TDR5026A23024": 0.38005322217941284, "TDR5027A40624": 0.12053859233856201, "TDR5027A41824": 0.22372688353061676, "TDR5027A43024": 0.2867334187030792, "DEN5023A1xx24": 5.06951904296875}]
+2024-07-05 19:52:14,117 - main - INFO - Latest timestamp from logger: 2024-07-05 19:52:00
+2024-07-05 19:52:14,118 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 19:52:00", "RecNbr": 3376, "BatV": 12.83, "PanelTempC": 23.15, "IRT5023A1xx24": 35.110416412353516, "IRT5020A3xx24": 3.4854164123535156, "IRT5018A3xx24": 14.970741271972656, "TDR5023A10624": 0.33481350541114807, "TDR5023A11824": 0.41236355900764465, "TDR5023A13024": 0.12432190030813217, "TDR5023A14224": 0.18563108146190643, "TDR5026A20624": 0.4332231879234314, "TDR5026A21824": 0.09054669737815857, "TDR5026A23024": 0.19977621734142303, "TDR5027A40624": 0.4559628665447235, "TDR5027A41824": 0.02995665743947029, "TDR5027A43024": 0.37158071994781494, "DEN5023A1xx24": 7.962915897369385}
+2024-07-05 19:54:25,588 - main - INFO - Data processing and transmission successful!
+2024-07-05 19:54:25,589 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 20:09:27,953 - main - INFO - Starting main process
+2024-07-05 20:09:28,001 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 20:09:28,002 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 20:09:28,002 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 20:09:28,634 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 20:11:21,053 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 19:11:21.053459, stop=2024-07-05 20:11:21.053459
+2024-07-05 20:11:22,414 - main - INFO - Retrieved 60 data points
+2024-07-05 20:11:22,415 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 19:12:00", "RecNbr": 3336, "BatV": 12.83, "PanelTempC": 24.16, "IRT5023A1xx24": -1.6019926071166992, "IRT5020A3xx24": -6.781085014343262, "IRT5018A3xx24": 33.79186248779297, "TDR5023A10624": 0.006623543798923492, "TDR5023A11824": 0.023008273914456367, "TDR5023A13024": 0.3143528997898102, "TDR5023A14224": 0.49523064494132996, "TDR5026A20624": 0.17766927182674408, "TDR5026A21824": 0.25174275040626526, "TDR5026A23024": 0.46617892384529114, "TDR5027A40624": 0.23591288924217224, "TDR5027A41824": 0.2802836000919342, "TDR5027A43024": 0.23362959921360016, "DEN5023A1xx24": 3.8626482486724854}, {"TIMESTAMP": "2024-07-05 19:13:00", "RecNbr": 3337, "BatV": 12.83, "PanelTempC": 24.13, "IRT5023A1xx24": 26.50619125366211, "IRT5020A3xx24": 4.594742774963379, "IRT5018A3xx24": 25.686874389648438, "TDR5023A10624": 0.019601669162511826, "TDR5023A11824": 0.15981119871139526, "TDR5023A13024": 0.4267677664756775, "TDR5023A14224": 0.4764583706855774, "TDR5026A20624": 0.15989349782466888, "TDR5026A21824": 0.001632715342566371, "TDR5026A23024": 0.10441111773252487, "TDR5027A40624": 0.23078490793704987, "TDR5027A41824": 0.2885614037513733, "TDR5027A43024": 0.11271096765995026, "DEN5023A1xx24": 7.232515335083008}]
+2024-07-05 20:11:22,416 - main - INFO - Latest timestamp from logger: 2024-07-05 20:11:00
+2024-07-05 20:11:22,417 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 20:11:00", "RecNbr": 3395, "BatV": 12.83, "PanelTempC": 22.78, "IRT5023A1xx24": 5.734922409057617, "IRT5020A3xx24": 2.220956802368164, "IRT5018A3xx24": 34.2441291809082, "TDR5023A10624": 0.4099162220954895, "TDR5023A11824": 0.06033431738615036, "TDR5023A13024": 0.3204447329044342, "TDR5023A14224": 0.436350017786026, "TDR5026A20624": 0.30593010783195496, "TDR5026A21824": 0.01501154713332653, "TDR5026A23024": 0.37852445244789124, "TDR5027A40624": 0.37469473481178284, "TDR5027A41824": 0.28852444887161255, "TDR5027A43024": 0.46808815002441406, "DEN5023A1xx24": 4.030759811401367}
+2024-07-05 20:13:17,677 - main - INFO - Data processing and transmission successful!
+2024-07-05 20:13:17,677 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 20:16:55,327 - main - INFO - Starting main process
+2024-07-05 20:16:55,429 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 20:16:55,430 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 20:16:55,431 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 20:16:56,126 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 20:18:46,635 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 19:18:46.635355, stop=2024-07-05 20:18:46.635355
+2024-07-05 20:18:47,990 - main - INFO - Retrieved 60 data points
+2024-07-05 20:18:47,990 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 19:19:00", "RecNbr": 3343, "BatV": 12.83, "PanelTempC": 23.93, "IRT5023A1xx24": 5.543749809265137, "IRT5020A3xx24": -6.56191349029541, "IRT5018A3xx24": 32.78019714355469, "TDR5023A10624": 0.3244319260120392, "TDR5023A11824": 0.058284103870391846, "TDR5023A13024": 0.145817831158638, "TDR5023A14224": 0.14088818430900574, "TDR5026A20624": 0.020827673375606537, "TDR5026A21824": 0.08770657330751419, "TDR5026A23024": 0.41905778646469116, "TDR5027A40624": 0.305799275636673, "TDR5027A41824": 0.358885794878006, "TDR5027A43024": 0.016678012907505035, "DEN5023A1xx24": 5.98158073425293}, {"TIMESTAMP": "2024-07-05 19:20:00", "RecNbr": 3344, "BatV": 12.83, "PanelTempC": 23.9, "IRT5023A1xx24": 39.275211334228516, "IRT5020A3xx24": 31.051353454589844, "IRT5018A3xx24": 22.358142852783203, "TDR5023A10624": 0.25129252672195435, "TDR5023A11824": 0.32688599824905396, "TDR5023A13024": 0.1757446974515915, "TDR5023A14224": 0.20787368714809418, "TDR5026A20624": 0.020985983312129974, "TDR5026A21824": 0.05459816753864288, "TDR5026A23024": 0.30440494418144226, "TDR5027A40624": 0.14735478162765503, "TDR5027A41824": 0.33037564158439636, "TDR5027A43024": 0.48085787892341614, "DEN5023A1xx24": 7.062592506408691}]
+2024-07-05 20:18:47,991 - main - INFO - Latest timestamp from logger: 2024-07-05 20:18:00
+2024-07-05 20:18:47,991 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 20:18:00", "RecNbr": 3402, "BatV": 12.83, "PanelTempC": 22.67, "IRT5023A1xx24": -0.09661483764648438, "IRT5020A3xx24": -9.428875923156738, "IRT5018A3xx24": -9.306485176086426, "TDR5023A10624": 0.03243634104728699, "TDR5023A11824": 0.4678262174129486, "TDR5023A13024": 0.370497465133667, "TDR5023A14224": 0.4007739722728729, "TDR5026A20624": 0.13192759454250336, "TDR5026A21824": 0.29711198806762695, "TDR5026A23024": 0.09433921426534653, "TDR5027A40624": 0.2899352014064789, "TDR5027A41824": 0.4295331537723541, "TDR5027A43024": 0.309054970741272, "DEN5023A1xx24": 3.8681678771972656}
+2024-07-05 20:21:30,792 - main - INFO - Data processing and transmission successful!
+2024-07-05 20:21:30,793 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 20:23:10,699 - main - INFO - Starting main process
+2024-07-05 20:23:10,806 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 20:23:10,807 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 20:23:10,808 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 20:23:11,784 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 20:24:27,311 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 19:24:27.311042, stop=2024-07-05 20:24:27.311042
+2024-07-05 20:24:28,669 - main - INFO - Retrieved 60 data points
+2024-07-05 20:24:28,670 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 19:25:00", "RecNbr": 3349, "BatV": 12.83, "PanelTempC": 23.75, "IRT5023A1xx24": 3.099310874938965, "IRT5020A3xx24": 13.699165344238281, "IRT5018A3xx24": 28.330604553222656, "TDR5023A10624": 0.12283025681972504, "TDR5023A11824": 0.06261885911226273, "TDR5023A13024": 0.11923754215240479, "TDR5023A14224": 0.18176163733005524, "TDR5026A20624": 0.06590189039707184, "TDR5026A21824": 0.2912493944168091, "TDR5026A23024": 0.4085317552089691, "TDR5027A40624": 0.12126408517360687, "TDR5027A41824": 0.06598655134439468, "TDR5027A43024": 0.36135363578796387, "DEN5023A1xx24": 3.2970974445343018}, {"TIMESTAMP": "2024-07-05 19:26:00", "RecNbr": 3350, "BatV": 12.83, "PanelTempC": 23.7, "IRT5023A1xx24": 23.222068786621094, "IRT5020A3xx24": 20.054655075073242, "IRT5018A3xx24": 26.630634307861328, "TDR5023A10624": 0.43967097997665405, "TDR5023A11824": 0.30643242597579956, "TDR5023A13024": 0.4364223778247833, "TDR5023A14224": 0.47686225175857544, "TDR5026A20624": 0.38891348242759705, "TDR5026A21824": 0.2794201076030731, "TDR5026A23024": 0.45336151123046875, "TDR5027A40624": 0.047309938818216324, "TDR5027A41824": 0.19865143299102783, "TDR5027A43024": 0.3566431701183319, "DEN5023A1xx24": 1.216857671737671}]
+2024-07-05 20:24:28,670 - main - INFO - Latest timestamp from logger: 2024-07-05 20:24:00
+2024-07-05 20:24:28,671 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 20:24:00", "RecNbr": 3408, "BatV": 12.83, "PanelTempC": 22.53, "IRT5023A1xx24": 20.922496795654297, "IRT5020A3xx24": 1.2578191757202148, "IRT5018A3xx24": 11.624725341796875, "TDR5023A10624": 0.06955920904874802, "TDR5023A11824": 0.304754376411438, "TDR5023A13024": 0.25101393461227417, "TDR5023A14224": 0.1642063856124878, "TDR5026A20624": 0.20136131346225739, "TDR5026A21824": 0.29635629057884216, "TDR5026A23024": 0.02610352635383606, "TDR5027A40624": 0.4557802975177765, "TDR5027A41824": 0.24472439289093018, "TDR5027A43024": 0.06365048885345459, "DEN5023A1xx24": 4.029038429260254}
+2024-07-05 20:26:09,439 - main - INFO - Data processing and transmission successful!
+2024-07-05 20:26:09,440 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 20:26:11,969 - main - INFO - Starting main process
+2024-07-05 20:26:12,046 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 20:26:12,047 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 20:26:12,047 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 20:26:13,106 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 20:29:39,364 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 19:29:39.363920, stop=2024-07-05 20:29:39.363920
+2024-07-05 20:29:40,708 - main - INFO - Retrieved 60 data points
+2024-07-05 20:29:40,709 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 19:30:00", "RecNbr": 3354, "BatV": 12.83, "PanelTempC": 23.61, "IRT5023A1xx24": 25.395492553710938, "IRT5020A3xx24": 3.834996223449707, "IRT5018A3xx24": 18.903844833374023, "TDR5023A10624": 0.06372136622667313, "TDR5023A11824": 0.19656109809875488, "TDR5023A13024": 0.35183510184288025, "TDR5023A14224": 0.4889119565486908, "TDR5026A20624": 0.3082064688205719, "TDR5026A21824": 0.29954397678375244, "TDR5026A23024": 0.3246299922466278, "TDR5027A40624": 0.27279096841812134, "TDR5027A41824": 0.455523282289505, "TDR5027A43024": 0.16795405745506287, "DEN5023A1xx24": 5.703936576843262}, {"TIMESTAMP": "2024-07-05 19:31:00", "RecNbr": 3355, "BatV": 12.83, "PanelTempC": 23.58, "IRT5023A1xx24": -9.324047088623047, "IRT5020A3xx24": 5.975354194641113, "IRT5018A3xx24": 13.691028594970703, "TDR5023A10624": 0.2549828588962555, "TDR5023A11824": 0.24410781264305115, "TDR5023A13024": 0.4033156633377075, "TDR5023A14224": 0.04479319229722023, "TDR5026A20624": 0.24508744478225708, "TDR5026A21824": 0.23378542065620422, "TDR5026A23024": 0.3763991594314575, "TDR5027A40624": 0.0008596077095717192, "TDR5027A41824": 0.39690321683883667, "TDR5027A43024": 0.35178253054618835, "DEN5023A1xx24": 0.8487052321434021}]
+2024-07-05 20:29:40,709 - main - INFO - Latest timestamp from logger: 2024-07-05 20:29:00
+2024-07-05 20:29:40,710 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 20:29:00", "RecNbr": 3413, "BatV": 12.83, "PanelTempC": 22.47, "IRT5023A1xx24": 12.518011093139648, "IRT5020A3xx24": 21.099876403808594, "IRT5018A3xx24": 22.782623291015625, "TDR5023A10624": 0.022325797006487846, "TDR5023A11824": 0.11596353352069855, "TDR5023A13024": 0.03236381709575653, "TDR5023A14224": 0.285453200340271, "TDR5026A20624": 0.3054680824279785, "TDR5026A21824": 0.08087290823459625, "TDR5026A23024": 0.31104791164398193, "TDR5027A40624": 0.11089027673006058, "TDR5027A41824": 0.12424367666244507, "TDR5027A43024": 0.26024025678634644, "DEN5023A1xx24": 8.845608711242676}
+2024-07-05 20:30:48,140 - main - INFO - Data processing and transmission successful!
+2024-07-05 20:30:48,141 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 20:31:57,146 - main - INFO - Starting main process
+2024-07-05 20:31:57,222 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 20:31:57,224 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 20:31:57,224 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 20:31:58,090 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 20:34:53,982 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 19:34:53.982112, stop=2024-07-05 20:34:53.982112
+2024-07-05 20:34:55,329 - main - INFO - Retrieved 60 data points
+2024-07-05 20:34:55,330 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 19:35:00", "RecNbr": 3359, "BatV": 12.83, "PanelTempC": 23.52, "IRT5023A1xx24": 0.7760105133056641, "IRT5020A3xx24": -5.934595108032227, "IRT5018A3xx24": 38.561973571777344, "TDR5023A10624": 0.17248104512691498, "TDR5023A11824": 0.4798111021518707, "TDR5023A13024": 0.15081076323986053, "TDR5023A14224": 0.09250243753194809, "TDR5026A20624": 0.18284209072589874, "TDR5026A21824": 0.024636369198560715, "TDR5026A23024": 0.0308916624635458, "TDR5027A40624": 0.49517613649368286, "TDR5027A41824": 0.39217838644981384, "TDR5027A43024": 0.020071176812052727, "DEN5023A1xx24": 6.695362091064453}, {"TIMESTAMP": "2024-07-05 19:36:00", "RecNbr": 3360, "BatV": 12.83, "PanelTempC": 23.5, "IRT5023A1xx24": -0.15447330474853516, "IRT5020A3xx24": 29.183502197265625, "IRT5018A3xx24": 5.91469669342041, "TDR5023A10624": 0.010015862993896008, "TDR5023A11824": 0.40720757842063904, "TDR5023A13024": 0.0895632803440094, "TDR5023A14224": 0.44934919476509094, "TDR5026A20624": 0.0721656084060669, "TDR5026A21824": 0.19859224557876587, "TDR5026A23024": 0.25294026732444763, "TDR5027A40624": 0.3315576910972595, "TDR5027A41824": 0.25852975249290466, "TDR5027A43024": 0.28260675072669983, "DEN5023A1xx24": 5.278131484985352}]
+2024-07-05 20:34:55,330 - main - INFO - Latest timestamp from logger: 2024-07-05 20:34:00
+2024-07-05 20:34:55,331 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 20:34:00", "RecNbr": 3418, "BatV": 12.83, "PanelTempC": 22.45, "IRT5023A1xx24": 12.186460494995117, "IRT5020A3xx24": 15.559722900390625, "IRT5018A3xx24": 18.743318557739258, "TDR5023A10624": 0.436980664730072, "TDR5023A11824": 0.42239129543304443, "TDR5023A13024": 0.3588246703147888, "TDR5023A14224": 0.07252402603626251, "TDR5026A20624": 0.32742270827293396, "TDR5026A21824": 0.015891684219241142, "TDR5026A23024": 0.4735068678855896, "TDR5027A40624": 0.40837377309799194, "TDR5027A41824": 0.12422026693820953, "TDR5027A43024": 0.03337607532739639, "DEN5023A1xx24": 8.752755165100098}
+2024-07-05 20:37:21,394 - main - INFO - Data processing and transmission successful!
+2024-07-05 20:37:21,395 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 20:39:18,076 - main - INFO - Starting main process
+2024-07-05 20:39:18,138 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 20:39:18,139 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 20:39:18,139 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 20:39:18,809 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 20:40:20,983 - main - INFO - Retrieving data from logger for time range: start=2024-07-05 19:40:20.983609, stop=2024-07-05 20:40:20.983609
+2024-07-05 20:40:22,355 - main - INFO - Retrieved 60 data points
+2024-07-05 20:40:22,356 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-05 19:41:00", "RecNbr": 3365, "BatV": 12.83, "PanelTempC": 23.38, "IRT5023A1xx24": 10.544553756713867, "IRT5020A3xx24": 22.896934509277344, "IRT5018A3xx24": -6.881871223449707, "TDR5023A10624": 0.2168978750705719, "TDR5023A11824": 0.41725805401802063, "TDR5023A13024": 0.2649171054363251, "TDR5023A14224": 0.438062846660614, "TDR5026A20624": 0.07280166447162628, "TDR5026A21824": 0.24499143660068512, "TDR5026A23024": 0.2653789818286896, "TDR5027A40624": 0.21256981790065765, "TDR5027A41824": 0.04472088813781738, "TDR5027A43024": 0.2475731074810028, "DEN5023A1xx24": 9.876948356628418}, {"TIMESTAMP": "2024-07-05 19:42:00", "RecNbr": 3366, "BatV": 12.83, "PanelTempC": 23.35, "IRT5023A1xx24": 16.625293731689453, "IRT5020A3xx24": 18.92991065979004, "IRT5018A3xx24": -9.864033699035645, "TDR5023A10624": 0.40257495641708374, "TDR5023A11824": 0.46963316202163696, "TDR5023A13024": 0.36999985575675964, "TDR5023A14224": 0.12397756427526474, "TDR5026A20624": 0.173132985830307, "TDR5026A21824": 0.4385247528553009, "TDR5026A23024": 0.30864977836608887, "TDR5027A40624": 0.3270654082298279, "TDR5027A41824": 0.1969798058271408, "TDR5027A43024": 0.21521081030368805, "DEN5023A1xx24": 8.861101150512695}]
+2024-07-05 20:40:22,357 - main - INFO - Latest timestamp from logger: 2024-07-05 20:40:00
+2024-07-05 20:40:22,358 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-05 20:40:00", "RecNbr": 3424, "BatV": 12.83, "PanelTempC": 22.39, "IRT5023A1xx24": 33.53097152709961, "IRT5020A3xx24": 4.14045524597168, "IRT5018A3xx24": 16.020923614501953, "TDR5023A10624": 0.07377853989601135, "TDR5023A11824": 0.13269582390785217, "TDR5023A13024": 0.004779973533004522, "TDR5023A14224": 0.32317158579826355, "TDR5026A20624": 0.42073673009872437, "TDR5026A21824": 0.35190725326538086, "TDR5026A23024": 0.17877182364463806, "TDR5027A40624": 0.31426358222961426, "TDR5027A41824": 0.36872273683547974, "TDR5027A43024": 0.20508719980716705, "DEN5023A1xx24": 9.698895454406738}
+2024-07-05 20:42:07,055 - main - INFO - Data processing and transmission successful!
+2024-07-05 20:42:07,055 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 21:12:08,669 - main - INFO - Starting main process
+2024-07-05 21:12:08,761 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 21:12:08,761 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 21:12:08,762 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 21:12:09,084 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 21:12:19,158 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-05 21:12:19,169 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-05 21:12:19,170 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 21:42:21,859 - main - INFO - Starting main process
+2024-07-05 21:42:21,939 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 21:42:21,940 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 21:42:21,940 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 21:42:22,262 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 21:42:32,335 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-05 21:42:32,337 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-05 21:42:32,338 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 22:12:35,104 - main - INFO - Starting main process
+2024-07-05 22:12:35,198 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 22:12:35,198 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 22:12:35,199 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 22:12:35,523 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 22:12:45,596 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-05 22:12:45,598 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-05 22:12:45,599 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 22:42:49,255 - main - INFO - Starting main process
+2024-07-05 22:42:49,339 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 22:42:49,340 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 22:42:49,340 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 22:42:49,663 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 22:42:59,736 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-05 22:42:59,738 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-05 22:42:59,739 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 23:13:02,544 - main - INFO - Starting main process
+2024-07-05 23:13:02,646 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 23:13:02,647 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 23:13:02,647 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 23:13:02,971 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 23:13:13,044 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-05 23:13:13,046 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-05 23:13:13,047 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-05 23:43:17,980 - main - INFO - Starting main process
+2024-07-05 23:43:18,064 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-05 23:43:18,064 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-05 23:43:18,064 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-05 23:43:18,394 - main - INFO - Loaded metadata for 44 sensors
+2024-07-05 23:43:28,467 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-05 23:43:28,469 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-05 23:43:28,470 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 00:13:29,947 - main - INFO - Starting main process
+2024-07-06 00:13:30,026 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 00:13:30,026 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 00:13:30,026 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 00:13:30,354 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 00:13:40,443 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 00:13:40,445 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 00:13:40,446 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 00:43:45,091 - main - INFO - Starting main process
+2024-07-06 00:43:45,195 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 00:43:45,195 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 00:43:45,195 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 00:43:45,540 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 00:43:55,628 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 00:43:55,630 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 00:43:55,631 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 01:13:57,874 - main - INFO - Starting main process
+2024-07-06 01:13:57,975 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 01:13:57,975 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 01:13:57,976 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 01:13:58,309 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 01:14:08,384 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 01:14:08,386 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 01:14:08,387 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 01:44:11,176 - main - INFO - Starting main process
+2024-07-06 01:44:11,283 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 01:44:11,283 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 01:44:11,284 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 01:44:11,612 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 01:44:21,687 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 01:44:21,689 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 01:44:21,690 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 02:14:24,227 - main - INFO - Starting main process
+2024-07-06 02:14:24,342 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 02:14:24,342 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 02:14:24,343 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 02:14:24,673 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 02:14:34,762 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 02:14:34,764 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 02:14:34,765 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 02:44:37,725 - main - INFO - Starting main process
+2024-07-06 02:44:37,835 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 02:44:37,836 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 02:44:37,836 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 02:44:38,165 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 02:44:48,239 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 02:44:48,241 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 02:44:48,242 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 03:14:52,903 - main - INFO - Starting main process
+2024-07-06 03:14:53,011 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 03:14:53,011 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 03:14:53,012 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 03:14:53,347 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 03:15:03,420 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 03:15:03,422 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 03:15:03,423 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 03:45:06,786 - main - INFO - Starting main process
+2024-07-06 03:45:06,904 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 03:45:06,905 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 03:45:06,905 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 03:45:07,242 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 03:45:17,314 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 03:45:17,315 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 03:45:17,316 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 04:15:20,478 - main - INFO - Starting main process
+2024-07-06 04:15:20,590 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 04:15:20,590 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 04:15:20,591 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 04:15:20,923 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 04:15:31,012 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 04:15:31,014 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 04:15:31,015 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 04:45:35,334 - main - INFO - Starting main process
+2024-07-06 04:45:35,452 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 04:45:35,453 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 04:45:35,453 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 04:45:35,789 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 04:45:45,878 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 04:45:45,880 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 04:45:45,881 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 05:15:46,999 - main - INFO - Starting main process
+2024-07-06 05:15:47,112 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 05:15:47,112 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 05:15:47,113 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 05:15:47,447 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 05:15:57,520 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 05:15:57,522 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 05:15:57,522 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 05:45:58,873 - main - INFO - Starting main process
+2024-07-06 05:45:58,993 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 05:45:58,993 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 05:45:58,994 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 05:45:59,325 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 05:46:09,398 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 05:46:09,400 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 05:46:09,401 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 06:16:14,325 - main - INFO - Starting main process
+2024-07-06 06:16:14,440 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 06:16:14,440 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 06:16:14,440 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 06:16:14,776 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 06:16:24,866 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 06:16:24,868 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 06:16:24,868 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 06:46:27,560 - main - INFO - Starting main process
+2024-07-06 06:46:27,654 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 06:46:27,655 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 06:46:27,655 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 06:46:27,994 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 06:46:38,068 - main - ERROR - An error occurred in the main process: unpack requires a buffer of 8 bytes
+2024-07-06 06:46:38,071 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 53, in main
+    table_names = get_tables(datalogger)
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 31, in get_tables
+    table_names = datalogger.list_tables()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 182, in list_tables
+    return [item['Header']['TableName'] for item in self.table_def]
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/utils.py", line 65, in __get__
+    value = self.func(obj)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 175, in table_def
+    data = self.getfile('.TDF')
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 133, in getfile
+    self.ping_node()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 88, in ping_node
+    hdr, msg, send_time = self.send_wait(self.pakbus.get_hello_cmd())
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 80, in send_wait
+    response = self.pakbus.wait_packet(transac_id)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 164, in wait_packet
+    hdr, msg = self.decode_packet(data)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/pakbus.py", line 342, in decode_packet
+    rawhdr = struct.unpack(str('>4H'), data[0:8])  # raw header bits
+struct.error: unpack requires a buffer of 8 bytes
+
+2024-07-06 06:46:38,071 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 07:16:42,769 - main - INFO - Starting main process
+2024-07-06 07:16:42,931 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 07:16:42,933 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 07:16:42,934 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 07:16:43,407 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 07:16:53,423 - main - ERROR - An error occurred in the main process: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2024-07-06 07:16:53,434 - main - ERROR - Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 322, in open
+    self.fd = os.open(self.portstr, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/span2node-a/Desktop/Logger_Lora/main.py", line 51, in main
+    datalogger = connect_to_datalogger(config["datalogger"])
+  File "/home/span2node-a/Desktop/Logger_Lora/src/data_logger.py", line 17, in connect_to_datalogger
+    datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pycampbellcr1000/device.py", line 71, in from_url
+    link.settimeout(timeout)
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 241, in settimeout
+    self.serial.timeout = self.timeout
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 254, in serial
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/pylink/link.py", line 231, in open
+    self._serial = serial.Serial(self.port, self.baudrate,
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialutil.py", line 244, in __init__
+    self.open()
+  File "/home/span2node-a/Desktop/Logger_Lora/.venv/lib/python3.9/site-packages/serial/serialposix.py", line 325, in open
+    raise SerialException(msg.errno, "could not open port {}: {}".format(self._port, msg))
+serial.serialutil.SerialException: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+2024-07-06 07:16:53,435 - main - INFO - Waiting for 30 minutes before next execution
+2024-07-06 07:48:44,152 - main - INFO - Starting main process
+2024-07-06 07:48:44,188 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 07:48:44,189 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 07:48:44,189 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 07:48:44,619 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 07:48:44,619 - main - INFO - USB device /dev/ttyUSB0 is available
+2024-07-06 07:48:55,752 - main - INFO - Retrieving data from logger for time range: start=2024-07-06 06:48:55.751993, stop=2024-07-06 07:48:55.751993
+2024-07-06 07:48:57,124 - main - INFO - Retrieved 60 data points
+2024-07-06 07:48:57,125 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-06 06:49:00", "RecNbr": 4033, "BatV": 12.83, "PanelTempC": 17.39, "IRT5023A1xx24": 34.84329605102539, "IRT5020A3xx24": -7.42945671081543, "IRT5018A3xx24": 24.407909393310547, "TDR5023A10624": 0.14587971568107605, "TDR5023A11824": 0.27134525775909424, "TDR5023A13024": 0.40483102202415466, "TDR5023A14224": 0.2879888117313385, "TDR5026A20624": 0.19806191325187683, "TDR5026A21824": 0.233685702085495, "TDR5026A23024": 0.07294856756925583, "TDR5027A40624": 0.28249838948249817, "TDR5027A41824": 0.20767509937286377, "TDR5027A43024": 0.3293083608150482, "DEN5023A1xx24": 8.444960594177246}, {"TIMESTAMP": "2024-07-06 06:50:00", "RecNbr": 4034, "BatV": 12.83, "PanelTempC": 17.39, "IRT5023A1xx24": 8.185461044311523, "IRT5020A3xx24": 9.011699676513672, "IRT5018A3xx24": 3.0884056091308594, "TDR5023A10624": 0.15580789744853973, "TDR5023A11824": 0.24632428586483002, "TDR5023A13024": 0.4646620750427246, "TDR5023A14224": 0.40209898352622986, "TDR5026A20624": 0.26507943868637085, "TDR5026A21824": 0.277218759059906, "TDR5026A23024": 0.4690764546394348, "TDR5027A40624": 0.37826967239379883, "TDR5027A41824": 0.12538430094718933, "TDR5027A43024": 0.10742420703172684, "DEN5023A1xx24": 2.5842370986938477}]
+2024-07-06 07:48:57,126 - main - INFO - Latest timestamp from logger: 2024-07-06 07:48:00
+2024-07-06 07:48:57,127 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-06 07:48:00", "RecNbr": 4092, "BatV": 12.83, "PanelTempC": 19.18, "IRT5023A1xx24": 35.1607780456543, "IRT5020A3xx24": -0.8978395462036133, "IRT5018A3xx24": 5.318296432495117, "TDR5023A10624": 0.22853301465511322, "TDR5023A11824": 0.28000369668006897, "TDR5023A13024": 0.09931594878435135, "TDR5023A14224": 0.021520594134926796, "TDR5026A20624": 0.3099527359008789, "TDR5026A21824": 0.4115593135356903, "TDR5026A23024": 0.47167491912841797, "TDR5027A40624": 0.10743158310651779, "TDR5027A41824": 0.05341789126396179, "TDR5027A43024": 0.03132728487253189, "DEN5023A1xx24": 2.873697519302368}
+2024-07-06 07:49:12,749 - main - INFO - Starting main process
+2024-07-06 07:49:12,826 - main - INFO - Running on Node LINEAR_CORN_A
+2024-07-06 07:49:12,826 - main - DEBUG - Project root: /home/span2node-a/Desktop/Logger_Lora
+2024-07-06 07:49:12,826 - main - DEBUG - Sensor metadata path: /home/span2node-a/Desktop/Logger_Lora/config/sensor_mapping.yaml
+2024-07-06 07:49:13,977 - main - INFO - Loaded metadata for 44 sensors
+2024-07-06 07:49:13,978 - main - INFO - USB device /dev/ttyUSB0 is available
+2024-07-06 07:49:25,105 - main - INFO - Retrieving data from logger for time range: start=2024-07-06 06:49:25.105663, stop=2024-07-06 07:49:25.105663
+2024-07-06 07:49:26,465 - main - INFO - Retrieved 60 data points
+2024-07-06 07:49:26,467 - main - DEBUG - Sample of retrieved data: [{"TIMESTAMP": "2024-07-06 06:50:00", "RecNbr": 4034, "BatV": 12.83, "PanelTempC": 17.39, "IRT5023A1xx24": 8.185461044311523, "IRT5020A3xx24": 9.011699676513672, "IRT5018A3xx24": 3.0884056091308594, "TDR5023A10624": 0.15580789744853973, "TDR5023A11824": 0.24632428586483002, "TDR5023A13024": 0.4646620750427246, "TDR5023A14224": 0.40209898352622986, "TDR5026A20624": 0.26507943868637085, "TDR5026A21824": 0.277218759059906, "TDR5026A23024": 0.4690764546394348, "TDR5027A40624": 0.37826967239379883, "TDR5027A41824": 0.12538430094718933, "TDR5027A43024": 0.10742420703172684, "DEN5023A1xx24": 2.5842370986938477}, {"TIMESTAMP": "2024-07-06 06:51:00", "RecNbr": 4035, "BatV": 12.83, "PanelTempC": 17.36, "IRT5023A1xx24": 10.497163772583008, "IRT5020A3xx24": -1.239999771118164, "IRT5018A3xx24": 31.935386657714844, "TDR5023A10624": 0.16067729890346527, "TDR5023A11824": 0.40537720918655396, "TDR5023A13024": 0.3882690668106079, "TDR5023A14224": 0.3258157968521118, "TDR5026A20624": 0.40427330136299133, "TDR5026A21824": 0.21400000154972076, "TDR5026A23024": 0.24574477970600128, "TDR5027A40624": 0.2697959840297699, "TDR5027A41824": 0.1653398722410202, "TDR5027A43024": 0.2302086055278778, "DEN5023A1xx24": 3.229895830154419}]
+2024-07-06 07:49:26,468 - main - INFO - Latest timestamp from logger: 2024-07-06 07:49:00
+2024-07-06 07:49:26,469 - main - DEBUG - Latest data point: {"TIMESTAMP": "2024-07-06 07:49:00", "RecNbr": 4093, "BatV": 12.83, "PanelTempC": 19.23, "IRT5023A1xx24": 5.873296737670898, "IRT5020A3xx24": 22.651458740234375, "IRT5018A3xx24": 21.09446144104004, "TDR5023A10624": 0.26691874861717224, "TDR5023A11824": 0.1642308235168457, "TDR5023A13024": 0.02983982115983963, "TDR5023A14224": 0.49720078706741333, "TDR5026A20624": 0.08676277846097946, "TDR5026A21824": 0.0027145766653120518, "TDR5026A23024": 0.27609309554100037, "TDR5027A40624": 0.41085755825042725, "TDR5027A41824": 0.21963314712047577, "TDR5027A43024": 0.2622465491294861, "DEN5023A1xx24": 4.926585674285889}
+2024-07-06 07:52:35,755 - main - INFO - Data processing and transmission successful!
+2024-07-06 07:52:35,758 - main - INFO - Reboot counter reset after successful execution
+2024-07-06 07:52:35,763 - main - INFO - Waiting for 30 minutes before next execution

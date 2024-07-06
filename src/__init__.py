@@ -3,6 +3,8 @@ from .data_logger import (
     get_tables,
     get_data,
     determine_time_range,
+    reboot_system,
+    
 )
 from .system_functions import update_system_time
 from .database_functions import setup_database, insert_data_to_db

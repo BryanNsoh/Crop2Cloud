@@ -1,8 +1,10 @@
+import os
+import json
 import yaml
 import logging
 from logging.handlers import RotatingFileHandler
-import os
 import sys
+from datetime import datetime
 
 class CustomFormatter(logging.Formatter):
     grey = "\x1b[38;20m"
@@ -33,23 +35,18 @@ def setup_logger(name, log_file, level=logging.DEBUG):
 
     full_path = os.path.join(log_dir, log_file)
 
-    # Create a logger
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
-    # Create handlers
     file_handler = RotatingFileHandler(full_path, maxBytes=5*1024*1024, backupCount=5)
     console_handler = logging.StreamHandler(sys.stdout)
 
-    # Create formatters
     file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     console_formatter = CustomFormatter()
 
-    # Set formatters
     file_handler.setFormatter(file_formatter)
     console_handler.setFormatter(console_formatter)
 
-    # Add handlers to the logger
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
 
@@ -63,19 +60,15 @@ def load_config():
 
         node_id = config["node_id"]
 
-        # Merge node-specific config with general config
         node_config = config["node_configs"][node_id]
         config["lora"].update(node_config["lora"])
 
-        # Format database name with node_id
         config["database"]["name"] = config["database"]["name"].format(node_id=node_id)
 
-        # Ensure data directory exists
         data_dir = os.path.dirname(config["database"]["name"])
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
 
-        # Add clip_floats option (default to False if not present)
         config["clip_floats"] = config.get("clip_floats", False)
 
         logger.info(f"Loaded configuration for Node {node_id}")
@@ -87,7 +80,9 @@ def load_config():
         raise
 
 def get_project_root():
-    return os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    print(f"Project root directory: {root}")
+    return root
 
 def load_sensor_metadata(sensor_file):
     logger = setup_logger("utils", "utils.log")
@@ -111,3 +106,36 @@ def get_sensor_hash(sensor_id, sensor_metadata):
             return sensor["hash"]
     logger.warning(f"No hash found for sensor_id: {sensor_id}")
     return None
+
+def get_reboot_counter_path():
+    return os.path.join(get_project_root(), 'logs', 'reboot_counter.json')
+
+def read_reboot_counter():
+    counter_path = get_reboot_counter_path()
+    if os.path.exists(counter_path):
+        with open(counter_path, 'r') as f:
+            data = json.load(f)
+        return data.get('count', 0)
+    return 0
+
+def increment_reboot_counter():
+    counter_path = get_reboot_counter_path()
+    count = read_reboot_counter() + 1
+    data = {
+        'count': count,
+        'last_reboot': datetime.now().isoformat()
+    }
+    os.makedirs(os.path.dirname(counter_path), exist_ok=True)
+    with open(counter_path, 'w') as f:
+        json.dump(data, f)
+    return count
+
+def reset_reboot_counter():
+    counter_path = get_reboot_counter_path()
+    data = {
+        'count': 0,
+        'last_reset': datetime.now().isoformat()
+    }
+    os.makedirs(os.path.dirname(counter_path), exist_ok=True)
+    with open(counter_path, 'w') as f:
+        json.dump(data, f)
