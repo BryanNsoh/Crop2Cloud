@@ -1,127 +1,118 @@
+#!/usr/bin/env python3
+
 import os
 import subprocess
-import shutil
-from pathlib import Path
-import yaml
 import sys
-from src.utils import setup_logger, load_config
+import logging
+from pathlib import Path
 
 # Set up logging
-logger = setup_logger("setup", "setup.log")
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
-def check_permissions():
-    if os.geteuid() != 0:
-        logger.error(
-            "This script requires root privileges to manage systemd services and timers. Please run with sudo."
-        )
-        exit(1)
+# Configuration
+PYTHON_VERSION = "python3.9"  # Adjust this to your preferred Python version
+SERVICE_NAME = "logger_lora"
 
-def run_command(command, continue_on_error=False):
-    logger.debug(f"Running Command: {command}")
-    result = subprocess.run(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True
-    )
+def run_command(command):
+    try:
+        process = subprocess.run(command, check=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        return process.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Error executing command: {command}")
+        logger.error(f"Error message: {e.stderr}")
+        raise
 
-    if result.returncode != 0:
-        logger.error(f"Error running command '{command}': {result.stderr}")
-        if not continue_on_error:
-            exit(1)
-
-    return result.stdout, result.stderr
-
-def create_file(file_name, content):
-    with open(file_name, "w") as f:
-        f.write(content)
-    logger.info(f"Created file: {file_name}")
-    return file_name
-
-def enable_and_start_systemd(unit_name):
-    logger.info(f"Enabling and starting systemd unit: {unit_name}")
-    run_command(f"sudo systemctl enable {unit_name}", continue_on_error=True)
-    run_command(f"sudo systemctl start {unit_name}", continue_on_error=True)
-
-def rebuild_venv_if_needed():
-    venv_path = os.path.join(os.getcwd(), ".venv")
-    if not os.path.exists(venv_path) or sys.prefix != venv_path:
-        logger.info("Rebuilding virtual environment")
-        run_command(f"python3 -m venv {venv_path}")
-        run_command(f"{venv_path}/bin/pip install -r requirements.txt")
+def remove_existing_setup():
+    logger.info("Removing existing setup...")
+    try:
+        run_command(f"sudo systemctl stop {SERVICE_NAME}.service")
+        run_command(f"sudo systemctl disable {SERVICE_NAME}.service")
+        run_command(f"sudo systemctl stop {SERVICE_NAME}.timer")
+        run_command(f"sudo systemctl disable {SERVICE_NAME}.timer")
+        run_command(f"sudo rm /etc/systemd/system/{SERVICE_NAME}.service")
+        run_command(f"sudo rm /etc/systemd/system/{SERVICE_NAME}.timer")
+        run_command("sudo systemctl daemon-reload")
+        logger.info("Existing setup removed successfully.")
+    except Exception as e:
+        logger.warning(f"Error removing existing setup: {e}")
 
 def main():
-    logger.info("Starting setup process")
+    if os.geteuid() != 0:
+        logger.error("This script must be run with sudo privileges.")
+        sys.exit(1)
 
-    check_permissions()
+    remove_existing_setup()
 
-    # Set your project path
-    project_path = os.getcwd()
-    logger.info(f"Project path: {project_path}")
+    project_root = Path(__file__).parent.absolute()
+    venv_path = project_root / '.venv'
 
-    # Rebuild venv if needed
-    rebuild_venv_if_needed()
+    if not venv_path.exists():
+        logger.info(f"Creating virtual environment using {PYTHON_VERSION}...")
+        run_command(f"{PYTHON_VERSION} -m venv {venv_path}")
+    else:
+        logger.info("Virtual environment already exists.")
 
-    # Load configuration
-    config = load_config()
-    node_id = config["node_id"]
-    logger.info(f"Setting up for Node {node_id}")
+    if not venv_path.exists():
+        logger.error(f"Failed to create virtual environment at {venv_path}. Please check your Python installation.")
+        sys.exit(1)
 
-    # Create systemd_reports directory
-    systemd_reports_path = os.path.join(project_path, "systemd_reports")
-    os.makedirs(systemd_reports_path, exist_ok=True)
-    logger.info(f"Created systemd_reports directory: {systemd_reports_path}")
+    logger.info("Installing requirements...")
+    run_command(f"{venv_path}/bin/pip install --upgrade pip")
+    run_command(f"{venv_path}/bin/pip install -r {project_root}/requirements.txt")
 
-    sudo_path = shutil.which("sudo")
-    logger.info(f"Sudo path: {sudo_path}")
-
-    # Create and Configure Systemd Service
-    service_name = f"logger_lora_node_{node_id.lower()}"
-    venv_python = os.path.join(project_path, ".venv", "bin", "python")
     service_content = f"""[Unit]
-Description=Logger Lora Data Collection Service for Node {node_id}
+Description=Logger Lora Data Collection Service
 After=network.target
 
 [Service]
-ExecStart={venv_python} {project_path}/main.py
-WorkingDirectory={project_path}
-User={os.getenv('USER')}
-Group={os.getenv('USER')}
-Restart=always
-Environment="PATH={os.path.dirname(venv_python)}:$PATH"
+ExecStart={venv_path}/bin/python {project_root}/main.py
+WorkingDirectory={project_root}
+User={os.environ.get('SUDO_USER', os.environ.get('USER'))}
+Group={os.environ.get('SUDO_USER', os.environ.get('USER'))}
+Restart=on-failure
+RestartSec=60
+StartLimitIntervalSec=300
+StartLimitBurst=3
+Environment="PATH={venv_path}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 [Install]
 WantedBy=multi-user.target
 """
 
-    service_file = create_file(f"{service_name}.service", service_content)
-    run_command(
-        f"sudo cp {service_file} /etc/systemd/system/{service_file}",
-        continue_on_error=True,
-    )
-    enable_and_start_systemd(service_file)
+    logger.info("Creating systemd service file...")
+    with open(f'/etc/systemd/system/{SERVICE_NAME}.service', 'w') as f:
+        f.write(service_content)
 
-    # Create and Configure Systemd Timer
     timer_content = f"""[Unit]
-Description=Run Logger Lora Data Collection every 30 minutes for Node {node_id}
+Description=Run Logger Lora Data Collection every 30 minutes
 
 [Timer]
-OnBootSec=5min
+OnBootSec=1min
 OnUnitActiveSec=30min
+AccuracySec=1s
 
 [Install]
 WantedBy=timers.target
 """
 
-    timer_file = create_file(f"{service_name}.timer", timer_content)
-    run_command(
-        f"sudo cp {timer_file} /etc/systemd/system/{timer_file}",
-        continue_on_error=True,
-    )
-    enable_and_start_systemd(timer_file)
+    logger.info("Creating systemd timer file...")
+    with open(f'/etc/systemd/system/{SERVICE_NAME}.timer', 'w') as f:
+        f.write(timer_content)
 
-    # Set correct permissions
-    run_command(f"sudo chown -R {os.getenv('USER')}:{os.getenv('USER')} {project_path}")
-    run_command(f"sudo chmod -R 755 {project_path}")
+    logger.info("Reloading systemd and starting services...")
+    run_command("systemctl daemon-reload")
+    run_command(f"systemctl enable {SERVICE_NAME}.service")
+    run_command(f"systemctl enable {SERVICE_NAME}.timer")
+    run_command(f"systemctl start {SERVICE_NAME}.service")
+    run_command(f"systemctl start {SERVICE_NAME}.timer")
 
-    logger.info("Setup process completed successfully")
+    logger.info("Adding user to dialout group...")
+    run_command(f"usermod -a -G dialout {os.environ.get('SUDO_USER', os.environ.get('USER'))}")
+
+    logger.info("Setup completed successfully.")
+    logger.info("Please reboot the system or log out and log back in for group changes to take effect.")
+    logger.info(f"The {SERVICE_NAME} service is active and will run on startup and every 30 minutes thereafter.")
 
 if __name__ == "__main__":
     main()

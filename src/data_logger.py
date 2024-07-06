@@ -3,24 +3,34 @@ from datetime import datetime, timedelta
 import math
 from .utils import setup_logger
 import json
+import time
 
 logger = setup_logger("data_logger", "data_logger.log")
 
+MAX_RETRIES = 3
+RETRY_DELAY = 5
+
 def connect_to_datalogger(config):
-    try:
-        datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
-        logger.info(f"Successfully connected to datalogger on port {config['port']}")
-        return datalogger
-    except Exception as e:
-        logger.error(f"Failed to connect to datalogger: {e}")
-        raise
+    for attempt in range(MAX_RETRIES):
+        try:
+            logger.info(f"Attempting to connect to datalogger on port {config['port']} (Attempt {attempt + 1}/{MAX_RETRIES})")
+            datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
+            logger.info(f"Successfully connected to datalogger on port {config['port']}")
+            return datalogger
+        except Exception as e:
+            logger.error(f"Failed to connect to datalogger: {e}")
+            if attempt < MAX_RETRIES - 1:
+                logger.info(f"Retrying in {RETRY_DELAY} seconds...")
+                time.sleep(RETRY_DELAY)
+            else:
+                logger.error("Max retries reached. Unable to connect to datalogger.")
+                raise
 
 def get_tables(datalogger):
     try:
         table_names = datalogger.list_tables()
         logger.info(f"Retrieved {len(table_names)} table names: {table_names}")
 
-        # Find the table that is not Status, DataTableInfo, or Public
         desired_table = next(
             (
                 table
@@ -42,7 +52,6 @@ def get_tables(datalogger):
 
 def get_data(datalogger, table_name, start, stop):
     try:
-        # Decode table_name from bytes to string
         table_name_str = table_name.decode("utf-8")
         logger.info(
             f"Attempting to retrieve data from {table_name_str} between {start} and {stop}"

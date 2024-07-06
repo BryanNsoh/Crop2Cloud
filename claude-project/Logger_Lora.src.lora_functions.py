@@ -1,56 +1,79 @@
 import json
 import time
 import random
-from .utils import get_sensor_hash, setup_logger
-from datetime import datetime
 from rak811.rak811_v3 import Rak811
+from .utils import setup_logger, get_sensor_hash
 
 logger = setup_logger("lora_functions", "lora_functions.log")
 
+MAX_RETRIES = 3
+RETRY_DELAY = 60  # 1 minute
+
 class LoRaManager:
     def __init__(self, lora_config):
-        self.lora = Rak811()
+        self.lora = None
         self.config = lora_config
-        self.setup_lora()
 
     def setup_lora(self):
-        try:
-            self.lora.set_config("lora:work_mode:0")
-            self.lora.set_config("lora:join_mode:1")
-            self.lora.set_config(f'lora:region:{self.config["region"]}')
-            self.lora.set_config(f'lora:dev_addr:{self.config["dev_addr"]}')
-            self.lora.set_config(f'lora:apps_key:{self.config["apps_key"]}')
-            self.lora.set_config(f'lora:nwks_key:{self.config["nwks_key"]}')
-            self.lora.set_config(f'lora:dr:{self.config["data_rate"]}')
-
-            self.lora.join()
-            logger.info("Joined LoRaWAN network successfully")
-        except Exception as e:
-            logger.error(f"Error setting up LoRa: {e}")
-            raise
+        for attempt in range(MAX_RETRIES):
+            try:
+                self.lora = Rak811()
+                logger.info("Setting LoRa work mode...")
+                self.lora.set_config("lora:work_mode:0")
+                logger.info("Setting LoRa join mode...")
+                self.lora.set_config("lora:join_mode:1")
+                logger.info(f"Setting LoRa region: {self.config['region']}")
+                self.lora.set_config(f'lora:region:{self.config["region"]}')
+                logger.info("Setting LoRa device address...")
+                self.lora.set_config(f'lora:dev_addr:{self.config["dev_addr"]}')
+                logger.info("Setting LoRa application session key...")
+                self.lora.set_config(f'lora:apps_key:{self.config["apps_key"]}')
+                logger.info("Setting LoRa network session key...")
+                self.lora.set_config(f'lora:nwks_key:{self.config["nwks_key"]}')
+                logger.info(f"Setting LoRa data rate: {self.config['data_rate']}")
+                self.lora.set_config(f'lora:dr:{self.config["data_rate"]}')
+                logger.info("Joining LoRaWAN network...")
+                self.lora.join()
+                logger.info("Joined LoRaWAN network successfully")
+                return
+            except Exception as e:
+                logger.error(f"Error setting up LoRa (Attempt {attempt + 1}/{MAX_RETRIES}): {e}")
+                if attempt < MAX_RETRIES - 1:
+                    logger.info(f"Retrying in {RETRY_DELAY} seconds...")
+                    time.sleep(RETRY_DELAY)
+                else:
+                    logger.error("Max retries reached. Unable to set up LoRa.")
+                    raise
 
     def send_data(self, data):
-        try:
-            json_payload = json.dumps(data)
-            payload = json_payload.encode("utf-8")
-            self.lora.send(payload)
-            logger.info(f"Sent payload: {json_payload}")
-        except Exception as e:
-            logger.error(f"Error sending LoRa data: {e}")
-            raise
+        for attempt in range(MAX_RETRIES):
+            try:
+                json_payload = json.dumps(data)
+                payload = json_payload.encode("utf-8")
+                self.lora.send(payload)
+                logger.info(f"Sent payload: {json_payload}")
+                return
+            except Exception as e:
+                logger.error(f"Error sending LoRa data (Attempt {attempt + 1}/{MAX_RETRIES}): {e}")
+                if attempt < MAX_RETRIES - 1:
+                    logger.info(f"Retrying in {RETRY_DELAY} seconds...")
+                    time.sleep(RETRY_DELAY)
+                else:
+                    logger.error("Max retries reached. Unable to send LoRa data.")
+                    raise
 
     def close(self):
-        try:
-            self.lora.close()
-            logger.info("LoRa connection closed successfully")
-        except Exception as e:
-            logger.error(f"Error closing LoRa connection: {e}")
+        if self.lora:
+            try:
+                self.lora.close()
+                logger.info("LoRa connection closed successfully")
+            except Exception as e:
+                logger.error(f"Error closing LoRa connection: {e}")
 
 def send_lora_data(data, config, sensor_metadata, clip_floats=False):
     logger.info("Initializing LoRa data transmission")
     logger.debug(f"Original data to be sent: {json.dumps(data, default=str)}")
 
-    # Verify that required config keys exist
     required_keys = ['lora', 'schedule']
     for key in required_keys:
         if key not in config:
@@ -62,6 +85,8 @@ def send_lora_data(data, config, sensor_metadata, clip_floats=False):
     lora_manager = LoRaManager(config['lora'])
 
     try:
+        lora_manager.setup_lora()
+
         hashed_data = {
             get_sensor_hash(k, sensor_metadata): v
             for k, v in data.items()
@@ -84,7 +109,6 @@ def send_lora_data(data, config, sensor_metadata, clip_floats=False):
         transmission_window = config['schedule']['transmission_window']
         min_interval = config['schedule']['min_interval']
 
-        # Calculate the maximum delay for each transmission
         max_delay = (transmission_window - (len(chunks) - 1) * min_interval) / len(chunks)
 
         start_time = time.time()
