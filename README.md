@@ -19,7 +19,7 @@
 
 ## Introduction
 
-AgriSense IoT is a sophisticated environmental monitoring system designed for precision agriculture. It seamlessly integrates field sensors, edge computing, LoRa communication, and cloud-based data processing to provide real-time insights into crop conditions.
+AgriSense IoT is an environmental monitoring system designed for precision agriculture. It integrates field sensors, edge computing, LoRa communication, and cloud-based data processing to provide real-time insights into crop conditions.
 
 ## System Overview
 
