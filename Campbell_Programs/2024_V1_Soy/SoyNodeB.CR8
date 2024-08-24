@@ -1,0 +1,116 @@
+' CR800 Program for Node B
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
+
+' IRT variables
+Public IRT2011B2xx24 As Float  ' Plot 2011, Treatment 2
+Public IRT2006B1xx24 As Float  ' Plot 2006, Treatment 1
+
+' TDR variables for plot 2011 (Treatment 2)
+Public TDR2011B20624 As Float
+Public TDR2011B21824 As Float
+Public TDR2011B23024 As Float
+
+' TDR variables for plot 2006 (Treatment 1)
+Public TDR2006B10624 As Float
+Public TDR2006B11824 As Float
+Public TDR2006B13024 As Float
+Public TDR2006B14224 As Float
+
+' TDR variables for plot 2012 (Treatment 4)
+Public TDR2012B40624 As Float
+Public TDR2012B41824 As Float
+Public TDR2012B43024 As Float
+
+' SDI-12 Addresses
+Const IRT2011B2xx24_ADDR = "0"
+Const TDR2011B20624_ADDR = "1"
+Const TDR2011B21824_ADDR = "2"
+Const TDR2011B23024_ADDR = "3"
+Const IRT2006B1xx24_ADDR = "1"
+Const TDR2006B10624_ADDR = "4"
+Const TDR2006B11824_ADDR = "5"
+Const TDR2006B13024_ADDR = "6"
+Const TDR2006B14224_ADDR = "7"
+Const TDR2012B40624_ADDR = "8"
+Const TDR2012B41824_ADDR = "9"
+Const TDR2012B43024_ADDR = "a"
+
+' SDI-12 Measurement Commands
+Const CMD_IRT = "M!"
+Const CMD_TDR = "M!"
+
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
+
+' Define Data Table
+DataTable(NodeB, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT2011B2xx24, IEEE4, False)
+  Average(1, IRT2006B1xx24, IEEE4, False)
+  Average(1, TDR2011B20624, IEEE4, False)
+  Average(1, TDR2011B21824, IEEE4, False)
+  Average(1, TDR2011B23024, IEEE4, False)
+  Average(1, TDR2006B10624, IEEE4, False)
+  Average(1, TDR2006B11824, IEEE4, False)
+  Average(1, TDR2006B13024, IEEE4, False)
+  Average(1, TDR2006B14224, IEEE4, False)
+  Average(1, TDR2012B40624, IEEE4, False)
+  Average(1, TDR2012B41824, IEEE4, False)
+  Average(1, TDR2012B43024, IEEE4, False)
+EndTable
+
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 Minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
+    
+    ' Read IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT2011B2xx24_ADDR, CMD_IRT, 1, 0)
+    IRT2011B2xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT2006B1xx24_ADDR, CMD_IRT, 1, 0)
+    IRT2006B1xx24 = Temp_Array(1)
+    
+    ' Read TDRs for plot 2011 (Treatment 2)
+    SDI12Recorder(Temp_Array(), 1, TDR2011B20624_ADDR, CMD_TDR, 1, 0)
+    TDR2011B20624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2011B21824_ADDR, CMD_TDR, 1, 0)
+    TDR2011B21824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2011B23024_ADDR, CMD_TDR, 1, 0)
+    TDR2011B23024 = Temp_Array(1)
+    
+    ' Read TDRs for plot 2006 (Treatment 1)
+    SDI12Recorder(Temp_Array(), 1, TDR2006B10624_ADDR, CMD_TDR, 1, 0)
+    TDR2006B10624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2006B11824_ADDR, CMD_TDR, 1, 0)
+    TDR2006B11824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2006B13024_ADDR, CMD_TDR, 1, 0)
+    TDR2006B13024 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2006B14224_ADDR, CMD_TDR, 1, 0)
+    TDR2006B14224 = Temp_Array(1)
+    
+    ' Read TDRs for plot 2012 (Treatment 4)
+    SDI12Recorder(Temp_Array(), 1, TDR2012B40624_ADDR, CMD_TDR, 1, 0)
+    TDR2012B40624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2012B41824_ADDR, CMD_TDR, 1, 0)
+    TDR2012B41824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2012B43024_ADDR, CMD_TDR, 1, 0)
+    TDR2012B43024 = Temp_Array(1)
+    
+    ' Call Data Table
+    CallTable(NodeB)
+  NextScan
+EndProg

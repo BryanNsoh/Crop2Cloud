@@ -17,12 +17,15 @@ Public TDR5023A14224 As Float
 ' TDR variables for field 5026 (Treatment 2)
 Public TDR5026A20624 As Float
 Public TDR5026A21824 As Float
-Public TDR5026A23824 As Float
+Public TDR5026A23024 As Float
 
 ' TDR variables for field 5027 (Treatment 4)
 Public TDR5027A40624 As Float
 Public TDR5027A41824 As Float
 Public TDR5027A43024 As Float
+
+' Dendrometer variable
+Public DEN5023A1xx24 As Float
 
 ' SDI-12 Addresses
 Const IRT5023A1xx24_ADDR = "0"
@@ -60,61 +63,66 @@ DataTable(NodeA, True, -1)
   Average(1, TDR5023A14224, IEEE4, False)
   Average(1, TDR5026A20624, IEEE4, False)
   Average(1, TDR5026A21824, IEEE4, False)
-  Average(1, TDR5026A23824, IEEE4, False)
+  Average(1, TDR5026A23024, IEEE4, False)
   Average(1, TDR5027A40624, IEEE4, False)
   Average(1, TDR5027A41824, IEEE4, False)
   Average(1, TDR5027A43024, IEEE4, False)
+  Average(1, DEN5023A1xx24, IEEE4, False)
 EndTable
 
 ' Main Program
 BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 minutes
+  Scan(5, Min, 0, 0)  ' Scan every 5 Minutes
     ' Measure battery voltage and panel temperature
     Battery(BatV)
     PanelTemp(PanelTempC, 250)
     
     ' Read IRTs
-    SDI12Recorder(Temp_Array(), 1, IRT5023A1xx24_ADDR, CMD_IRT, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, IRT5023A1xx24_ADDR, CMD_IRT, 1, 0)
     IRT5023A1xx24 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, IRT5020A3xx24_ADDR, CMD_IRT, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, IRT5020A3xx24_ADDR, CMD_IRT, 1, 0)
     IRT5020A3xx24 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, IRT5018A3xx24_ADDR, CMD_IRT, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, IRT5018A3xx24_ADDR, CMD_IRT, 1, 0)
     IRT5018A3xx24 = Temp_Array(1)
     
     ' Read TDRs for field 5023 (Treatment 1)
-    SDI12Recorder(Temp_Array(), 1, TDR5023A10624_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5023A10624_ADDR, CMD_TDR, 1, 0)
     TDR5023A10624 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, TDR5023A11824_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5023A11824_ADDR, CMD_TDR, 1, 0)
     TDR5023A11824 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, TDR5023A13024_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5023A13024_ADDR, CMD_TDR, 1, 0)
     TDR5023A13024 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, TDR5023A14224_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5023A14224_ADDR, CMD_TDR, 1, 0)
     TDR5023A14224 = Temp_Array(1)
     
     ' Read TDRs for field 5026 (Treatment 2)
-    SDI12Recorder(Temp_Array(), 1, TDR5026A20624_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5026A20624_ADDR, CMD_TDR, 1, 0)
     TDR5026A20624 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, TDR5026A21824_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5026A21824_ADDR, CMD_TDR, 1, 0)
     TDR5026A21824 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, TDR5026A23824_ADDR, CMD_TDR, 1, 0)
-    TDR5026A23824 = Temp_Array(1)
+    SDI12Recorder(Temp_Array(), 3, TDR5026A23024_ADDR, CMD_TDR, 1, 0)
+    TDR5026A23024 = Temp_Array(1)
     
     ' Read TDRs for field 5027 (Treatment 4)
-    SDI12Recorder(Temp_Array(), 1, TDR5027A40624_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5027A40624_ADDR, CMD_TDR, 1, 0)
     TDR5027A40624 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, TDR5027A41824_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5027A41824_ADDR, CMD_TDR, 1, 0)
     TDR5027A41824 = Temp_Array(1)
     
-    SDI12Recorder(Temp_Array(), 1, TDR5027A43024_ADDR, CMD_TDR, 1, 0)
+    SDI12Recorder(Temp_Array(), 3, TDR5027A43024_ADDR, CMD_TDR, 1, 0)
     TDR5027A43024 = Temp_Array(1)
+    
+    ' Read DD-S2 Dendrometer
+    ExciteV(Vx1, 2500, 0)
+    VoltDiff(DEN5023A1xx24, 1, mV2500, 1, True, 0, _50Hz, 4.4, 0)
     
     ' Call Data Table
     CallTable(NodeA)

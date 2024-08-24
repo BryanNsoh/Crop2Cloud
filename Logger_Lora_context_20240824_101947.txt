@@ -1,0 +1,3099 @@
+Context extraction timestamp: 20240824_101947
+
+<repository_structure>
+<directory name="Logger_Lora">
+    <file>
+        <name>.gitignore</name>
+        <path>.gitignore</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>LICENSE</name>
+        <path>LICENSE</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>main.py</name>
+        <path>main.py</path>
+        <content>
+import sys
+import os
+import time
+from datetime import datetime, timedelta
+import traceback
+import json
+import random
+from src.utils import (
+    load_config,
+    setup_logger,
+    get_project_root,
+    reset_reboot_counter,
+    increment_reboot_counter,
+    read_reboot_counter
+)
+from src import (
+    connect_to_datalogger,
+    get_tables,
+    get_data,
+    get_logger_time,
+    setup_database,
+    insert_data_to_db,
+    send_lora_data,
+    load_sensor_metadata,
+    reboot_system,
+    wait_for_usb_device
+)
+
+logger = setup_logger("main", "main.log")
+
+MAX_FAILURES = 3
+RETRY_DELAY = 60  # 1 minute delay between retries
+
+def main():
+    logger.info("=== System started ===")
+    failure_count = 0
+    config = load_config()
+
+    while True:
+        try:
+            logger.info(f"Starting main process (Attempt {failure_count + 1}/{MAX_FAILURES})")
+            
+            logger.info(f"Running on Node {config['node_id']}")
+            
+            project_root = get_project_root()
+            logger.debug(f"Project root: {project_root}")
+            logger.debug(f"Sensor metadata path: {os.path.join(project_root, config['sensor_metadata'])}")
+            
+            db_dir = os.path.dirname(config['database']['name'])
+            if not os.path.exists(db_dir):
+                logger.info(f"Database directory does not exist. Attempting to create: {db_dir}")
+                os.makedirs(db_dir, exist_ok=True)
+            
+            if not os.access(db_dir, os.W_OK):
+                logger.error(f"No write permission for database directory: {db_dir}")
+                return
+
+            sensor_metadata = load_sensor_metadata(config["sensor_metadata"])
+            logger.info(f"Loaded metadata for {len(sensor_metadata)} sensors")
+
+            # Wait for USB device
+            if not wait_for_usb_device(config["datalogger"]["port"]):
+                raise Exception("USB device not available")
+
+            datalogger = connect_to_datalogger(config["datalogger"])
+
+            table_names = get_tables(datalogger)
+            if not table_names:
+                raise Exception("Failed to retrieve table names")
+
+            logger_time = get_logger_time(datalogger)
+            start_time = logger_time - timedelta(minutes=35)  # Get data from last 35 minutes
+            
+            table_data = get_data(datalogger, table_names[0], start_time, logger_time)
+            if not table_data:
+                logger.info("No new data to process")
+                continue
+
+            logger.info(f"Retrieved {len(table_data)} data points")
+            logger.debug(f"Sample of retrieved data: {json.dumps(table_data[:2], default=str)}")
+
+            latest_data = table_data[-1]  # Get the last (most recent) data point
+            logger.info(f"Latest timestamp from logger: {latest_data['TIMESTAMP']}")
+            logger.debug(f"Latest data point: {json.dumps(latest_data, default=str)}")
+
+            setup_database(latest_data.keys(), config["database"]["name"])
+            insert_data_to_db([latest_data], config["database"]["name"])
+
+            send_lora_data(latest_data, config, sensor_metadata, clip_floats=config.get("clip_floats", False))
+
+            logger.info("Data processing and transmission successful!")
+            
+            # Reset the failure counter after a successful run
+            failure_count = 0
+            reset_reboot_counter()
+            logger.info("Reboot counter reset after successful execution")
+
+            # Wait for the next scheduled execution only if successful
+            interval = config['schedule']['interval_minutes']
+            logger.info(f"Execution successful. Waiting for {interval} minutes before next scheduled execution")
+            time.sleep(interval * 60)
+
+        except Exception as e:
+            logger.error(f"An error occurred in the main process: {str(e)}")
+            logger.error(traceback.format_exc())
+            failure_count += 1
+            if failure_count >= MAX_FAILURES:
+                logger.error(f"Max failures ({MAX_FAILURES}) reached. Initiating system reboot.")
+                reboot_system()
+                logger.info("=== System reboot initiated ===")
+                return  # Exit the script, it will be restarted by the system
+            else:
+                logger.warning(f"Failure count: {failure_count}/{MAX_FAILURES}")
+                logger.info(f"Retrying in {RETRY_DELAY} seconds...")
+                time.sleep(RETRY_DELAY)
+
+if __name__ == "__main__":
+    main()
+
+        </content>
+    </file>
+    <file>
+        <name>README.md</name>
+        <path>README.md</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>repo_context_extractor.py</name>
+        <path>repo_context_extractor.py</path>
+        <content>
+import os
+import datetime
+
+EXCLUDED_DIRS = {".git", "__pycache__", "node_modules", ".venv"}
+FULL_CONTENT_EXTENSIONS = {".py", ".toml", ".dbml", ".yaml", ".json"}
+
+def create_file_element(file_path, root_folder):
+    relative_path = os.path.relpath(file_path, root_folder)
+    file_name = os.path.basename(file_path)
+    file_extension = os.path.splitext(file_name)[1]
+
+    file_element = [
+        f"    <file>\n        <name>{file_name}</name>\n        <path>{relative_path}</path>\n"
+    ]
+
+    if file_extension in FULL_CONTENT_EXTENSIONS:
+        file_element.append("        <content>\n")
+        try:
+            with open(file_path, "r", encoding="utf-8") as file:
+                file_element.append(file.read())
+        except UnicodeDecodeError:
+            file_element.append("Binary or non-UTF-8 content not displayed")
+        file_element.append("\n        </content>\n")
+    else:
+        file_element.append("        <content>Full content not provided</content>\n")
+
+    file_element.append("    </file>\n")
+    return "".join(file_element)
+
+def get_repo_structure(root_folder):
+    structure = ["<repository_structure>\n"]
+
+    for subdir, dirs, files in os.walk(root_folder):
+        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
+        level = subdir.replace(root_folder, "").count(os.sep)
+        indent = " " * 4 * level
+        relative_subdir = os.path.relpath(subdir, root_folder)
+
+        structure.append(f'{indent}<directory name="{os.path.basename(subdir)}">\n')
+        for file in files:
+            file_path = os.path.join(subdir, file)
+            file_element = create_file_element(file_path, root_folder)
+            structure.append(file_element)
+        structure.append(f"{indent}</directory>\n")
+
+    structure.append("</repository_structure>\n")
+    return "".join(structure)
+
+def main():
+    root_folder = os.getcwd()  # Use the current working directory
+    base_dir = os.path.basename(root_folder)
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_file = os.path.join(root_folder, f"{base_dir}_context_{timestamp}.txt")
+
+    # Delete the previous output file if it exists
+    for file in os.listdir(root_folder):
+        if file.startswith(f"{base_dir}_context_") and file.endswith(".txt"):
+            os.remove(os.path.join(root_folder, file))
+            print(f"Deleted previous context file: {file}")
+
+    repo_structure = get_repo_structure(root_folder)
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(f"Context extraction timestamp: {timestamp}\n\n")
+        f.write(repo_structure)
+
+    print(f"Fresh repository context has been extracted to {output_file}")
+
+if __name__ == "__main__":
+    main()
+        </content>
+    </file>
+    <file>
+        <name>requirements.txt</name>
+        <path>requirements.txt</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>setup.py</name>
+        <path>setup.py</path>
+        <content>
+import os
+import subprocess
+import shutil
+from pathlib import Path
+import sys
+import json
+from datetime import datetime
+import logging
+
+def setup_logger(name, log_file, level='INFO'):
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(formatter)
+    
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
+    
+    return logger
+
+logger = setup_logger("setup", "setup.log")
+
+def run_command(command, continue_on_error=False):
+    logger.debug(f"Running Command: {command}")
+    result = subprocess.run(
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True
+    )
+
+    if result.returncode != 0:
+        logger.error(f"Error running command '{command}': {result.stderr}")
+        if not continue_on_error:
+            exit(1)
+
+    return result.stdout, result.stderr
+
+def create_file(file_name, content):
+    with open(file_name, "w") as f:
+        f.write(content)
+    logger.info(f"Created file: {file_name}")
+    return file_name
+
+def enable_and_start_systemd(unit_name):
+    logger.info(f"Enabling and starting systemd unit: {unit_name}")
+    run_command(f"sudo systemctl enable {unit_name}", continue_on_error=True)
+    run_command(f"sudo systemctl start {unit_name}", continue_on_error=True)
+
+def install_required_packages():
+    logger.info("Installing required packages")
+    packages = ["python3-venv", "python3-pip", "python3-yaml", "python3-serial", "git"]
+    run_command(f"sudo apt-get update && sudo apt-get install -y {' '.join(packages)}")
+
+def rebuild_venv_if_needed():
+    venv_path = os.path.join(os.getcwd(), ".venv")
+    if not os.path.exists(venv_path) or sys.prefix != venv_path:
+        logger.info("Rebuilding virtual environment")
+        run_command(f"python3 -m venv {venv_path}")
+        run_command(f"{venv_path}/bin/pip install -r requirements.txt")
+        run_command(f"{venv_path}/bin/pip install --upgrade rak811")
+
+def setup_reboot_counter():
+    logger.info("Setting up reboot counter")
+    counter_path = os.path.join(os.getcwd(), 'logs', 'reboot_counter.json')
+    os.makedirs(os.path.dirname(counter_path), exist_ok=True)
+    if not os.path.exists(counter_path):
+        with open(counter_path, 'w') as f:
+            json.dump({'count': 0, 'last_reset': datetime.now().isoformat()}, f)
+    logger.info("Reboot counter setup complete")
+
+def load_config():
+    try:
+        import yaml
+    except ImportError:
+        logger.error("YAML module not found. Installing required packages.")
+        install_required_packages()
+        import yaml
+
+    with open("config/config.yaml", "r") as f:
+        return yaml.safe_load(f)
+
+def setup_systemd_reboot_service():
+    logger.info("Setting up systemd reboot service")
+    
+    reboot_service_content = """
+[Unit]
+Description=Reboot service for Logger_Lora
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/reboot
+"""
+    
+    reboot_path_content = """
+[Path]
+PathExists=/tmp/logger_reboot_trigger
+
+[Install]
+WantedBy=multi-user.target
+"""
+    
+    create_file("/etc/systemd/system/logger-reboot.service", reboot_service_content)
+    create_file("/etc/systemd/system/logger-reboot.path", reboot_path_content)
+    
+    run_command("sudo systemctl daemon-reload")
+    enable_and_start_systemd("logger-reboot.path")
+    
+    logger.info("Systemd reboot service setup complete")
+
+def setup_lora_phat():
+    logger.info("Starting LoRa pHAT setup...")
+
+    # Configure UART
+    logger.info("Configuring UART...")
+    config_file = "/boot/config.txt"
+    with open(config_file, "r") as f:
+        config_content = f.read()
+    
+    if "enable_uart=1" not in config_content:
+        with open(config_file, "a") as f:
+            f.write("\nenable_uart=1\n")
+    
+    if "dtoverlay=disable-bt" not in config_content:
+        with open(config_file, "a") as f:
+            f.write("dtoverlay=disable-bt\n")
+
+    # Stop, disable, and mask serial-getty service
+    logger.info("Stopping and disabling serial-getty service...")
+    run_command("sudo systemctl stop serial-getty@ttyAMA0.service")
+    run_command("sudo systemctl disable serial-getty@ttyAMA0.service")
+    run_command("sudo systemctl mask serial-getty@ttyAMA0.service")
+
+    # Set up udev rule for LoRa pHAT
+    logger.info("Setting up udev rule for LoRa pHAT...")
+    udev_rule = 'KERNEL=="ttyAMA0", GROUP="dialout", MODE="0660"'
+    create_file("/etc/udev/rules.d/99-lora-phat.rules", udev_rule)
+
+    logger.info("LoRa pHAT setup complete")
+
+def main():
+    logger.info("Starting setup process")
+
+    # Check if running as root
+    if os.geteuid() != 0:
+        logger.error("This script must be run as root. Please use sudo.")
+        exit(1)
+
+    # Install required packages
+    install_required_packages()
+
+    # Set your project path
+    project_path = os.getcwd()
+    logger.info(f"Project path: {project_path}")
+
+    # Rebuild venv if needed
+    rebuild_venv_if_needed()
+
+    # Load configuration
+    config = load_config()
+    node_id = config["node_id"]
+    logger.info(f"Setting up for Node {node_id}")
+
+    # Create systemd_reports directory
+    systemd_reports_path = os.path.join(project_path, "systemd_reports")
+    os.makedirs(systemd_reports_path, exist_ok=True)
+    logger.info(f"Created systemd_reports directory: {systemd_reports_path}")
+
+    # Create and Configure Systemd Service
+    service_name = f"logger_lora_node_{node_id.lower()}"
+    venv_python = os.path.join(project_path, ".venv", "bin", "python")
+    service_content = f"""[Unit]
+Description=Logger Lora Data Collection Service for Node {node_id}
+After=network.target
+
+[Service]
+ExecStart={venv_python} {project_path}/main.py
+WorkingDirectory={project_path}
+User={os.getenv('SUDO_USER')}
+Group={os.getenv('SUDO_USER')}
+Restart=on-failure
+RestartSec=60
+StartLimitInterval={config['systemd']['restart_interval']}
+StartLimitBurst={config['systemd']['max_restarts']}
+Environment="PATH={os.path.dirname(venv_python)}:$PATH"
+
+[Install]
+WantedBy=multi-user.target
+"""
+
+    service_file = create_file(f"{service_name}.service", service_content)
+    run_command(
+        f"sudo cp {service_file} /etc/systemd/system/{service_file}",
+        continue_on_error=True,
+    )
+    enable_and_start_systemd(service_file)
+
+    # Create and Configure Systemd Timer
+    timer_content = f"""[Unit]
+Description=Run Logger Lora Data Collection every 30 minutes for Node {node_id}
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=30min
+
+[Install]
+WantedBy=timers.target
+"""
+
+    timer_file = create_file(f"{service_name}.timer", timer_content)
+    run_command(
+        f"sudo cp {timer_file} /etc/systemd/system/{timer_file}",
+        continue_on_error=True,
+    )
+    enable_and_start_systemd(timer_file)
+
+    # Setup reboot counter
+    setup_reboot_counter()
+
+    # Setup systemd reboot service
+    setup_systemd_reboot_service()
+
+    # Setup LoRa pHAT
+    setup_lora_phat()
+
+    # Ensure correct permissions
+    run_command(f"sudo chown -R {os.getenv('SUDO_USER')}:{os.getenv('SUDO_USER')} {project_path}")
+    run_command(f"sudo chmod -R 755 {project_path}")
+    run_command(f"sudo usermod -a -G dialout {os.getenv('SUDO_USER')}")
+
+    logger.info("Setup process completed successfully")
+    logger.info("Please reboot your Raspberry Pi for all changes to take effect.")
+    logger.info("After reboot, you can test your LoRa pHAT with: 'rak811 -v -d version'")
+
+if __name__ == "__main__":
+    main()
+
+        </content>
+    </file>
+</directory>
+    <directory name="Campbell_Programs">
+    </directory>
+        <directory name="2024_V1_Corn">
+    <file>
+        <name>nodeA.CR8</name>
+        <path>Campbell_Programs\2024_V1_Corn\nodeA.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>nodeB.CR8</name>
+        <path>Campbell_Programs\2024_V1_Corn\nodeB.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>nodeC.CR8</name>
+        <path>Campbell_Programs\2024_V1_Corn\nodeC.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>SDI1C.CR8</name>
+        <path>Campbell_Programs\2024_V1_Corn\SDI1C.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+        </directory>
+        <directory name="2024_V1_Soy">
+    <file>
+        <name>SoyNodeA - Copy.CR8</name>
+        <path>Campbell_Programs\2024_V1_Soy\SoyNodeA - Copy.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>SoyNodeA.CR8</name>
+        <path>Campbell_Programs\2024_V1_Soy\SoyNodeA.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>SoyNodeB.CR8</name>
+        <path>Campbell_Programs\2024_V1_Soy\SoyNodeB.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>SoyNodeC.CR8</name>
+        <path>Campbell_Programs\2024_V1_Soy\SoyNodeC.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+        </directory>
+        <directory name="2024_V2_Corn">
+    <file>
+        <name>nodeA - port1-test.CR8</name>
+        <path>Campbell_Programs\2024_V2_Corn\nodeA - port1-test.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>nodeA - portC3.CR8</name>
+        <path>Campbell_Programs\2024_V2_Corn\nodeA - portC3.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>nodeA.CR8</name>
+        <path>Campbell_Programs\2024_V2_Corn\nodeA.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>nodeB.CR8</name>
+        <path>Campbell_Programs\2024_V2_Corn\nodeB.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>nodeC.CR8</name>
+        <path>Campbell_Programs\2024_V2_Corn\nodeC.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>SDI1C.CR8</name>
+        <path>Campbell_Programs\2024_V2_Corn\SDI1C.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+        </directory>
+        <directory name="2024_V2_Soy">
+    <file>
+        <name>SoyNodeA.CR8</name>
+        <path>Campbell_Programs\2024_V2_Soy\SoyNodeA.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>SoyNodeB.CR8</name>
+        <path>Campbell_Programs\2024_V2_Soy\SoyNodeB.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>SoyNodeC.CR8</name>
+        <path>Campbell_Programs\2024_V2_Soy\SoyNodeC.CR8</path>
+        <content>Full content not provided</content>
+    </file>
+        </directory>
+    <directory name="cloud-functions">
+    <file>
+        <name>common-problems&solutions-for-cloud-funcs.md</name>
+        <path>cloud-functions\common-problems&solutions-for-cloud-funcs.md</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>compute-cwsi.py</name>
+        <path>cloud-functions\compute-cwsi.py</path>
+        <content>
+import pandas as pd
+import numpy as np
+from google.cloud import bigquery
+from datetime import datetime, timedelta
+import pytz
+import logging
+import sys
+import time
+import requests
+import os
+import math
+import json
+
+class CustomFormatter(logging.Formatter):
+    def format(self, record):
+        return f"{datetime.now(pytz.timezone('America/Chicago')).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]} CST - {record.levelname} - {record.message}"
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(CustomFormatter())
+logger.addHandler(handler)
+
+STEFAN_BOLTZMANN = 5.67e-8
+CP = 1005
+GRAVITY = 9.81
+K = 0.41
+CROP_HEIGHT = 1.6
+LATITUDE = 41.15
+SURFACE_ALBEDO = 0.23
+
+API_KEY = os.environ.get('NDVI_API_KEY')
+POLYGON_API_URL = "http://api.agromonitoring.com/agro/1.0/polygons"
+NDVI_API_URL = "http://api.agromonitoring.com/agro/1.0/ndvi/history"
+POLYGON_NAME = "My_Field_Polygon"
+
+def get_or_create_polygon():
+    response = requests.get(
+        POLYGON_API_URL,
+        params={"appid": API_KEY}
+    )
+    
+    if response.status_code == 200:
+        polygons = response.json()
+        for polygon in polygons:
+            if polygon['name'] == POLYGON_NAME:
+                logger.info(f"Found existing polygon with id: {polygon['id']}")
+                return polygon['id']
+    
+    coordinates = [
+    [-100.774075, 41.090012],  # Northwest corner
+    [-100.773341, 41.089999],  # Northeast corner (moved slightly east)
+    [-100.773343, 41.088311],  # Southeast corner (moved slightly east)
+    [-100.774050, 41.088311],  # Southwest corner
+    [-100.774075, 41.090012]   # Closing the polygon
+]
+
+
+    polygon_data = {
+        "name": POLYGON_NAME,
+        "geo_json": {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [coordinates]
+            }
+        }
+    }
+
+    headers = {"Content-Type": "application/json"}
+
+    response = requests.post(
+        POLYGON_API_URL,
+        params={"appid": API_KEY},
+        headers=headers,
+        data=json.dumps(polygon_data)
+    )
+
+    if response.status_code == 201:
+        logger.info("Polygon created successfully")
+        return response.json()['id']
+    else:
+        logger.error(f"Error creating polygon. Status code: {response.status_code}")
+        logger.error(response.text)
+        return None
+
+def get_latest_ndvi(polygon_id):
+    end_date = int(datetime.now().timestamp())
+    start_date = end_date - 30 * 24 * 60 * 60
+
+    params = {
+        "polyid": polygon_id,
+        "start": start_date,
+        "end": end_date,
+        "appid": API_KEY
+    }
+
+    response = requests.get(NDVI_API_URL, params=params)
+    if response.status_code != 200:
+        logger.error(f"Failed to fetch NDVI data: {response.status_code}")
+        return None
+
+    data = response.json()
+    if not data:
+        logger.warning("No NDVI data available")
+        return None
+
+    latest_entry = sorted(data, key=lambda x: x['dt'], reverse=True)[0]
+    return latest_entry['data']['mean']
+
+def calculate_lai(ndvi):
+    return 0.57 * math.exp(2.33 * ndvi)
+
+def celsius_to_kelvin(temp_celsius):
+    return temp_celsius + 273.15
+
+def saturated_vapor_pressure(temperature_celsius):
+    return 0.6108 * np.exp(17.27 * temperature_celsius / (temperature_celsius + 237.3))
+
+def vapor_pressure_deficit(temperature_celsius, relative_humidity):
+    es = saturated_vapor_pressure(temperature_celsius)
+    ea = es * (relative_humidity / 100)
+    return es - ea
+
+def net_radiation(solar_radiation, air_temp_celsius, canopy_temp_celsius, surface_albedo=0.23, emissivity_a=0.85, emissivity_c=0.98):
+    air_temp_kelvin = celsius_to_kelvin(air_temp_celsius)
+    canopy_temp_kelvin = celsius_to_kelvin(canopy_temp_celsius)
+    Rns = (1 - surface_albedo) * solar_radiation
+    Rnl = emissivity_c * STEFAN_BOLTZMANN * canopy_temp_kelvin**4 - emissivity_a * STEFAN_BOLTZMANN * air_temp_kelvin**4
+    return Rns - Rnl
+
+def soil_heat_flux(net_radiation, lai):
+    return net_radiation * np.exp(-0.6 * lai)
+
+def aerodynamic_resistance(wind_speed, measurement_height, zero_plane_displacement, roughness_length):
+    return (np.log((measurement_height - zero_plane_displacement) / roughness_length) * 
+            np.log((measurement_height - zero_plane_displacement) / (roughness_length * 0.1))) / (K**2 * wind_speed)
+
+def psychrometric_constant(atmospheric_pressure_pa):
+    return (CP * atmospheric_pressure_pa) / (0.622 * 2.45e6)
+
+def slope_saturation_vapor_pressure(temperature_celsius):
+    return 4098 * saturated_vapor_pressure(temperature_celsius) / (temperature_celsius + 237.3)**2
+
+def convert_wind_speed(u3, crop_height):
+    z0 = 0.1 * crop_height
+    return u3 * (np.log(2/z0) / np.log(3/z0))
+
+def calculate_cwsi_th1(row, crop_height, lai, latitude, surface_albedo=0.23):
+    Ta = row['Ta_2m_Avg']
+    RH = row['RH_2m_Avg']
+    Rs = row['Solar_2m_Avg']
+    u3 = row['WndAveSpd_3m']
+    P = row['PresAvg_1pnt5m'] * 100
+    Tc = row['canopy_temp']
+    
+    u2 = convert_wind_speed(u3, crop_height)
+    
+    if u2 < 0.5 or Ta > 40 or Ta < 0 or RH < 10 or RH > 100:
+        logger.warning(f"Extreme weather conditions: u2={u2}, Ta={Ta}, RH={RH}")
+        return None
+    
+    VPD = vapor_pressure_deficit(Ta, RH)
+    Rn = net_radiation(Rs, Ta, Tc, surface_albedo)
+    G = soil_heat_flux(Rn, lai)
+    
+    zero_plane_displacement = 0.67 * crop_height
+    roughness_length = 0.123 * crop_height
+    
+    ra = aerodynamic_resistance(u2, 2, zero_plane_displacement, roughness_length)
+    γ = psychrometric_constant(P)
+    Δ = slope_saturation_vapor_pressure(Ta)
+    
+    ρ = P / (287.05 * celsius_to_kelvin(Ta))
+    
+    numerator = (Tc - Ta) - ((ra * (Rn - G)) / (ρ * CP)) + (VPD / γ)
+    denominator = ((Δ + γ) * ra * (Rn - G)) / (ρ * CP * γ) + (VPD / γ)
+    
+    if denominator == 0:
+        logger.warning(f"Division by zero encountered: denominator={denominator}")
+        return None
+    
+    cwsi = numerator / denominator
+    
+    logger.debug(f"CWSI calculation: Ta={Ta}, RH={RH}, u2={u2}, Tc={Tc}, CWSI={cwsi}")
+    
+    if cwsi < 0 or cwsi > 1.5:
+        logger.warning(f"CWSI value out of extended range: {cwsi}")
+        return None
+    
+    return cwsi
+
+def get_bigquery_client():
+    logger.info("Initializing BigQuery client")
+    return bigquery.Client()
+
+def get_irt_tables(client):
+    logger.info("Retrieving IRT tables for treatment 1")
+    dataset = 'LINEAR_CORN_trt1'
+    query = f"""
+    SELECT table_name
+    FROM `crop2cloud24.{dataset}.INFORMATION_SCHEMA.TABLES`
+    WHERE table_name LIKE 'plot_%'
+    """
+    query_job = client.query(query)
+    results = query_job.result()
+    
+    irt_tables = []
+    for row in results:
+        table_name = row['table_name']
+        schema_query = f"""
+        SELECT column_name
+        FROM `crop2cloud24.{dataset}.INFORMATION_SCHEMA.COLUMNS`
+        WHERE table_name = '{table_name}' AND column_name LIKE 'IRT%' AND column_name NOT LIKE '%_pred'
+        """
+        schema_job = client.query(schema_query)
+        schema_results = schema_job.result()
+        if schema_results.total_rows > 0:
+            irt_tables.append(f"{dataset}.{table_name}")
+    
+    logger.info(f"Found {len(irt_tables)} tables with IRT sensors in treatment 1: {irt_tables}")
+    return irt_tables
+
+def get_unprocessed_data(client, table_name, irt_column):
+    logger.info(f"Retrieving unprocessed data for table {table_name}")
+    seven_days_ago = datetime.now(pytz.UTC) - timedelta(days=10)
+    query = f"""
+    SELECT TIMESTAMP, {irt_column}, is_actual
+    FROM `crop2cloud24.{table_name}`
+    WHERE TIMESTAMP >= '{seven_days_ago.isoformat()}'
+    ORDER BY TIMESTAMP
+    """
+    df = client.query(query).to_dataframe()
+    logger.info(f"Retrieved {len(df)} rows for table {table_name}")
+    return df
+
+def get_weather_data(client, start_time, end_time):
+    logger.info(f"Retrieving weather data from {start_time} to {end_time}")
+    query = f"""
+    SELECT *
+    FROM `crop2cloud24.weather.current-weather-mesonet`
+    WHERE TIMESTAMP BETWEEN '{start_time}' AND '{end_time}'
+    ORDER BY TIMESTAMP
+    """
+    df = client.query(query).to_dataframe()
+    logger.info(f"Retrieved {len(df)} weather data rows")
+    return df
+
+def update_cwsi(client, table_name, df_cwsi):
+    logger.info(f"Updating CWSI for table {table_name}")
+    
+    seven_days_ago = datetime.now(pytz.UTC) - timedelta(days=7)
+    delete_query = f"""
+    DELETE FROM `crop2cloud24.{table_name}`
+    WHERE TIMESTAMP >= '{seven_days_ago.isoformat()}' AND cwsi IS NOT NULL
+    """
+    client.query(delete_query).result()
+    
+    df_cwsi['TIMESTAMP'] = df_cwsi['TIMESTAMP'].apply(lambda x: x.replace(minute=1, second=0, microsecond=0))
+
+    job_config = bigquery.LoadJobConfig(
+        schema=[
+            bigquery.SchemaField("TIMESTAMP", "TIMESTAMP", mode="REQUIRED"),
+            bigquery.SchemaField("cwsi", "FLOAT", mode="NULLABLE"),
+            bigquery.SchemaField("is_actual", "BOOLEAN", mode="REQUIRED"),
+        ],
+        write_disposition="WRITE_APPEND",
+    )
+    
+    table_ref = client.dataset(table_name.split('.')[0]).table(table_name.split('.')[1])
+    
+    job = client.load_table_from_dataframe(df_cwsi, table_ref, job_config=job_config)
+    job.result()
+    
+    logger.info(f"Successfully updated CWSI for table {table_name}. Rows processed: {len(df_cwsi)}")
+
+def compute_cwsi(request):
+    start_time = time.time()
+    logger.info("Starting CWSI computation")
+    
+    polygon_id = get_or_create_polygon()
+    if polygon_id is None:
+        logger.error("Failed to get or create polygon. Aborting CWSI computation.")
+        return "CWSI computation aborted due to polygon retrieval/creation failure."
+    
+    latest_ndvi = get_latest_ndvi(polygon_id)
+    if latest_ndvi is None:
+        logger.error("Failed to retrieve NDVI data. Aborting CWSI computation.")
+        return "CWSI computation aborted due to NDVI data retrieval failure."
+    
+    LAI = calculate_lai(latest_ndvi)
+    logger.info(f"Using NDVI: {latest_ndvi}, Calculated LAI: {LAI}")
+    
+    client = get_bigquery_client()
+    irt_tables = get_irt_tables(client)
+
+    total_processed = 0
+    for table_name in irt_tables:
+        logger.info(f"Processing table: {table_name}")
+        
+        try:
+            schema_query = f"""
+            SELECT column_name
+            FROM `crop2cloud24.{table_name.split('.')[0]}.INFORMATION_SCHEMA.COLUMNS`
+            WHERE table_name = '{table_name.split('.')[1]}' AND column_name LIKE 'IRT%' AND column_name NOT LIKE '%_pred'
+            """
+            schema_job = client.query(schema_query)
+            schema_results = schema_job.result()
+            irt_column = next(schema_results)[0]
+            logger.info(f"IRT column for table {table_name}: {irt_column}")
+            
+            df = get_unprocessed_data(client, table_name, irt_column)
+            
+            if df.empty:
+                logger.info(f"No unprocessed data for table {table_name}")
+                continue
+            
+            logger.info(f"Processing {len(df)} rows for table {table_name}")
+            
+            df['TIMESTAMP_CST'] = df['TIMESTAMP'].dt.tz_convert('America/Chicago')
+            df = df[(df['TIMESTAMP_CST'].dt.hour >= 12) & (df['TIMESTAMP_CST'].dt.hour < 17)]
+            
+            if df.empty:
+                logger.info(f"No data within 12 PM to 5 PM CST for table {table_name}")
+                continue
+            
+            start_time_weather = df['TIMESTAMP'].min()
+            end_time_weather = df['TIMESTAMP'].max()
+            
+            weather_data = get_weather_data(client, start_time_weather, end_time_weather)
+            
+            df = df.sort_values('TIMESTAMP')
+            weather_data = weather_data.sort_values('TIMESTAMP')
+            
+            df = pd.merge_asof(df, weather_data, on='TIMESTAMP', direction='nearest')
+            
+            df['canopy_temp'] = df[irt_column]
+            logger.info(f"Calculating CWSI for {len(df)} rows")
+            df['cwsi'] = df.apply(lambda row: calculate_cwsi_th1(row, CROP_HEIGHT, LAI, LATITUDE, SURFACE_ALBEDO), axis=1)
+            df_cwsi = df[['TIMESTAMP', 'cwsi', 'is_actual']].dropna()
+            
+            update_cwsi(client, table_name, df_cwsi)
+            
+            total_processed += len(df_cwsi)
+            logger.info(f"Processed {len(df_cwsi)} rows for table {table_name}")
+        
+        except Exception as e:
+            logger.error(f"Error processing table {table_name}: {str(e)}")
+            continue
+
+    end_time = time.time()
+    duration = end_time - start_time
+    logger.info(f"CWSI computation completed. Total rows processed: {total_processed}")
+    logger.info(f"Total execution time: {duration:.2f} seconds")
+    return f"CWSI computation completed. Total rows processed: {total_processed}. Execution time: {duration:.2f} seconds"
+
+if __name__ == "__main__":
+    compute_cwsi(None)
+        </content>
+    </file>
+    <file>
+        <name>compute-swsi.py</name>
+        <path>cloud-functions\compute-swsi.py</path>
+        <content>
+import os
+from google.cloud import bigquery
+from datetime import datetime, timedelta
+import pytz
+import logging
+import pandas as pd
+import numpy as np
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# BigQuery details
+PROJECT_ID = "crop2cloud24"
+DATASET_ID = "LINEAR_CORN_trt1"
+
+def calculate_swsi(vwc_values):
+    """Calculate SWSI for a set of VWC values."""
+    MAD = 0.5  # management allowed depletion
+    VWC_WP = 0.11  # volumetric water content at wilting point
+    VWC_FC = 0.29  # volumetric water content at field capacity
+    AWC = VWC_FC - VWC_WP  # Available water capacity of soil
+    VWC_MAD = VWC_FC - MAD * AWC  # threshold for triggering irrigation
+
+    valid_vwc = [vwc for vwc in vwc_values if pd.notna(vwc)]
+    
+    if len(valid_vwc) > 2:
+        avg_vwc = np.mean(valid_vwc) / 100  # Convert from percentage to fraction
+        if avg_vwc < VWC_MAD:
+            return abs(avg_vwc - VWC_MAD) / (VWC_MAD - VWC_WP)
+    return None
+
+def get_plot_data(client, plot_number, start_time, end_time):
+    tdr_columns = {
+        5006: ["TDR5006B10624", "TDR5006B11824", "TDR5006B13024", "TDR5006B14224"],
+        5010: ["TDR5010C10624", "TDR5010C11824", "TDR5010C13024"],
+        5023: ["TDR5023A10624", "TDR5023A11824", "TDR5023A13024", "TDR5023A14224"]
+    }
+    
+    columns = ", ".join(tdr_columns[plot_number])
+    query = f"""
+    SELECT TIMESTAMP, {columns}
+    FROM `{PROJECT_ID}.{DATASET_ID}.plot_{plot_number}`
+    WHERE TIMESTAMP BETWEEN '{start_time}' AND '{end_time}'
+      AND is_actual = TRUE
+    ORDER BY TIMESTAMP
+    """
+    logger.info(f"Executing query: {query}")
+    try:
+        query_job = client.query(query)
+        return list(query_job.result())  # Materialize the results
+    except Exception as e:
+        logger.error(f"Error querying data for plot {plot_number}: {str(e)}")
+        return []
+
+def get_table_schema(client, table_id):
+    try:
+        table = client.get_table(f"{PROJECT_ID}.{DATASET_ID}.{table_id}")
+        return table.schema
+    except Exception as e:
+        logger.error(f"Error getting schema for table {table_id}: {str(e)}")
+        return None
+
+def insert_into_bigquery(client, table_id, data_list):
+    if not data_list:
+        logger.warning(f"No data to insert into {table_id}")
+        return
+
+    table_ref = client.dataset(DATASET_ID).table(table_id)
+    
+    # Get the existing schema
+    schema = get_table_schema(client, table_id)
+    if not schema:
+        logger.error(f"Unable to get schema for table {table_id}")
+        return
+
+    job_config = bigquery.LoadJobConfig(schema=schema)
+    job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
+
+    try:
+        job = client.load_table_from_json(data_list, table_ref, job_config=job_config)
+        job.result()  # Wait for the job to complete
+        logger.info(f"{len(data_list)} rows have been added successfully to {table_id}.")
+    except Exception as e:
+        logger.error(f"Error inserting data into {table_id}: {str(e)}")
+        raise
+
+def compute_swsi(request):
+    try:
+        logger.info("Starting SWSI computation function")
+        client = bigquery.Client()
+        plot_numbers = [5006, 5010, 5023]  # Treatment 1 plot numbers
+        
+        end_time = datetime.now(pytz.UTC)
+        start_time = end_time - timedelta(days=7)  # Process last 7 days of data
+        
+        for plot_number in plot_numbers:
+            logger.info(f"Processing plot {plot_number}")
+            rows = get_plot_data(client, plot_number, start_time, end_time)
+            
+            if not rows:
+                logger.warning(f"No data retrieved for plot {plot_number}")
+                continue
+
+            swsi_data = []
+            for row in rows:
+                vwc_values = [row[col] for col in row.keys() if col.startswith(f"TDR{plot_number}")]
+                swsi = calculate_swsi(vwc_values)
+                if swsi is not None:
+                    swsi_data.append({
+                        "TIMESTAMP": row["TIMESTAMP"].isoformat(),
+                        "swsi": swsi,
+                        "is_actual": True  # Set to True as per existing schema
+                    })
+            
+            logger.info(f"Calculated SWSI for {len(swsi_data)} timestamps in plot {plot_number}")
+            
+            if swsi_data:
+                table_id = f"plot_{plot_number}"
+                insert_into_bigquery(client, table_id, swsi_data)
+            else:
+                logger.warning(f"No SWSI data calculated for plot {plot_number}")
+        
+        logger.info("SWSI computation completed successfully")
+        return 'SWSI computation completed successfully', 200
+    except Exception as e:
+        logger.error(f"Error computing SWSI: {str(e)}", exc_info=True)
+        return f'Error computing SWSI: {str(e)}', 500
+
+# For local testing
+if __name__ == "__main__":
+    compute_swsi(None)
+        </content>
+    </file>
+    <file>
+        <name>current-openweathermap.py</name>
+        <path>cloud-functions\current-openweathermap.py</path>
+        <content>
+import os
+import requests
+from google.cloud import bigquery
+from datetime import datetime
+import pytz
+import logging
+import json
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# OpenWeatherMap API details
+API_KEY = os.environ.get('OPENWEATHERMAP_API_KEY')
+BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+
+# BigQuery details
+PROJECT_ID = "crop2cloud24"
+DATASET_ID = "weather"
+TABLE_ID = "current-openweathermap"
+
+def get_current_weather(lat, lon):
+    params = {
+        'lat': lat,
+        'lon': lon,
+        'appid': API_KEY,
+        'units': 'metric'
+    }
+    logger.info(f"Requesting current weather data for coordinates: {lat}, {lon}")
+    response = requests.get(BASE_URL, params=params)
+    response.raise_for_status()
+    logger.info("Successfully retrieved current weather data")
+    return response.json()
+
+def map_weather_data(data):
+    logger.info("Mapping weather data to BigQuery schema")
+    cst = pytz.timezone('America/Chicago')
+    timestamp = datetime.now(pytz.UTC).astimezone(cst)
+    mapped_data = {
+        'TIMESTAMP': timestamp.isoformat(),
+        'Ta_2m_Avg': data['main']['temp'],
+        'TaMax_2m': data['main']['temp_max'],
+        'TaMin_2m': data['main']['temp_min'],
+        'RH_2m_Avg': data['main']['humidity'],
+        'Dp_2m_Avg': data['main'].get('dew_point'),
+        'WndAveSpd_3m': data['wind']['speed'],
+        'WndAveDir_3m': data['wind']['deg'],
+        'WndMaxSpd5s_3m': data['wind'].get('gust'),
+        'PresAvg_1pnt5m': data['main']['pressure'],
+        'Rain_1m_Tot': data['rain']['1h'] if 'rain' in data else 0,
+        'UV_index': data.get('uvi', 0),
+        'Visibility': data['visibility'],
+        'Clouds': data['clouds']['all']
+    }
+    logger.info(f"Mapped data: {json.dumps(mapped_data, indent=2)}")
+    return mapped_data
+
+def ensure_table_exists(client):
+    dataset_ref = client.dataset(DATASET_ID)
+    table_ref = dataset_ref.table(TABLE_ID)
+    
+    try:
+        client.get_table(table_ref)
+        logger.info(f"Table {PROJECT_ID}.{DATASET_ID}.{TABLE_ID} already exists")
+    except Exception as e:
+        logger.info(f"Table {PROJECT_ID}.{DATASET_ID}.{TABLE_ID} does not exist. Creating it now.")
+        schema = [
+            bigquery.SchemaField("TIMESTAMP", "TIMESTAMP"),
+            bigquery.SchemaField("Ta_2m_Avg", "FLOAT"),
+            bigquery.SchemaField("TaMax_2m", "FLOAT"),
+            bigquery.SchemaField("TaMin_2m", "FLOAT"),
+            bigquery.SchemaField("RH_2m_Avg", "FLOAT"),
+            bigquery.SchemaField("Dp_2m_Avg", "FLOAT"),
+            bigquery.SchemaField("WndAveSpd_3m", "FLOAT"),
+            bigquery.SchemaField("WndAveDir_3m", "FLOAT"),
+            bigquery.SchemaField("WndMaxSpd5s_3m", "FLOAT"),
+            bigquery.SchemaField("PresAvg_1pnt5m", "FLOAT"),
+            bigquery.SchemaField("Rain_1m_Tot", "FLOAT"),
+            bigquery.SchemaField("UV_index", "FLOAT"),
+            bigquery.SchemaField("Visibility", "FLOAT"),
+            bigquery.SchemaField("Clouds", "FLOAT")
+        ]
+        table = bigquery.Table(table_ref, schema=schema)
+        try:
+            client.create_table(table)
+            logger.info(f"Created table {PROJECT_ID}.{DATASET_ID}.{TABLE_ID}")
+        except Exception as create_error:
+            logger.error(f"Error creating table: {str(create_error)}")
+            raise
+
+def insert_into_bigquery(data):
+    client = bigquery.Client()
+    ensure_table_exists(client)
+    table_ref = client.dataset(DATASET_ID).table(TABLE_ID)
+    
+    errors = client.insert_rows_json(table_ref, [data])
+    if errors:
+        logger.error(f"Errors inserting rows: {errors}")
+    else:
+        logger.info("New row has been added successfully.")
+
+def current_weather_function(request):
+    try:
+        logger.info("Starting current weather function")
+        lat, lon = 41.089075, -100.773775
+        
+        weather_data = get_current_weather(lat, lon)
+        mapped_data = map_weather_data(weather_data)
+        insert_into_bigquery(mapped_data)
+        
+        logger.info("Current weather data processed successfully")
+        return 'Current weather data processed successfully', 200
+    except Exception as e:
+        logger.error(f"Error processing current weather data: {str(e)}", exc_info=True)
+        return f'Error processing current weather data: {str(e)}', 500
+        </content>
+    </file>
+    <file>
+        <name>four-day-forecast-openweathermap.py</name>
+        <path>cloud-functions\four-day-forecast-openweathermap.py</path>
+        <content>
+import os
+import requests
+from google.cloud import bigquery
+from datetime import datetime
+import pytz
+import logging
+import json
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# OpenWeatherMap API details
+API_KEY = os.environ.get('OPENWEATHERMAP_API_KEY')
+BASE_URL = "https://api.openweathermap.org/data/2.5/forecast"
+
+# BigQuery details
+PROJECT_ID = "crop2cloud24"
+DATASET_ID = "weather"
+TABLE_ID = "4-day-forecast-openweathermap"
+
+def get_forecast(lat, lon):
+    params = {
+        'lat': lat,
+        'lon': lon,
+        'appid': API_KEY,
+        'units': 'metric'
+    }
+    logger.info(f"Requesting forecast data for coordinates: {lat}, {lon}")
+    response = requests.get(BASE_URL, params=params)
+    response.raise_for_status()
+    logger.info("Successfully retrieved forecast data")
+    return response.json()
+
+def map_forecast_data(forecast_item):
+    logger.info("Mapping forecast data to BigQuery schema")
+    cst = pytz.timezone('America/Chicago')
+    timestamp = datetime.fromtimestamp(forecast_item['dt'], pytz.UTC).astimezone(cst)
+    mapped_data = {
+        'TIMESTAMP': timestamp.isoformat(),
+        'Ta_2m_Avg': forecast_item['main']['temp'],
+        'TaMax_2m': forecast_item['main']['temp_max'],
+        'TaMin_2m': forecast_item['main']['temp_min'],
+        'RH_2m_Avg': forecast_item['main']['humidity'],
+        'Dp_2m_Avg': forecast_item['main'].get('dew_point'),
+        'WndAveSpd_3m': forecast_item['wind']['speed'],
+        'WndAveDir_3m': forecast_item['wind']['deg'],
+        'WndMaxSpd5s_3m': forecast_item['wind'].get('gust'),
+        'PresAvg_1pnt5m': forecast_item['main']['pressure'],
+        'Rain_1m_Tot': forecast_item['rain']['3h'] if 'rain' in forecast_item else 0,
+        'UV_index': 0,  # Forecast doesn't include UV index
+        'Visibility': forecast_item.get('visibility', 0),
+        'Clouds': forecast_item['clouds']['all']
+    }
+    logger.info(f"Mapped data: {json.dumps(mapped_data, indent=2)}")
+    return mapped_data
+
+def ensure_table_exists(client):
+    dataset_ref = client.dataset(DATASET_ID)
+    table_ref = dataset_ref.table(TABLE_ID)
+    
+    try:
+        client.get_table(table_ref)
+        logger.info(f"Table {PROJECT_ID}.{DATASET_ID}.{TABLE_ID} already exists")
+    except Exception as e:
+        logger.info(f"Table {PROJECT_ID}.{DATASET_ID}.{TABLE_ID} does not exist. Creating it now.")
+        schema = [
+            bigquery.SchemaField("TIMESTAMP", "TIMESTAMP"),
+            bigquery.SchemaField("Ta_2m_Avg", "FLOAT"),
+            bigquery.SchemaField("TaMax_2m", "FLOAT"),
+            bigquery.SchemaField("TaMin_2m", "FLOAT"),
+            bigquery.SchemaField("RH_2m_Avg", "FLOAT"),
+            bigquery.SchemaField("Dp_2m_Avg", "FLOAT"),
+            bigquery.SchemaField("WndAveSpd_3m", "FLOAT"),
+            bigquery.SchemaField("WndAveDir_3m", "FLOAT"),
+            bigquery.SchemaField("WndMaxSpd5s_3m", "FLOAT"),
+            bigquery.SchemaField("PresAvg_1pnt5m", "FLOAT"),
+            bigquery.SchemaField("Rain_1m_Tot", "FLOAT"),
+            bigquery.SchemaField("UV_index", "FLOAT"),
+            bigquery.SchemaField("Visibility", "FLOAT"),
+            bigquery.SchemaField("Clouds", "FLOAT")
+        ]
+        table = bigquery.Table(table_ref, schema=schema)
+        table.time_partitioning = bigquery.TimePartitioning(
+            type_=bigquery.TimePartitioningType.DAY,
+            field="TIMESTAMP"
+        )
+        try:
+            client.create_table(table)
+            logger.info(f"Created table {PROJECT_ID}.{DATASET_ID}.{TABLE_ID}")
+        except Exception as create_error:
+            logger.error(f"Error creating table: {str(create_error)}")
+            raise
+
+def insert_into_bigquery(data_list):
+    client = bigquery.Client()
+    ensure_table_exists(client)
+    table_ref = client.dataset(DATASET_ID).table(TABLE_ID)
+    
+    job_config = bigquery.LoadJobConfig()
+    job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
+    job_config.autodetect = True
+
+    job = client.load_table_from_json(data_list, table_ref, job_config=job_config)
+    job.result()  # Wait for the job to complete
+
+    logger.info(f"{len(data_list)} rows have been added/updated successfully.")
+
+def four_day_forecast_openweathermap(request):
+    try:
+        logger.info("Starting 4-day forecast function")
+        lat, lon = 41.089075, -100.773775
+        
+        forecast_data = get_forecast(lat, lon)
+        mapped_data_list = [map_forecast_data(item) for item in forecast_data['list']]
+        
+        insert_into_bigquery(mapped_data_list)
+        
+        logger.info("Forecast data processed successfully")
+        return 'Forecast data processed successfully', 200
+    except Exception as e:
+        logger.error(f"Error processing forecast data: {str(e)}", exc_info=True)
+        return f'Error processing forecast data: {str(e)}', 500
+        </content>
+    </file>
+    <file>
+        <name>mesonet-weather-updater.py</name>
+        <path>cloud-functions\mesonet-weather-updater.py</path>
+        <content>
+import requests
+import os
+import pandas as pd
+import numpy as np
+from google.cloud import bigquery
+from pytz import timezone
+from datetime import datetime
+import logging
+
+from flask import jsonify
+
+# URL and target file
+base_url = "https://data.mesonet.unl.edu/data/north_platte_3sw_beta/latest/sincelast/"
+file_to_download = "North_Platte_3SW_Beta_1min.csv"
+
+# BigQuery table details
+project_id = "crop2cloud24"
+dataset_id = "weather"
+table_id = "current-weather-mesonet"
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+class DateTimeConverter:
+    @staticmethod
+    def to_utc(timestamp):
+        central = timezone('America/Chicago')
+        if timestamp.tzinfo is None:
+            # Assume Central Time if no timezone info
+            timestamp = central.localize(timestamp)
+        return timestamp.astimezone(timezone('UTC'))
+
+class DataParser:
+    def __init__(self, table_name):
+        self.table_name = table_name
+        self.cwd = "/tmp"  # Use /tmp directory in Cloud Functions
+
+    def parse_weather_csv(self, filename):
+        def date_parser(date_string):
+            return pd.to_datetime(date_string, format="%Y-%m-%d %H:%M:%S", errors="coerce")
+
+        filename = os.path.join(self.cwd, filename)
+
+        try:
+            df = pd.read_csv(
+                filename,
+                header=1,
+                skiprows=[2, 3],
+                parse_dates=["TIMESTAMP"],
+                date_parser=date_parser,
+            )
+            logger.info(f"Successfully read CSV file: {filename}")
+            print("DataFrame after reading CSV:")
+            print(df.head())
+        except Exception as e:
+            logger.error(f"Error reading CSV file: {filename}. Error: {str(e)}")
+            raise
+
+        df = df.rename(columns=lambda x: x.strip())
+        df["TIMESTAMP"] = pd.to_datetime(df["TIMESTAMP"], errors="coerce")
+        df = df.dropna(subset=["TIMESTAMP"])
+        df["TIMESTAMP"] = df["TIMESTAMP"].apply(DateTimeConverter.to_utc)
+        df = df.set_index("TIMESTAMP")
+        df = df.apply(pd.to_numeric, errors="coerce")
+
+        # Remove columns that are not in the BigQuery table schema
+        columns_to_remove = ['BattVolts_Min', 'LithBatt_Min', 'MaintMode']
+        df = df.drop(columns=columns_to_remove, errors='ignore')
+
+        print("DataFrame after processing:")
+        print(df.head())
+        print("Columns:", df.columns.tolist())
+        print("Index:", df.index.tolist())
+
+        return df
+
+def ensure_dataset_and_table_exist(client, project_id, dataset_id, table_id, schema):
+    dataset_ref = client.dataset(dataset_id, project=project_id)
+    try:
+        client.get_dataset(dataset_ref)
+    except Exception:
+        dataset = bigquery.Dataset(dataset_ref)
+        dataset = client.create_dataset(dataset)
+        logger.info(f"Dataset {dataset_id} created.")
+
+    table_ref = dataset_ref.table(table_id)
+    try:
+        client.get_table(table_ref)
+    except Exception:
+        table = bigquery.Table(table_ref, schema=schema)
+        table = client.create_table(table)
+        logger.info(f"Table {table_id} created.")
+
+def download_and_process_data():
+    logger.info("Function execution started")
+
+    try:
+        os.makedirs("/tmp", exist_ok=True)
+        logger.info("Temporary directory created")
+    except Exception as e:
+        logger.error(f"Error creating temporary directory. Error: {str(e)}")
+        raise
+
+    full_url = f"{base_url}{file_to_download}"
+    try:
+        r = requests.get(full_url, allow_redirects=True)
+        r.raise_for_status()
+        logger.info(f"Successfully downloaded file: {file_to_download}")
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error downloading file: {file_to_download}. Error: {str(e)}")
+        raise
+
+    if r.status_code == 200:
+        try:
+            with open(f"/tmp/{file_to_download}", "wb") as f_out:
+                f_out.write(r.content)
+            logger.info(f"File saved: {file_to_download}")
+        except Exception as e:
+            logger.error(f"Error saving file: {file_to_download}. Error: {str(e)}")
+            raise
+
+    parser = DataParser(f"{project_id}.{dataset_id}.{table_id}")
+    try:
+        df = parser.parse_weather_csv(f"/tmp/{file_to_download}")
+        logger.info("CSV file parsed successfully")
+        logger.info(f"Parsed DataFrame:\n{df.head()}")
+    except Exception as e:
+        logger.error(f"Error parsing CSV file. Error: {str(e)}")
+        raise
+
+    client = bigquery.Client()
+
+    schema = [
+        bigquery.SchemaField("TIMESTAMP", "TIMESTAMP"),  # Changed to TIMESTAMP
+        bigquery.SchemaField("RECORD", "FLOAT"),
+        bigquery.SchemaField("Ta_2m_Avg", "FLOAT"),
+        bigquery.SchemaField("TaMax_2m", "FLOAT"),
+        bigquery.SchemaField("TaMaxTime_2m", "FLOAT"),
+        bigquery.SchemaField("TaMin_2m", "FLOAT"),
+        bigquery.SchemaField("TaMinTime_2m", "FLOAT"),
+        bigquery.SchemaField("RH_2m_Avg", "FLOAT"),
+        bigquery.SchemaField("RHMax_2m", "FLOAT"),
+        bigquery.SchemaField("RHMaxTime_2m", "FLOAT"),
+        bigquery.SchemaField("RHMin_2m", "FLOAT"),
+        bigquery.SchemaField("RHMinTime_2m", "FLOAT"),
+        bigquery.SchemaField("Dp_2m_Avg", "FLOAT"),
+        bigquery.SchemaField("DpMax_2m", "FLOAT"),
+        bigquery.SchemaField("DpMaxTime_2m", "FLOAT"),
+        bigquery.SchemaField("DpMin_2m", "FLOAT"),
+        bigquery.SchemaField("DpMinTime_2m", "FLOAT"),
+        bigquery.SchemaField("HeatIndex_2m_Avg", "FLOAT"),
+        bigquery.SchemaField("HeatIndexMax_2m", "FLOAT"),
+        bigquery.SchemaField("HeatIndexMaxTime_2m", "FLOAT"),
+        bigquery.SchemaField("WindChill_2m_Avg", "FLOAT"),
+        bigquery.SchemaField("WindChillMin_2m", "FLOAT"),
+        bigquery.SchemaField("WindChillMinTime_2m", "FLOAT"),
+        bigquery.SchemaField("WndAveSpd_3m", "FLOAT"),
+        bigquery.SchemaField("WndVecMagAve_3m", "FLOAT"),
+        bigquery.SchemaField("WndAveDir_3m", "FLOAT"),
+        bigquery.SchemaField("WndAveDirSD_3m", "FLOAT"),
+        bigquery.SchemaField("WndMaxSpd5s_3m", "FLOAT"),
+        bigquery.SchemaField("WndMaxSpd5sTime_3m", "FLOAT"),
+        bigquery.SchemaField("WndMax_5sec_Dir_3m", "FLOAT"),
+        bigquery.SchemaField("PresAvg_1pnt5m", "FLOAT"),
+        bigquery.SchemaField("PresMax_1pnt5m", "FLOAT"),
+        bigquery.SchemaField("PresMaxTime_1pnt5m", "FLOAT"),
+        bigquery.SchemaField("PresMin_1pnt5m", "FLOAT"),
+        bigquery.SchemaField("PresMinTime_1pnt5m", "FLOAT"),
+        bigquery.SchemaField("Solar_2m_Avg", "FLOAT"),
+        bigquery.SchemaField("Rain_1m_Tot", "FLOAT"),
+        bigquery.SchemaField("Ts_bare_10cm_Avg", "FLOAT"),
+        bigquery.SchemaField("TsMax_bare_10cm", "FLOAT"),
+        bigquery.SchemaField("TsMaxTime_bare_10cm", "FLOAT"),
+        bigquery.SchemaField("TsMin_bare_10cm", "FLOAT"),
+        bigquery.SchemaField("TsMinTime_bare_10cm", "FLOAT"),
+    ]
+
+    # Ensure dataset and table exist
+    ensure_dataset_and_table_exist(client, project_id, dataset_id, table_id, schema)
+
+    job_config = bigquery.LoadJobConfig(
+        schema=schema,
+        write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+    )
+
+    try:
+        job = client.load_table_from_dataframe(
+            df.reset_index(),  # Reset index to include TIMESTAMP as a column
+            f"{project_id}.{dataset_id}.{table_id}",
+            job_config=job_config,
+        )
+        job.result()
+        logger.info("Data loaded into BigQuery table successfully")
+    except Exception as e:
+        logger.error(f"Error loading data into BigQuery table. Error: {str(e)}")
+        raise
+
+    logger.info("Function execution completed")
+
+def entry_point(request):
+    try:
+        download_and_process_data()
+        return jsonify({"message": "Data processed successfully"}), 200
+    except Exception as e:
+        logger.error(f"Error in entry_point function: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+        </content>
+    </file>
+    </directory>
+    <directory name="config">
+    <file>
+        <name>config.yaml</name>
+        <path>config\config.yaml</path>
+        <content>
+# Node configuration
+node_id: "LINEAR_CORN_A"  # Change this for each node
+
+# Node-specific configurations
+node_configs:
+  LINEAR_CORN_A:
+    lora:
+      dev_addr: "260CA983"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_CORN_B:
+    lora:
+      dev_addr: "260CA984"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_CORN_C:
+    lora:
+      dev_addr: "260CA985"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_SOY_A:
+    lora:
+      dev_addr: "260CA986"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_SOY_B:
+    lora:
+      dev_addr: "260CA987"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  LINEAR_SOY_C:
+    lora:
+      dev_addr: "260CA988"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  SDI1_CORN_A:
+    lora:
+      dev_addr: "260CA989"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  SDI1_CORN_B:
+    lora:
+      dev_addr: "260CA98A"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  SDI1_SOY_A:
+    lora:
+      dev_addr: "260CA98B"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+  SDI1_SOY_B:
+    lora:
+      dev_addr: "260CA98C"
+      apps_key: "524F13A6AB0FAF4F92FFEA257DF53423"
+      nwks_key: "E31284DAC1D3AED6A72CCDA217046B35"
+
+# Common configurations
+datalogger:
+  port: "/dev/ttyUSB0"
+  baud_rate: 38400
+
+database:
+  name: "data/{node_id}.db"
+
+lora:
+  region: "US915"
+  data_rate: 3
+
+schedule:
+  interval_minutes: 30
+  transmission_window: 300  # 5 minutes
+  min_interval: 10  # 10 seconds minimum between transmissions
+
+sensor_metadata: "config/sensor_mapping.yaml"
+
+# Option to clip float values
+clip_floats: true  # Set to true to clip float values to 2 decimal places
+
+# Reboot settings
+reboot:
+  max_failures: 3  # Maximum number of consecutive failures before reboot
+  max_reboots: 5   # Maximum number of automatic reboots before halting
+
+# Systemd service configuration
+systemd:
+  restart_interval: 3600  # 1 hour
+  max_restarts: 10  # Maximum number of restarts within the interval
+
+        </content>
+    </file>
+    <file>
+        <name>Gateway-Devices-Config.csv</name>
+        <path>config\Gateway-Devices-Config.csv</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>sensor_mapping.yaml</name>
+        <path>config\sensor_mapping.yaml</path>
+        <content>
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #         CORN FIELDS
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# LINEAR_CORN Field Sensors (Node C)
+# Total Sensors: 13 (3 IRT, 10 TDR)
+- hash: "001"
+  treatment: 3
+  plot_number: 5001
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: IRT5001C3xx24
+  span: 5
+  sdi-12_address: "0"
+  depth: 
+  node: C
+  field: LINEAR_CORN
+
+- hash: "002"
+  treatment: 2
+  plot_number: 5003
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: IRT5003C2xx24
+  span: 5
+  sdi-12_address: "1"
+  depth: 
+  node: C
+  field: LINEAR_CORN
+
+- hash: "003"
+  treatment: 1
+  plot_number: 5010
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: IRT5010C1xx24
+  span: 5
+  sdi-12_address: "c"
+  depth: 
+  node: C
+  field: LINEAR_CORN
+
+- hash: "004"
+  treatment: 2
+  plot_number: 5003
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5003C20624
+  span: 5
+  sdi-12_address: "3"
+  depth: 6
+  node: C
+  field: LINEAR_CORN
+
+- hash: "005"
+  treatment: 2
+  plot_number: 5003
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5003C21824
+  span: 5
+  sdi-12_address: "4"
+  depth: 18
+  node: C
+  field: LINEAR_CORN
+
+- hash: "006"
+  treatment: 2
+  plot_number: 5003
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5003C23024
+  span: 5
+  sdi-12_address: "5"
+  depth: 30
+  node: C
+  field: LINEAR_CORN
+
+- hash: "007"
+  treatment: 1
+  plot_number: 5010
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5010C10624
+  span: 5
+  sdi-12_address: "6"
+  depth: 6
+  node: C
+  field: LINEAR_CORN
+
+- hash: "008"
+  treatment: 1
+  plot_number: 5010
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5010C11824
+  span: 5
+  sdi-12_address: "7"
+  depth: 18
+  node: C
+  field: LINEAR_CORN
+
+- hash: "009"
+  treatment: 1
+  plot_number: 5010
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5010C13024
+  span: 5
+  sdi-12_address: "8"
+  depth: 30
+  node: C
+  field: LINEAR_CORN
+
+- hash: "010"
+  treatment: 4
+  plot_number: 5009
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5009C40624
+  span: 5
+  sdi-12_address: "9"
+  depth: 6
+  node: C
+  field: LINEAR_CORN
+
+- hash: "011"
+  treatment: 4
+  plot_number: 5009
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5009C41824
+  span: 5
+  sdi-12_address: "a"
+  depth: 18
+  node: C
+  field: LINEAR_CORN
+
+- hash: "012"
+  treatment: 4
+  plot_number: 5009
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: TDR5009C43024
+  span: 5
+  sdi-12_address: "b"
+  depth: 30
+  node: C
+  field: LINEAR_CORN
+
+# LINEAR_CORN Field Sensors (Node B)
+# Total Sensors: 15 (2 IRT, 13 TDR)
+- hash: "013"
+  treatment: 1
+  plot_number: 5006
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: IRT5006B1xx24
+  span: 5
+  sdi-12_address: "0"
+  depth: 
+  node: B
+  field: LINEAR_CORN
+
+- hash: "014"
+  treatment: 2
+  plot_number: 5012
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: IRT5012B2xx24
+  span: 5
+  sdi-12_address: "1"
+  depth: 
+  node: B
+  field: LINEAR_CORN
+
+- hash: "015"
+  treatment: 4
+  plot_number: 5007
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5007B40624
+  span: 5
+  sdi-12_address: "2"
+  depth: 6
+  node: B
+  field: LINEAR_CORN
+
+- hash: "016"
+  treatment: 4
+  plot_number: 5007
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5007B41824
+  span: 5
+  sdi-12_address: "3"
+  depth: 18
+  node: B
+  field: LINEAR_CORN
+
+- hash: "017"
+  treatment: 4
+  plot_number: 5007
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5007B43024
+  span: 5
+  sdi-12_address: "4"
+  depth: 30
+  node: B
+  field: LINEAR_CORN
+
+- hash: "018"
+  treatment: 4
+  plot_number: 5007
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5007B44224
+  span: 5
+  sdi-12_address: "5"
+  depth: 42
+  node: B
+  field: LINEAR_CORN
+
+- hash: "019"
+  treatment: 1
+  plot_number: 5006
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5006B10624
+  span: 5
+  sdi-12_address: "6"
+  depth: 6
+  node: B
+  field: LINEAR_CORN
+
+- hash: "020"
+  treatment: 1
+  plot_number: 5006
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5006B11824
+  span: 5
+  sdi-12_address: "7"
+  depth: 18
+  node: B
+  field: LINEAR_CORN
+
+- hash: "021"
+  treatment: 1
+  plot_number: 5006
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5006B13024
+  span: 5
+  sdi-12_address: "8"
+  depth: 30
+  node: B
+  field: LINEAR_CORN
+
+- hash: "022"
+  treatment: 1
+  plot_number: 5006
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5006B14224
+  span: 5
+  sdi-12_address: "9"
+  depth: 42
+  node: B
+  field: LINEAR_CORN
+
+- hash: "023"
+  treatment: 2
+  plot_number: 5012
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5012B20624
+  span: 5
+  sdi-12_address: "a"
+  depth: 6
+  node: B
+  field: LINEAR_CORN
+
+- hash: "024"
+  treatment: 2
+  plot_number: 5012
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5012B21824
+  span: 5
+  sdi-12_address: "b"
+  depth: 18
+  node: B
+  field: LINEAR_CORN
+
+- hash: "025"
+  treatment: 2
+  plot_number: 5012
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: TDR5012B23024
+  span: 5
+  sdi-12_address: "c"
+  depth: 30
+  node: B
+  field: LINEAR_CORN
+
+# LINEAR_CORN Field Sensors (Node A)
+# Total Sensors: 11 (3 IRT, 8 TDR)
+- hash: "032"
+  treatment: 1
+  plot_number: 5023
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: IRT5023A1xx24
+  span: 5
+  sdi-12_address: "0"
+  depth: 
+  node: A
+  field: LINEAR_CORN
+
+- hash: "033"
+  treatment: 3
+  plot_number: 5020
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: IRT5020A3xx24
+  span: 5
+  sdi-12_address: "1"
+  depth: 
+  node: A
+  field: LINEAR_CORN
+
+- hash: "034"
+  treatment: 3
+  plot_number: 5018
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: IRT5018A3xx24
+  span: 5
+  sdi-12_address: "9"
+  depth: 
+  node: A
+  field: LINEAR_CORN
+
+- hash: "035"
+  treatment: 1
+  plot_number: 5023
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5023A10624
+  span: 5
+  sdi-12_address: "2"
+  depth: 6
+  node: A
+  field: LINEAR_CORN
+
+- hash: "036"
+  treatment: 1
+  plot_number: 5023
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5023A11824
+  span: 5
+  sdi-12_address: "3"
+  depth: 18
+  node: A
+  field: LINEAR_CORN
+
+- hash: "037"
+  treatment: 1
+  plot_number: 5023
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5023A13024
+  span: 5
+  sdi-12_address: "4"
+  depth: 30
+  node: A
+  field: LINEAR_CORN
+
+- hash: "038"
+  treatment: 1
+  plot_number: 5023
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5023A14224
+  span: 5
+  sdi-12_address: "5"
+  depth: 42
+  node: A
+  field: LINEAR_CORN
+
+- hash: "039"
+  treatment: 2
+  plot_number: 5026
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5026A20624
+  span: 5
+  sdi-12_address: "6"
+  depth: 6
+  node: A
+  field: LINEAR_CORN
+
+- hash: "040"
+  treatment: 2
+  plot_number: 5026
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5026A21824
+  span: 5
+  sdi-12_address: "7"
+  depth: 18
+  node: A
+  field: LINEAR_CORN
+
+- hash: "041"
+  treatment: 2
+  plot_number: 5026
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5026A23824
+  span: 5
+  sdi-12_address: "8"
+  depth: 38
+  node: A
+  field: LINEAR_CORN
+
+- hash: "042"
+  treatment: 4
+  plot_number: 5027
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5027A40624
+  span: 5
+  sdi-12_address: "a"
+  depth: 6
+  node: A
+  field: LINEAR_CORN
+
+- hash: "043"
+  treatment: 4
+  plot_number: 5027
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5027A41824
+  span: 5
+  sdi-12_address: "b"
+  depth: 18
+  node: A
+  field: LINEAR_CORN
+
+- hash: "044"
+  treatment: 4
+  plot_number: 5027
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: TDR5027A43024
+  span: 5
+  sdi-12_address: "c"
+  depth: 30
+  node: A
+  field: LINEAR_CORN
+
+  # New entries for DEN and SAP sensors in treatment 1 plots
+
+- hash: "045"
+  treatment: 1
+  plot_number: 5006
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: DEN5006B1xx24
+  span: 5
+  node: B
+  field: LINEAR_CORN
+
+- hash: "046"
+  treatment: 1
+  plot_number: 5006
+  project_id: crop2cloud24
+  dataset_id: node_b
+  sensor_id: SAP5006B1xx24
+  span: 5
+  node: B
+  field: LINEAR_CORN
+
+- hash: "047"
+  treatment: 1
+  plot_number: 5010
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: DEN5010C1xx24
+  span: 5
+  node: C
+  field: LINEAR_CORN
+
+- hash: "048"
+  treatment: 1
+  plot_number: 5010
+  project_id: crop2cloud24
+  dataset_id: node_c
+  sensor_id: SAP5010C1xx24
+  span: 5
+  node: C
+  field: LINEAR_CORN
+
+- hash: "049"
+  treatment: 1
+  plot_number: 5023
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: DEN5023A1xx24
+  span: 5
+  node: A
+  field: LINEAR_CORN
+
+- hash: "050"
+  treatment: 1
+  plot_number: 5023
+  project_id: crop2cloud24
+  dataset_id: node_a
+  sensor_id: SAP5023A1xx24
+  span: 5
+  node: A
+  field: LINEAR_CORN
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #         CORN FIELDS
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #         SOYBEAN FIELDS
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #         SOYBEAN FIELDS
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </content>
+    </file>
+    </directory>
+    <directory name="data">
+    <file>
+        <name>LINEAR_CORN_A.db</name>
+        <path>data\LINEAR_CORN_A.db</path>
+        <content>Full content not provided</content>
+    </file>
+    </directory>
+    <directory name="logs">
+    <file>
+        <name>database_functions.log</name>
+        <path>logs\database_functions.log</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>data_logger.log</name>
+        <path>logs\data_logger.log</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>lora_functions.log</name>
+        <path>logs\lora_functions.log</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>main.log</name>
+        <path>logs\main.log</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>reboot_counter.json</name>
+        <path>logs\reboot_counter.json</path>
+        <content>
+{"count": 0, "last_reset": "2024-07-06T07:52:35.756328"}
+        </content>
+    </file>
+    <file>
+        <name>repository_context.txt</name>
+        <path>logs\repository_context.txt</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>system_functions.log</name>
+        <path>logs\system_functions.log</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>utils.log</name>
+        <path>logs\utils.log</path>
+        <content>Full content not provided</content>
+    </file>
+    </directory>
+    <directory name="mqtt-forwarder-vm">
+    <file>
+        <name>emqx_to_pubsub.py</name>
+        <path>mqtt-forwarder-vm\emqx_to_pubsub.py</path>
+        <content>
+import sys
+import traceback
+
+# Immediate error logging
+try:
+    import logging
+    logging.basicConfig(filename='/home/bnsoh652/app.log', level=logging.DEBUG,
+                        format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.info("Script started")
+except Exception as e:
+    with open('/home/bnsoh652/script_error.log', 'w') as f:
+        f.write(f"Error setting up logging: {str(e)}\n")
+        f.write(traceback.format_exc())
+    sys.exit(1)
+
+import base64
+import json
+import os
+import time
+import ssl
+from logging.handlers import RotatingFileHandler
+from google.cloud import pubsub_v1
+import paho.mqtt.client as mqtt
+import yaml
+
+# EMQX Cloud connection details
+EMQX_HOST = 's11a17e5.ala.us-east-1.emqxsl.com'
+EMQX_PORT = 8883
+EMQX_TOPIC = 'device/data/uplink'
+EMQX_USERNAME = 'admin'
+EMQX_PASSWORD = 'Iam>Than1M'
+CA_CERT_PATH = os.path.expanduser('~/emqxsl-ca.crt')
+
+# Google Cloud Pub/Sub Configuration
+PROJECT_ID = 'crop2cloud24'
+TOPIC_ID = 'tester'
+MAX_RETRIES = 3
+RETRY_DELAY = 5
+
+# Logging configuration
+LOG_FILENAME = os.path.expanduser('~/app.log')
+LOG_MAX_SIZE = 10 * 1024 * 1024  # 10 MB
+LOG_BACKUP_COUNT = 5
+
+# Set up logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# Create a rotating file handler
+handler = RotatingFileHandler(LOG_FILENAME, maxBytes=LOG_MAX_SIZE, backupCount=LOG_BACKUP_COUNT)
+handler.setLevel(logging.DEBUG)
+
+# Create a formatter and add it to the handler
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# Add the handler to the logger
+logger.addHandler(handler)
+
+# Load sensor mapping
+def load_sensor_mapping():
+    try:
+        with open(os.path.expanduser('~/sensor_mapping.yaml'), 'r') as f:
+            mapping = yaml.safe_load(f)
+        return mapping
+    except Exception as e:
+        logger.error(f"Error loading sensor mapping: {str(e)}")
+        return None
+
+SENSOR_MAPPING = load_sensor_mapping()
+
+def get_sensor_info(hash_value):
+    for sensor in SENSOR_MAPPING:
+        if sensor['hash'] == hash_value:
+            logger.debug(f"Found sensor info for hash {hash_value}: {json.dumps(sensor)}")
+            return sensor
+    logger.warning(f"No sensor info found for hash {hash_value}")
+    return None
+
+def prepare_pubsub_messages(decoded_payload, device_name, timestamp):
+    logger.info(f"Preparing Pub/Sub messages for device {device_name} at {timestamp}")
+    logger.debug(f"Decoded payload: {json.dumps(decoded_payload)}")
+    messages = []
+    for hash_value, value in decoded_payload.items():
+        if hash_value != 'time':  # Skip the 'time' field
+            sensor_info = get_sensor_info(hash_value)
+            if sensor_info:
+                message = {
+                    "timestamp": timestamp,
+                    "sensor_id": sensor_info['sensor_id'],
+                    "value": value,
+                    "project_name": PROJECT_ID,
+                    "dataset_name": f"{sensor_info['field']}_trt{sensor_info['treatment']}",
+                    "table_name": f"plot_{sensor_info['plot_number']}"
+                }
+                logger.debug(f"Prepared message: {json.dumps(message)}")
+                messages.append(message)
+            else:
+                logger.warning(f"No mapping found for hash: {hash_value}")
+    logger.info(f"Prepared {len(messages)} messages for Pub/Sub")
+    return messages
+
+def process_message(message):
+    """
+    Process the received MQTT message.
+
+    Args:
+        message (mqtt.MQTTMessage): The received MQTT message.
+    """
+    try:
+        logger.info("Processing new MQTT message")
+        logger.debug(f"Raw MQTT message: {message.payload}")
+        
+        decoded_message = json.loads(message.payload.decode("utf-8"))
+        logger.info(f"Decoded MQTT message: {json.dumps(decoded_message, indent=2)}")
+
+        # Extract and decode the base64 payload
+        payload = decoded_message['data']
+        logger.debug(f"Base64 payload: {payload}")
+        
+        decoded_payload = json.loads(base64.b64decode(payload).decode('utf-8'))
+        logger.info(f"Decoded payload: {json.dumps(decoded_payload, indent=2)}")
+
+        # Prepare messages for Pub/Sub
+        device_name = decoded_message['deviceName']
+        timestamp = decoded_message['time']
+        pubsub_messages = prepare_pubsub_messages(decoded_payload, device_name, timestamp)
+
+        # Publish messages to Pub/Sub
+        for msg in pubsub_messages:
+            publish_to_pubsub(msg)
+
+    except Exception as e:
+        logger.error(f"Error processing message: {str(e)}")
+        logger.exception("Full traceback:")
+
+def publish_to_pubsub(data, retry_count=0):
+    """
+    Publish data to Google Cloud Pub/Sub using default credentials.
+
+    Args:
+        data (dict): The data to publish to Pub/Sub.
+        retry_count (int): The current retry count.
+    """
+    try:
+        logger.info("Attempting to publish message to Pub/Sub")
+        logger.debug(f"Message data: {json.dumps(data, indent=2)}")
+        
+        publisher = pubsub_v1.PublisherClient()
+        topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
+        data_str = json.dumps(data)
+        future = publisher.publish(topic_path, data=data_str.encode('utf-8'))
+        message_id = future.result()  # Wait for the publish to complete
+        logger.info(f"Successfully published message with ID: {message_id}")
+        logger.debug(f"Published data: {data_str}")
+    except Exception as e:
+        logger.error(f"Error publishing to Pub/Sub: {str(e)}")
+        logger.error(f"Failed data: {json.dumps(data, indent=2)}")
+        if retry_count < MAX_RETRIES:
+            logger.info(f"Retrying in {RETRY_DELAY} seconds... (Attempt {retry_count + 1}/{MAX_RETRIES})")
+            time.sleep(RETRY_DELAY)
+            publish_to_pubsub(data, retry_count + 1)
+        else:
+            logger.error("Max retries reached. Skipping message.")
+
+def on_connect(client, userdata, flags, rc):
+    """
+    Callback function for MQTT client connection.
+
+    Args:
+        client (mqtt.Client): The MQTT client instance.
+        userdata (Any): User-defined data passed to the callback.
+        flags (dict): Response flags from the broker.
+        rc (int): Connection result code.
+    """
+    if rc == 0:
+        logger.info("Successfully connected to EMQX Cloud")
+        client.subscribe(EMQX_TOPIC)
+        logger.info(f"Subscribed to topic: {EMQX_TOPIC}")
+    else:
+        logger.error(f"Failed to connect to EMQX Cloud, return code {rc}")
+
+def on_message(client, userdata, message):
+    """
+    Callback function for MQTT message reception.
+
+    Args:
+        client (mqtt.Client): The MQTT client instance.
+        userdata (Any): User-defined data passed to the callback.
+        message (mqtt.MQTTMessage): The received MQTT message.
+    """
+    logger.info(f"Received new message on topic: {message.topic}")
+    process_message(message)
+
+def main():
+    client = mqtt.Client(protocol=mqtt.MQTTv311)
+    client.username_pw_set(EMQX_USERNAME, EMQX_PASSWORD)
+    client.tls_set(ca_certs=CA_CERT_PATH, tls_version=ssl.PROTOCOL_TLSv1_2)
+    client.on_connect = on_connect
+    client.on_message = on_message
+    
+    logger.info(f"Attempting to connect to EMQX Cloud at {EMQX_HOST}:{EMQX_PORT}...")
+    try:
+        client.connect(EMQX_HOST, EMQX_PORT)
+        logger.info("Connection successful. Starting MQTT client loop...")
+        client.loop_forever()
+    except Exception as e:
+        logger.error(f"Failed to connect to EMQX Cloud: {str(e)}")
+        logger.exception("Full traceback:")
+
+if __name__ == "__main__":
+    logger.info("Starting EMQX to Pub/Sub Bridge")
+    main()
+        </content>
+    </file>
+    <file>
+        <name>mqtt_to_pubsub.py</name>
+        <path>mqtt-forwarder-vm\mqtt_to_pubsub.py</path>
+        <content>
+import paho.mqtt.client as mqtt
+from google.cloud import pubsub_v1
+import json
+import os
+
+# MQTT configuration
+mqtt_broker = "4c505e41f8014e6bbdc1f56a498c7c2d.s1.eu.hivemq.cloud"
+mqtt_port = 8883
+mqtt_topic = "/linovision/uplink/#"
+mqtt_username = "bnsoh2"
+mqtt_password = "Iam>Than1M"
+
+# Google Cloud configuration
+project_id = "crop2cloud24"
+pubsub_topic = "projects/crop2cloud24/topics/tester"
+
+publisher = pubsub_v1.PublisherClient()
+topic_path = publisher.topic_path(project_id, pubsub_topic)
+
+def on_connect(client, userdata, flags, rc):
+    print(f"Connected with result code {rc}")
+    client.subscribe(mqtt_topic)
+
+def on_message(client, userdata, msg):
+    try:
+        print(f"Received message on topic {msg.topic}: {msg.payload}")
+        future = publisher.publish(topic_path, data=msg.payload)
+        print(f"Published message to {topic_path}")
+    except Exception as e:
+        print(f"Error publishing to Pub/Sub: {e}")
+
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+
+# Set up TLS for MQTT
+client.tls_set()
+
+# Set username and password
+client.username_pw_set(mqtt_username, mqtt_password)
+
+client.connect(mqtt_broker, mqtt_port, 60)
+client.loop_forever()
+        </content>
+    </file>
+    <file>
+        <name>setup_emqx_to_pubsub.sh</name>
+        <path>mqtt-forwarder-vm\setup_emqx_to_pubsub.sh</path>
+        <content>Full content not provided</content>
+    </file>
+    <file>
+        <name>setup_guide.md</name>
+        <path>mqtt-forwarder-vm\setup_guide.md</path>
+        <content>Full content not provided</content>
+    </file>
+    </directory>
+    <directory name="src">
+    <file>
+        <name>database_functions.py</name>
+        <path>src\database_functions.py</path>
+        <content>
+import sqlite3
+from datetime import datetime
+from .utils import setup_logger
+import os
+import json
+
+logger = setup_logger("database_functions", "database_functions.log")
+
+def setup_database(columns, db_name):
+    try:
+        os.makedirs(os.path.dirname(db_name), exist_ok=True)
+        logger.info(f"Ensuring directory exists for database: {db_name}")
+        
+        conn = sqlite3.connect(db_name)
+        cursor = conn.cursor()
+
+        columns_str = ", ".join([f"{col} TEXT" for col in columns])
+        create_table_stmt = f"CREATE TABLE IF NOT EXISTS data_table ({columns_str})"
+
+        cursor.execute(create_table_stmt)
+        conn.commit()
+        logger.info(f"Database {db_name} set up successfully")
+        logger.debug(f"Created table with columns: {columns_str}")
+    except sqlite3.OperationalError as e:
+        logger.error(f"SQLite operational error setting up database {db_name}: {e}")
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error setting up database {db_name}: {e}")
+        raise
+    finally:
+        if 'conn' in locals():
+            conn.close()
+
+def insert_data_to_db(data, db_name):
+    try:
+        conn = sqlite3.connect(db_name)
+        cursor = conn.cursor()
+
+        columns = ", ".join(data[0].keys())
+        placeholders = ", ".join(["?" for _ in data[0]])
+        insert_stmt = f"INSERT INTO data_table ({columns}) VALUES ({placeholders})"
+
+        cursor.executemany(insert_stmt, [tuple(row.values()) for row in data])
+        conn.commit()
+        logger.info(f"Inserted {len(data)} rows into {db_name}")
+        logger.debug(f"Sample of inserted data: {json.dumps(data[:2], default=str)}")
+    except sqlite3.OperationalError as e:
+        logger.error(f"SQLite operational error inserting data into {db_name}: {e}")
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error inserting data into {db_name}: {e}")
+        raise
+    finally:
+        if 'conn' in locals():
+            conn.close()
+
+        </content>
+    </file>
+    <file>
+        <name>data_logger.py</name>
+        <path>src\data_logger.py</path>
+        <content>
+from pycampbellcr1000 import CR1000
+from datetime import datetime, timedelta
+import os
+import math
+import json
+import time
+import subprocess
+from .utils import setup_logger, increment_reboot_counter
+
+logger = setup_logger("data_logger", "data_logger.log")
+
+MAX_RETRIES = 5
+MAX_DELAY = 180  # 3 minutes
+MAX_REBOOTS = 5
+
+def exponential_backoff(attempt):
+    return min(MAX_DELAY, (2 ** attempt) * 5)  # 5, 10, 20, 40, 80, 160 seconds
+
+def reboot_system():
+    reboot_count = increment_reboot_counter()
+    logger.warning(f"Initiating system reboot. Reboot count: {reboot_count}")
+    
+    if reboot_count > MAX_REBOOTS:
+        logger.error(f"Maximum reboot count ({MAX_REBOOTS}) exceeded. Halting automatic reboots.")
+        return
+
+    try:
+        with open('/tmp/logger_reboot_trigger', 'w') as f:
+            f.write('reboot requested')
+        logger.info("Reboot requested. System will reboot shortly.")
+    except Exception as e:
+        logger.error(f"Failed to request reboot: {e}")
+
+def wait_for_usb_device(device_path, timeout=300, check_interval=1):
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        if os.path.exists(device_path):
+            logger.info(f"USB device {device_path} is available")
+            return True
+        time.sleep(check_interval)
+    logger.error(f"Timeout waiting for USB device {device_path}")
+    return False
+
+def connect_to_datalogger(config):
+    for attempt in range(MAX_RETRIES):
+        try:
+            logger.info(f"Attempting to connect to datalogger on port {config['port']} (Attempt {attempt + 1}/{MAX_RETRIES})")
+            datalogger = CR1000.from_url(f"serial:{config['port']}:{config['baud_rate']}")
+            logger.info(f"Successfully connected to datalogger on port {config['port']}")
+            return datalogger
+        except Exception as e:
+            logger.error(f"Failed to connect to datalogger: {e}")
+            if attempt < MAX_RETRIES - 1:
+                delay = exponential_backoff(attempt)
+                logger.info(f"Retrying in {delay} seconds...")
+                time.sleep(delay)
+            else:
+                logger.error("Max retries reached. Unable to connect to datalogger.")
+                raise
+
+def get_tables(datalogger):
+    for attempt in range(MAX_RETRIES):
+        try:
+            table_names = datalogger.list_tables()
+            logger.info(f"Retrieved {len(table_names)} table names: {table_names}")
+
+            desired_table = next(
+                (
+                    table
+                    for table in table_names
+                    if table not in [b"Status", b"DataTableInfo", b"Public"]
+                ),
+                None,
+            )
+
+            if desired_table:
+                logger.info(f"Selected table for data retrieval: {desired_table}")
+                return [desired_table]
+            else:
+                logger.error("No suitable table found for data retrieval")
+                return []
+        except Exception as e:
+            delay = exponential_backoff(attempt)
+            logger.error(f"Error retrieving table names (Attempt {attempt + 1}/{MAX_RETRIES}): {e}")
+            if attempt < MAX_RETRIES - 1:
+                logger.info(f"Retrying in {delay} seconds...")
+                time.sleep(delay)
+                # Attempt to re-establish connection
+                try:
+                    datalogger = CR1000.from_url(f"serial:{datalogger.url.split(':')[1]}:{datalogger.url.split(':')[2]}")
+                except Exception as conn_err:
+                    logger.error(f"Failed to re-establish connection: {conn_err}")
+            else:
+                logger.error("Max retries reached. Unable to retrieve table names.")
+                return []
+
+    return []
+
+def get_data(datalogger, table_name, start, stop):
+    try:
+        table_name_str = table_name.decode("utf-8")
+        logger.info(
+            f"Attempting to retrieve data from {table_name_str} between {start} and {stop}"
+        )
+        table_data = datalogger.get_data(table_name_str, start, stop)
+        cleaned_data = []
+
+        for label in table_data:
+            dict_entry = {}
+            for key, value in label.items():
+                key = key.replace("b'", "").replace("'", "")
+
+                if key == "Datetime":
+                    key = "TIMESTAMP"
+                elif key != "RecNbr" and key.endswith("_Avg"):
+                    key = key[:-4]  # Remove "_Avg" suffix
+
+                dict_entry[key] = value
+
+                try:
+                    if math.isnan(value):
+                        dict_entry[key] = -9999
+                except TypeError:
+                    continue
+
+            cleaned_data.append(dict_entry)
+
+        cleaned_data.sort(key=lambda x: x["TIMESTAMP"])
+        logger.info(f"Retrieved and cleaned {len(cleaned_data)} data points from {table_name_str}")
+        
+        if cleaned_data:
+            logger.debug(f"Sample of cleaned data: {json.dumps(cleaned_data[:2], default=str)}")
+        else:
+            logger.warning("No data retrieved from datalogger")
+        
+        return cleaned_data
+    except Exception as e:
+        logger.error(f"Failed to get data from {table_name_str}: {e}")
+        raise
+
+def get_logger_time(datalogger):
+    try:
+        logger_time = datalogger.gettime()
+        logger.info(f"Retrieved logger time: {logger_time}")
+        return logger_time
+    except Exception as e:
+        logger.error(f"Failed to get logger time: {e}")
+        raise
+
+def determine_time_range(latest_time):
+    if latest_time:
+        start = datetime.fromisoformat(latest_time) + timedelta(seconds=1)
+        logger.info(f"Using latest time from database: {start}")
+    else:
+        start = datetime.now() - timedelta(days=2)
+        logger.info(f"No latest time found, using default start time: {start}")
+
+    stop = datetime.now()
+    logger.info(f"Determined time range: start={start}, stop={stop}")
+    return start, stop
+
+        </content>
+    </file>
+    <file>
+        <name>lora_functions.py</name>
+        <path>src\lora_functions.py</path>
+        <content>
+import json
+import time
+import random
+from rak811.rak811_v3 import Rak811
+from .utils import setup_logger, get_sensor_hash
+
+logger = setup_logger("lora_functions", "lora_functions.log")
+
+MAX_RETRIES = 3
+RETRY_DELAY = 60  # 1 minute
+
+class LoRaManager:
+    def __init__(self, lora_config):
+        self.lora = None
+        self.config = lora_config
+
+    def setup_lora(self):
+        for attempt in range(MAX_RETRIES):
+            try:
+                self.lora = Rak811()
+                logger.info("Setting LoRa work mode...")
+                self.lora.set_config("lora:work_mode:0")
+                logger.info("Setting LoRa join mode...")
+                self.lora.set_config("lora:join_mode:1")
+                logger.info(f"Setting LoRa region: {self.config['region']}")
+                self.lora.set_config(f'lora:region:{self.config["region"]}')
+                logger.info("Setting LoRa device address...")
+                self.lora.set_config(f'lora:dev_addr:{self.config["dev_addr"]}')
+                logger.info("Setting LoRa application session key...")
+                self.lora.set_config(f'lora:apps_key:{self.config["apps_key"]}')
+                logger.info("Setting LoRa network session key...")
+                self.lora.set_config(f'lora:nwks_key:{self.config["nwks_key"]}')
+                logger.info(f"Setting LoRa data rate: {self.config['data_rate']}")
+                self.lora.set_config(f'lora:dr:{self.config["data_rate"]}')
+                logger.info("Joining LoRaWAN network...")
+                self.lora.join()
+                logger.info("Joined LoRaWAN network successfully")
+                return
+            except Exception as e:
+                logger.error(f"Error setting up LoRa (Attempt {attempt + 1}/{MAX_RETRIES}): {e}")
+                if attempt < MAX_RETRIES - 1:
+                    logger.info(f"Retrying in {RETRY_DELAY} seconds...")
+                    time.sleep(RETRY_DELAY)
+                else:
+                    logger.error("Max retries reached. Unable to set up LoRa.")
+                    raise
+
+    def send_data(self, data):
+        for attempt in range(MAX_RETRIES):
+            try:
+                json_payload = json.dumps(data)
+                payload = json_payload.encode("utf-8")
+                self.lora.send(payload)
+                logger.info(f"Sent payload: {json_payload}")
+                return
+            except Exception as e:
+                logger.error(f"Error sending LoRa data (Attempt {attempt + 1}/{MAX_RETRIES}): {e}")
+                if attempt < MAX_RETRIES - 1:
+                    logger.info(f"Retrying in {RETRY_DELAY} seconds...")
+                    time.sleep(RETRY_DELAY)
+                else:
+                    logger.error("Max retries reached. Unable to send LoRa data.")
+                    raise
+
+    def close(self):
+        if self.lora:
+            try:
+                self.lora.close()
+                logger.info("LoRa connection closed successfully")
+            except Exception as e:
+                logger.error(f"Error closing LoRa connection: {e}")
+
+def send_lora_data(data, config, sensor_metadata, clip_floats=False):
+    logger.info("Initializing LoRa data transmission")
+    logger.debug(f"Original data to be sent: {json.dumps(data, default=str)}")
+
+    required_keys = ['lora', 'schedule']
+    for key in required_keys:
+        if key not in config:
+            raise KeyError(f"Required configuration key '{key}' is missing")
+
+    if 'transmission_window' not in config['schedule'] or 'min_interval' not in config['schedule']:
+        raise KeyError("'transmission_window' and 'min_interval' must be specified in the 'schedule' configuration")
+
+    lora_manager = LoRaManager(config['lora'])
+
+    try:
+        lora_manager.setup_lora()
+
+        hashed_data = {
+            get_sensor_hash(k, sensor_metadata): v
+            for k, v in data.items()
+            if get_sensor_hash(k, sensor_metadata) and k != "TIMESTAMP"
+        }
+        
+        hashed_data["time"] = data["TIMESTAMP"].strftime("%Y%m%d%H%M%S")
+        
+        if "BatV" in data:
+            hashed_data["BatV"] = data["BatV"]
+
+        if clip_floats:
+            hashed_data = {k: round(v, 2) if isinstance(v, float) else v for k, v in hashed_data.items()}
+
+        logger.debug(f"Hashed data: {json.dumps(hashed_data, default=str)}")
+
+        chunks = [dict(list(hashed_data.items())[i:i+6]) for i in range(0, len(hashed_data), 6)]
+        logger.info(f"Data split into {len(chunks)} chunks")
+
+        transmission_window = config['schedule']['transmission_window']
+        min_interval = config['schedule']['min_interval']
+
+        max_delay = (transmission_window - (len(chunks) - 1) * min_interval) / len(chunks)
+
+        start_time = time.time()
+
+        for i, chunk in enumerate(chunks):
+            if "time" not in chunk:
+                chunk["time"] = hashed_data["time"]
+            
+            if i > 0 and "BatV" in chunk:
+                del chunk["BatV"]
+            
+            logger.debug(f"Sending chunk {i+1}: {json.dumps(chunk, default=str)}")
+            lora_manager.send_data(chunk)
+            
+            if i < len(chunks) - 1:
+                delay = random.uniform(min_interval, max_delay)
+                logger.info(f"Waiting {delay:.2f} seconds before sending next chunk")
+                time.sleep(delay)
+
+        total_time = time.time() - start_time
+        logger.info(f"Successfully sent {len(chunks)} LoRa packets in {total_time:.2f} seconds")
+        
+        if total_time > transmission_window:
+            logger.warning(f"Total transmission time exceeded window by {total_time - transmission_window:.2f} seconds")
+        
+    except Exception as e:
+        logger.error(f"Error in send_lora_data: {e}")
+        raise
+    finally:
+        lora_manager.close()
+
+        </content>
+    </file>
+    <file>
+        <name>system_functions.py</name>
+        <path>src\system_functions.py</path>
+        <content>
+import subprocess
+from .utils import setup_logger
+
+logger = setup_logger("system_functions", "system_functions.log")
+
+
+def update_system_time():
+    try:
+        subprocess.run(["sudo", "timedatectl", "set-ntp", "true"])
+        subprocess.run(["timedatectl"])
+        logger.info("System time updated successfully")
+    except Exception as e:
+        logger.error(f"Failed to update system time: {e}")
+        raise
+
+
+if __name__ == "__main__":
+    update_system_time()
+
+        </content>
+    </file>
+    <file>
+        <name>utils.py</name>
+        <path>src\utils.py</path>
+        <content>
+import os
+import json
+import yaml
+import logging
+from logging.handlers import RotatingFileHandler
+import sys
+from datetime import datetime
+
+class CustomFormatter(logging.Formatter):
+    grey = "\x1b[38;20m"
+    yellow = "\x1b[33;20m"
+    red = "\x1b[31;20m"
+    bold_red = "\x1b[31;1m"
+    reset = "\x1b[0m"
+    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+    FORMATS = {
+        logging.DEBUG: grey + format + reset,
+        logging.INFO: grey + format + reset,
+        logging.WARNING: yellow + format + reset,
+        logging.ERROR: red + format + reset,
+        logging.CRITICAL: bold_red + format + reset,
+    }
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
+
+def setup_logger(name, log_file, level=logging.DEBUG):
+    project_root = get_project_root()
+    log_dir = os.path.join(project_root, "logs")
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+
+    full_path = os.path.join(log_dir, log_file)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+
+    file_handler = RotatingFileHandler(full_path, maxBytes=5*1024*1024, backupCount=5)
+    console_handler = logging.StreamHandler(sys.stdout)
+
+    file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    console_formatter = CustomFormatter()
+
+    file_handler.setFormatter(file_formatter)
+    console_handler.setFormatter(console_formatter)
+
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+
+    return logger
+
+def load_config():
+    logger = setup_logger("utils", "utils.log")
+    try:
+        with open("config/config.yaml", "r") as f:
+            config = yaml.safe_load(f)
+
+        node_id = config["node_id"]
+
+        node_config = config["node_configs"][node_id]
+        config["lora"].update(node_config["lora"])
+
+        config["database"]["name"] = config["database"]["name"].format(node_id=node_id)
+
+        data_dir = os.path.dirname(config["database"]["name"])
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir)
+
+        config["clip_floats"] = config.get("clip_floats", False)
+
+        logger.info(f"Loaded configuration for Node {node_id}")
+        logger.info(f"Database will be stored at: {config['database']['name']}")
+        logger.info(f"Clip floats option set to: {config['clip_floats']}")
+        return config
+    except Exception as e:
+        logger.error(f"Error loading configuration: {e}")
+        raise
+
+def get_project_root():
+    root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    print(f"Project root directory: {root}")
+    return root
+
+def load_sensor_metadata(sensor_file):
+    logger = setup_logger("utils", "utils.log")
+    project_root = get_project_root()
+    full_sensor_path = os.path.join(project_root, sensor_file)
+    logger.debug(f"Attempting to load sensor metadata from: {full_sensor_path}")
+    try:
+        with open(full_sensor_path, "r") as f:
+            sensor_metadata = yaml.safe_load(f)
+            logger.info(f"Sensor metadata loaded from {full_sensor_path}")
+        return sensor_metadata
+    except Exception as e:
+        logger.error(f"Error loading sensor metadata from {full_sensor_path}: {e}")
+        raise
+
+def get_sensor_hash(sensor_id, sensor_metadata):
+    logger = setup_logger("utils", "utils.log")
+    for sensor in sensor_metadata:
+        if sensor["sensor_id"] == sensor_id:
+            logger.debug(f"Hash found for sensor_id: {sensor_id}")
+            return sensor["hash"]
+    logger.warning(f"No hash found for sensor_id: {sensor_id}")
+    return None
+
+def get_reboot_counter_path():
+    return os.path.join(get_project_root(), 'logs', 'reboot_counter.json')
+
+def read_reboot_counter():
+    counter_path = get_reboot_counter_path()
+    if os.path.exists(counter_path):
+        with open(counter_path, 'r') as f:
+            data = json.load(f)
+        return data.get('count', 0)
+    return 0
+
+def increment_reboot_counter():
+    counter_path = get_reboot_counter_path()
+    count = read_reboot_counter() + 1
+    data = {
+        'count': count,
+        'last_reboot': datetime.now().isoformat()
+    }
+    os.makedirs(os.path.dirname(counter_path), exist_ok=True)
+    with open(counter_path, 'w') as f:
+        json.dump(data, f)
+    return count
+
+def reset_reboot_counter():
+    counter_path = get_reboot_counter_path()
+    data = {
+        'count': 0,
+        'last_reset': datetime.now().isoformat()
+    }
+    os.makedirs(os.path.dirname(counter_path), exist_ok=True)
+    with open(counter_path, 'w') as f:
+        json.dump(data, f)
+
+        </content>
+    </file>
+    <file>
+        <name>__init__.py</name>
+        <path>src\__init__.py</path>
+        <content>
+from .data_logger import (
+    connect_to_datalogger,
+    get_tables,
+    get_data,
+    get_logger_time,  # Add this line
+    reboot_system,
+    wait_for_usb_device,
+)
+from .system_functions import update_system_time
+from .database_functions import setup_database, insert_data_to_db
+from .utils import (
+    load_config,
+    load_sensor_metadata,
+    get_sensor_hash,
+    setup_logger,
+    get_project_root,
+    increment_reboot_counter,
+    reset_reboot_counter,
+    read_reboot_counter,
+)
+from .lora_functions import send_lora_data
+
+        </content>
+    </file>
+    </directory>
+</repository_structure>

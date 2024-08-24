@@ -75,3 +75,13 @@ sensor_metadata: "config/sensor_mapping.yaml"
 
 # Option to clip float values
 clip_floats: true  # Set to true to clip float values to 2 decimal places
+
+# Reboot settings
+reboot:
+  max_failures: 3  # Maximum number of consecutive failures before reboot
+  max_reboots: 5   # Maximum number of automatic reboots before halting
+
+# Systemd service configuration
+systemd:
+  restart_interval: 3600  # 1 hour
+  max_restarts: 10  # Maximum number of restarts within the interval

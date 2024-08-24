@@ -1,5 +1,6 @@
 from pycampbellcr1000 import CR1000
 from datetime import datetime, timedelta
+import os
 import math
 import json
 import time
@@ -24,9 +25,21 @@ def reboot_system():
         return
 
     try:
-        subprocess.run(["sudo", "reboot"], check=True)
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Failed to reboot system: {e}")
+        with open('/tmp/logger_reboot_trigger', 'w') as f:
+            f.write('reboot requested')
+        logger.info("Reboot requested. System will reboot shortly.")
+    except Exception as e:
+        logger.error(f"Failed to request reboot: {e}")
+
+def wait_for_usb_device(device_path, timeout=300, check_interval=1):
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        if os.path.exists(device_path):
+            logger.info(f"USB device {device_path} is available")
+            return True
+        time.sleep(check_interval)
+    logger.error(f"Timeout waiting for USB device {device_path}")
+    return False
 
 def connect_to_datalogger(config):
     for attempt in range(MAX_RETRIES):
@@ -99,6 +112,8 @@ def get_data(datalogger, table_name, start, stop):
 
                 if key == "Datetime":
                     key = "TIMESTAMP"
+                elif key != "RecNbr" and key.endswith("_Avg"):
+                    key = key[:-4]  # Remove "_Avg" suffix
 
                 dict_entry[key] = value
 
@@ -121,6 +136,15 @@ def get_data(datalogger, table_name, start, stop):
         return cleaned_data
     except Exception as e:
         logger.error(f"Failed to get data from {table_name_str}: {e}")
+        raise
+
+def get_logger_time(datalogger):
+    try:
+        logger_time = datalogger.gettime()
+        logger.info(f"Retrieved logger time: {logger_time}")
+        return logger_time
+    except Exception as e:
+        logger.error(f"Failed to get logger time: {e}")
         raise
 
 def determine_time_range(latest_time):

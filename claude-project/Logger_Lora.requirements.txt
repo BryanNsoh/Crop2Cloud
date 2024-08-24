@@ -1,6 +1,0 @@
-pycampbellcr1000
-rak811
-python-dotenv
-pyyaml
-pyserial
-pandas

@@ -72,7 +72,7 @@ EndTable
 
 ' Main Program
 BeginProg
-  Scan(5, Min, 0, 0)  ' Scan every 5 Minutes
+  Scan(1, Min, 0, 0)  ' Scan every 5 Minutes
     ' Measure battery voltage and panel temperature
     Battery(BatV)
     PanelTemp(PanelTempC, 250)

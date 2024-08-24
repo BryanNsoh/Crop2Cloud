@@ -1,0 +1,101 @@
+' CR800 Program for Node C
+' Declare Public Variables
+Public BatV As Float ' Battery voltage
+Public PanelTempC As Float ' Panel temperature in Celsius
+
+' IRT variables
+Public IRT2023C1xx24 As Float  ' Plot 2023, Treatment 1
+Public IRT2015C1xx24 As Float  ' Plot 2015, Treatment 1
+
+' TDR variables for plot 2023 (Treatment 1)
+Public TDR2023C10624 As Float
+Public TDR2023C11824 As Float
+Public TDR2023C13024 As Float
+Public TDR2023C14224 As Float
+
+' TDR variables for plot 2015 (Treatment 1)
+Public TDR2015C10624 As Float
+Public TDR2015C11824 As Float
+Public TDR2015C13024 As Float
+Public TDR2015C14224 As Float
+
+' SDI-12 Addresses
+Const IRT2023C1xx24_ADDR = "0"
+Const TDR2023C10624_ADDR = "1"
+Const TDR2023C11824_ADDR = "2"
+Const TDR2023C13024_ADDR = "3"
+Const TDR2023C14224_ADDR = "4"
+Const IRT2015C1xx24_ADDR = "6"
+Const TDR2015C10624_ADDR = "7"
+Const TDR2015C11824_ADDR = "8"
+Const TDR2015C13024_ADDR = "9"
+Const TDR2015C14224_ADDR = "a"
+
+' SDI-12 Measurement Commands
+Const CMD_IRT = "M!"
+Const CMD_TDR = "M!"
+
+' Temporary array for SDI-12 responses
+Dim Temp_Array(2) As Float
+
+' Define Data Table
+DataTable(NodeC, True, -1)
+  DataInterval(0, 30, Min, 10)
+  Average(1, BatV, FP2, False)
+  Average(1, PanelTempC, FP2, False)
+  Average(1, IRT2023C1xx24, IEEE4, False)
+  Average(1, IRT2015C1xx24, IEEE4, False)
+  Average(1, TDR2023C10624, IEEE4, False)
+  Average(1, TDR2023C11824, IEEE4, False)
+  Average(1, TDR2023C13024, IEEE4, False)
+  Average(1, TDR2023C14224, IEEE4, False)
+  Average(1, TDR2015C10624, IEEE4, False)
+  Average(1, TDR2015C11824, IEEE4, False)
+  Average(1, TDR2015C13024, IEEE4, False)
+  Average(1, TDR2015C14224, IEEE4, False)
+EndTable
+
+' Main Program
+BeginProg
+  Scan(5, Min, 0, 0)  ' Scan every 5 Minutes
+    ' Measure battery voltage and panel temperature
+    Battery(BatV)
+    PanelTemp(PanelTempC, 250)
+    
+    ' Read IRTs
+    SDI12Recorder(Temp_Array(), 1, IRT2023C1xx24_ADDR, CMD_IRT, 1, 0)
+    IRT2023C1xx24 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, IRT2015C1xx24_ADDR, CMD_IRT, 1, 0)
+    IRT2015C1xx24 = Temp_Array(1)
+    
+    ' Read TDRs for plot 2023 (Treatment 1)
+    SDI12Recorder(Temp_Array(), 1, TDR2023C10624_ADDR, CMD_TDR, 1, 0)
+    TDR2023C10624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2023C11824_ADDR, CMD_TDR, 1, 0)
+    TDR2023C11824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2023C13024_ADDR, CMD_TDR, 1, 0)
+    TDR2023C13024 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2023C14224_ADDR, CMD_TDR, 1, 0)
+    TDR2023C14224 = Temp_Array(1)
+    
+    ' Read TDRs for plot 2015 (Treatment 1)
+    SDI12Recorder(Temp_Array(), 1, TDR2015C10624_ADDR, CMD_TDR, 1, 0)
+    TDR2015C10624 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2015C11824_ADDR, CMD_TDR, 1, 0)
+    TDR2015C11824 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2015C13024_ADDR, CMD_TDR, 1, 0)
+    TDR2015C13024 = Temp_Array(1)
+    
+    SDI12Recorder(Temp_Array(), 1, TDR2015C14224_ADDR, CMD_TDR, 1, 0)
+    TDR2015C14224 = Temp_Array(1)
+    
+    ' Call Data Table
+    CallTable(NodeC)
+  NextScan
+EndProg
