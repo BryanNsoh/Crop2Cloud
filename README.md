@@ -39,13 +39,18 @@ AgriSense IoT is an environmental monitoring system designed for precision agric
 
 This guide focuses on setting up the Raspberry Pi component, which is designed for plug-and-play operation.
 
-1. Flash the provided Raspberry Pi image to an SD card
-2. Insert the SD card into your Raspberry Pi with the LoRa HAT installed
-3. Connect the Raspberry Pi to your Campbell CR800 datalogger via USB
-4. Power on the Raspberry Pi
-5. The system will automatically start collecting and transmitting data
+1. Clone the repository:
+   ```
+   git clone https://github.com/BryanNsoh/Logger_Lora.git
+   cd Logger_Lora
+   ```
+2. Flash the provided Raspberry Pi image to an SD card
+3. Insert the SD card into your Raspberry Pi with the LoRa HAT installed
+4. Connect the Raspberry Pi to your Campbell CR800 datalogger via USB
+5. Power on the Raspberry Pi
+6. The system will automatically start collecting and transmitting data
 
-Note: This quick start assumes you're using the preconfigured sensor setup. For custom configurations, see the [Detailed Setup Instructions](#detailed-setup-instructions).
+Note: This quick start assumes you're using the preconfigured sensor setup. For custom configurations, see the Detailed Setup Instructions.
 
 ## Detailed Setup Instructions
 
@@ -57,8 +62,8 @@ If you're not using the preconfigured image:
 2. Enable SSH and configure Wi-Fi (if needed) using `raspi-config`
 3. Clone the repository:
    ```
-   git clone https://github.com/yourusername/AgriSense-IoT.git
-   cd AgriSense-IoT
+   git clone https://github.com/BryanNsoh/Logger_Lora.git
+   cd Logger_Lora
    ```
 4. Run the automated setup script:
    ```
@@ -69,22 +74,7 @@ If you're not using the preconfigured image:
    - Configure the LoRa HAT
    - Set up the data collection service
 
-5. Configure your sensors in `config/sensor_mapping.yaml`:
-   ```yaml
-   - hash: "001"
-     treatment: 3
-     plot_number: 5001
-     project_id: crop2cloud24
-     dataset_id: node_c
-     sensor_id: IRT5001C3xx24
-     span: 5
-     sdi-12_address: "0"
-     depth: 
-     node: C
-     field: LINEAR_CORN
-   ```
-   Add entries for each of your sensors, following this format.
-
+5. Configure your sensors in `config/sensor_mapping.yaml`
 6. Update `config/config.yaml` with your specific LoRa and node settings
 
 ### Field Sensor Configuration
@@ -98,12 +88,7 @@ If you're not using the preconfigured image:
 ### LoRa Gateway Configuration
 
 1. Set up your LoRa gateway (e.g., RAK7258) according to the manufacturer's instructions
-2. Configure the gateway to forward data to your MQTT broker:
-   ```
-   Gateway EUI: [Your Gateway EUI]
-   Server Address: [Your MQTT Broker Address]
-   Port: 1883
-   ```
+2. Configure the gateway to forward data to your MQTT broker
 
 ### Google Cloud Platform Setup
 
@@ -153,11 +138,7 @@ Deploy the provided Cloud Functions for data processing:
    - Check LoRa gateway logs for incoming packets
    - View MQTT broker dashboard for message throughput
    - Use GCP Monitoring to track Pub/Sub and BigQuery metrics
-3. Query BigQuery tables for data analysis:
-   ```sql
-   SELECT * FROM `your_project_id.crop2cloud24.node_a`
-   WHERE DATE(timestamp) = CURRENT_DATE()
-   ```
+3. Query BigQuery tables for data analysis
 
 ## Troubleshooting
 
@@ -179,9 +160,8 @@ Deploy the provided Cloud Functions for data processing:
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to submit pull requests, report issues, or request features.
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to submit pull requests, report issues, or request features.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
