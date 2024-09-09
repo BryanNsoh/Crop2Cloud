@@ -1,8 +1,16 @@
 import os
 import datetime
+import re
 
 EXCLUDED_DIRS = {".git", "__pycache__", "node_modules", ".venv"}
-FULL_CONTENT_EXTENSIONS = {".py", ".toml", ".dbml", ".yaml", ".json", ".md"}
+FULL_CONTENT_EXTENSIONS = {".py", ".toml", ".dbml", ".yaml", ".json", ".md", ".sh", ".csv", ".CR8", ".txt", ".xml"}
+
+def escape_triple_strings(content):
+    def replace(match):
+        return match.group().replace('"', '\\"').replace("'", "\\'")
+    
+    pattern = r'("""[\s\S]*?"""|\'\'\'[\s\S]*?\'\'\')'
+    return re.sub(pattern, replace, content)
 
 def create_file_element(file_path, root_folder):
     relative_path = os.path.relpath(file_path, root_folder)
@@ -17,7 +25,9 @@ def create_file_element(file_path, root_folder):
         file_element.append("        <content>\n")
         try:
             with open(file_path, "r", encoding="utf-8") as file:
-                file_element.append(file.read())
+                content = file.read()
+                escaped_content = escape_triple_strings(content)
+                file_element.append(escaped_content)
         except UnicodeDecodeError:
             file_element.append("Binary or non-UTF-8 content not displayed")
         file_element.append("\n        </content>\n")

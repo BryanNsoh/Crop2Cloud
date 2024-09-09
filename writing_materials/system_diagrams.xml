@@ -1,0 +1,158 @@
+<diagram1>
+Filename: crop_to_cloud_data_flow_part1.png
+Name: Crop to Cloud Data Flow - Part 1
+Description: Illustrates the journey of data from field sensors to the MQTT broker, showcasing the initial stages of data collection and transmission in the IoT system.
+Code:
+sequenceDiagram
+    participant Sensors as Field Sensors
+    participant Logger as Campbell CR800 Logger
+    participant RPi as Raspberry Pi
+    participant LoRaHAT as LoRa HAT
+    participant Gateway as LoRa Gateway
+    participant EMQX as EMQX MQTT Broker
+
+    Sensors->>Logger: Send sensor data
+    Logger->>RPi: Transfer raw data 
+    (every 30 min)
+    RPi->>RPi: Process and format data
+    RPi->>RPi: Convert to hashes
+    RPi->>LoRaHAT: Send formatted data
+    LoRaHAT->>Gateway: Transmit data packet
+    Gateway->>EMQX: Publish to MQTT topic
+    Note over EMQX: Data ready 
+    for cloud processing
+</diagram1>
+
+<diagram2>
+Filename: crop_to_cloud_data_flow_part2.png
+Name: Crop to Cloud Data Flow - Part 2
+Description: Depicts the cloud-based processing of irrigation data, from MQTT broker to BigQuery storage, including PubSub messaging and Cloud Function computations.
+Code:
+sequenceDiagram
+    participant EMQX as EMQX MQTT Broker
+    participant VM as Virtual Machine Forwarder
+    participant PubSub as Google Cloud PubSub
+    participant CF as Cloud Function
+    participant BQ as BigQuery
+    participant Scheduler as Cloud Scheduler
+
+    EMQX->>VM: Forward MQTT message
+    VM->>VM: Process message
+    VM->>PubSub: Publish to PubSub topic
+    PubSub->>CF: Trigger Cloud Function
+    CF->>CF: Process data
+    CF->>BQ: Insert into BigQuery table
+    Scheduler->>CF: Trigger periodic functions
+    Note over CF: CWSI, ET_ref, 
+    SWSI computations
+    CF->>BQ: Update computed metrics
+</diagram2>
+
+<diagram3>
+Filename: cloud_functions_workflow.png
+Name: Cloud Functions Workflow
+Description: Provides an overview of various cloud functions, including weather data retrieval, forecasting, and irrigation metric computations, showing how these functions interact with BigQuery and are triggered by Cloud Scheduler.
+Code:
+graph TD
+    A[Cloud Scheduler] -->|Triggers| B(Current Weather Function)
+    A -->|Triggers| C(Forecast Function)
+    A -->|Triggers| D(CWSI Computation)
+    A -->|Triggers| E(ET_ref Calculation)
+    A -->|Triggers| F(SWSI Computation)
+    B -->|Updates| G[BigQuery Tables]
+    C -->|Updates| G
+    D -->|Updates| G
+    E -->|Updates| G
+    F -->|Updates| G
+    H[PubSub Messages] -->|Trigger| I(Data Insertion Function)
+    I -->|Inserts Data| G
+</diagram3>
+
+<diagram4>
+Filename: complete_sensor_to_cloud_workflow.png
+Name: Complete Sensor-to-Cloud Data Flow
+Description: The image shows a left-to-right flow diagram of a data collection and processing system. It consists of several components connected by red arrows.
+
+Starting from the left:
+
+1. There are three small images labeled "SENSORS (ORIGIN)":
+   - A close-up of a plant stem labeled "STEM DIAMETER"
+   - A device pointing upward labeled "CANOPY TEMPERATURE"
+   - Yellow cables in soil labeled "SOIL MOISTURE"
+
+2. A red arrow points from these to the next major component:
+   - A large image of an open electrical box with various components inside
+   - Labels point to different parts:
+     - "CAMPBELL DATALOGGER" at the top
+     - "LORA ANTENNA" also at the top
+     - "RBPI" (likely Raspberry Pi) in the middle
+     - "LORA HAT" below the RBPI
+     - "CHARGE CONTROLLER" to the right
+     - "12V BATTERY" at the bottom
+     - "POWER REGULATOR" also at the bottom
+
+3. Another red arrow points to the next item:
+   - A white, rectangular device labeled "LORAWAN GATEWAY"
+
+4. The next red arrow points to:
+   - A purple logo with white text reading "MQTT Broker"
+
+5. Below this, connected by a red arrow, is:
+   - A blue square with an icon of a computer screen, labeled "VM" and "MQTT PACKET FOWARDED" (likely a typo for "FORWARDER")
+
+6. To the right, connected by a red arrow:
+   - A blue hexagon with white dots and lines, labeled "GOOGLE PUB/SUB"
+
+7. Next to this, connected by a double-headed arrow:
+   - Another blue hexagon with brackets, labeled "GOOGLE CLOUD FUNCTIONS"
+
+8. A final red arrow points to:
+   - A screenshot of a spreadsheet-like interface labeled "GOOGLE BIGQUERY (DESTINATION)"
+
+The overall layout suggests a flow of data from sensors on the left, through various processing and transmission stages, to final storage and analysis on the right.
+</diagram4>
+
+
+<diagram5>
+Filename: agricultural_iot_dashboard.png
+Name: Agricultural IoT Analytics Dashboard
+Description: The image shows a web-based dashboard interface designed for agricultural data visualization and analysis. The dashboard is divided into several distinct sections:
+
+1. Header:
+   - Top left: A logo showing a stylized leaf and the text "AgriSense IoT"
+   - Top right: User profile icon, notifications bell, and settings gear icon
+
+2. Left Sidebar:
+   - Navigation menu with icons and labels for: Home, Fields, Sensors, Analytics, Alerts, and Settings
+
+3. Main Content Area (divided into a 2x2 grid of widgets):
+   Top Left Widget - "Field Overview":
+   - A satellite map view of agricultural fields
+   - Fields are color-coded based on soil moisture levels
+   - A legend shows colors ranging from red (dry) to blue (wet)
+
+   Top Right Widget - "Sensor Readings":
+   - Three gauges showing current readings for:
+     1. Average Soil Moisture: 32%
+     2. Average Canopy Temperature: 28°C
+     3. Average Stem Diameter: 15mm
+   - Each gauge has a needle pointing to the current value and is color-coded (green, yellow, or red) to indicate status
+
+   Bottom Left Widget - "7-Day Trend":
+   - A line graph showing the last 7 days of data
+   - Y-axis: Values for soil moisture, temperature, and stem diameter
+   - X-axis: Dates
+   - Three lines in different colors represent each measurement type
+
+   Bottom Right Widget - "Alerts and Recommendations":
+   - A scrollable list of recent alerts and AI-generated recommendations, such as:
+     1. "Field 3 soil moisture below threshold - Consider irrigation"
+     2. "Predicted heat stress in Field 2 - Increase monitoring"
+     3. "Optimal harvest time for Field 1 approaching - Schedule equipment"
+
+4. Footer:
+   - Links to "Help", "Contact Support", and "Privacy Policy"
+   - Text showing "Last updated: [Current Date and Time]"
+
+The overall color scheme uses shades of green and blue, evoking an agricultural and technological feel. The layout is clean and modern, with clear data visualizations and actionable insights prominently displayed.
+</diagram5>
