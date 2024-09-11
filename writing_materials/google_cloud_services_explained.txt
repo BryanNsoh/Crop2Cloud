@@ -1,0 +1,78 @@
+
+## GCP Services in Detail: A Deep Dive
+
+**Google Cloud Virtual Machine (VM):** 
+
+**General Purpose:** A Google Cloud VM provides a flexible, virtualized computing environment. This allows researchers to run applications and manage workloads on customizable instances within Google's robust and secure infrastructure. 
+
+**Specific Role in Project:**  A GCP VM instance, running the Ubuntu 20.04 LTS operating system, served as a dedicated server for a vital task: bridging the LoRaWAN network and the Google Cloud ecosystem. This bridge was implemented as a custom-developed MQTT forwarder application named `emqx_to_pubsub.py`. 
+
+* **Bridging the Gap:** This Python script used the `paho-mqtt` library to securely connect to the EMQX Cloud MQTT broker. It subscribed to the `device/data/uplink` topic, which received data from the LoRaWAN gateway.
+* **Message Processing and Transformation:** Incoming messages from the EMQX broker were carefully processed:
+    1. **UTF-8 Decoding:** The raw message payload was first decoded from its UTF-8 representation into a Python dictionary.
+    2. **Base64 Decoding:** The `data` field within the decoded JSON held the sensor data encoded in base64. The script extracted and decoded this string, revealing the original JSON payload as sent from the Raspberry Pi node in the field. 
+    3. **Hash Resolution and Enrichment:** This original payload from the Raspberry Pi contained key-value pairs where the keys were concise, three-digit sensor hashes. These hashes, though efficient for transmission, lacked the complete sensor metadata needed for accurate storage and analysis. The script employed a YAML configuration file, `sensor_mapping.yaml`, identical to the one on the Raspberry Pi.  This file enabled the forwarder to map each hash to its corresponding sensor's full ID (`sensor_id`), field location, treatment group, plot number, and the targeted BigQuery dataset and table. 
+    4. **Constructing Pub/Sub Messages:**  For each sensor hash and reading in the original payload, the forwarder meticulously constructed a new JSON message formatted for seamless integration with Google Cloud Pub/Sub.  These messages included: 
+        * `timestamp`: The exact time of the sensor reading (as provided by the Raspberry Pi).
+        * `sensor_id`:  The full sensor ID, no longer just a hash.
+        * `value`:  The numerical sensor reading.
+        * `project_name`: "crop2cloud24", the Google Cloud project designated for this research.
+        * `dataset_name`: A structured dataset name derived from the sensor's field and treatment: "{field}_trt{treatment}".
+        * `table_name`:  The exact BigQuery table to receive the data, determined by the plot: "plot_{plot_number}".
+* **Pub/Sub Publishing:**  The script then used Google's `google-cloud-pubsub` Python library to publish these enriched JSON messages to the `tester` topic on Google Cloud Pub/Sub.
+* **Reliability and Robustness:** The `emqx_to_pubsub.py` script incorporated error handling and logging via Python's `logging` module. This captured exceptions during MQTT interaction or Pub/Sub communication, writing detailed logs to `app.log` for diagnostics and system monitoring. An exponential backoff retry mechanism was also implemented to handle transient network errors, ensuring data delivery even in the face of temporary disruptions.
+
+**Google Cloud Pub/Sub:**
+
+**General Purpose:** Pub/Sub is Google's real-time, highly scalable messaging service. It facilitates asynchronous communication between various components of a system, serving as a central hub for data distribution. 
+
+**Specific Role in Project:** Google Cloud Pub/Sub took on the essential role of a message queue. This decoupled the data flow, allowing the MQTT forwarder to deliver messages without being directly tied to the downstream processing by Cloud Functions. The `tester` topic on Pub/Sub became a critical trigger point. Each time the forwarder published a message to this topic, Pub/Sub automatically invoked the corresponding Cloud Function designated to handle sensor data ingestion. This event-driven architecture provided efficiency and flexibility.
+
+**Google BigQuery:**
+
+**General Purpose:** BigQuery is Google Cloud's fully managed, petabyte-scale data warehouse solution. It excels in storing and analyzing massive datasets with its serverless architecture and high-performance query engine.
+
+**Specific Role in Project:** BigQuery acted as the definitive data repository for this research project. A meticulously structured organization was implemented within BigQuery:
+* **Datasets:** The project utilized separate datasets to logically categorize data by both field type (LINEAR_CORN or LINEAR_SOY) and irrigation treatment.
+* **Tables:** Within each dataset, dedicated tables were created for each individual experimental plot.  These tables had a well-defined schema:
+    * `TIMESTAMP`: The precise time of the reading.
+    * Raw Sensor Readings: Fields for each sensor type (e.g., `IRT5023A1xx24` representing an infrared temperature reading in plot 5023).
+    * `cwsi`: The computed Crop Water Stress Index for the plot.
+    * `swsi`: The computed Soil Water Stress Index for the plot.
+    * Weather Data: Fields for meteorological variables (e.g., `Ta_2m_Avg` representing average air temperature).
+
+This organized structure facilitated efficient storage, retrieval, and analysis of all collected data, both raw and processed.
+
+**Google Cloud Functions:**
+
+**General Purpose:** Cloud Functions are Google's serverless compute offering, enabling developers to run event-driven code without managing servers. Functions are triggered by a variety of events, including HTTP requests, Pub/Sub messages, or scheduled invocations.
+
+**Specific Role in Project:** Cloud Functions formed the core of data handling, processing, and analysis. Key functions included:
+
+* **Data Ingestion:** A vital function, triggered by new messages arriving on the `tester` Pub/Sub topic, was responsible for ingesting the enriched sensor data delivered by the MQTT forwarder.
+    * **Message Parsing:** The function parsed the incoming JSON message to extract the sensor reading, timestamp, and the metadata derived from the hash mapping.
+    * **BigQuery Insertion:** Using the powerful `google-cloud-bigquery` Python library, the function inserted the data into the correct BigQuery table. The dataset and table were determined using the `dataset_name` and `table_name` fields that were added by the forwarder based on the sensor hash mapping.
+* **Weather Data Acquisition:** The scheduled function named `mesonet-weather-updater` provided a steady stream of current weather data:
+    * **Data Retrieval:** This function used Python's `requests` library to access the University of Nebraska-Lincoln Mesonet website, downloading the latest weather data as a CSV file.
+    * **Data Transformation:**  The raw CSV was parsed, processed, and converted into a format aligned with the schema of the `current-weather-mesonet` BigQuery table.
+    * **BigQuery Update:**  The function appended the newly retrieved and transformed weather data to this designated table, ensuring a constantly updated weather record.
+* **Forecast Data Acquisition:**  The `four-day-forecast-openweathermap` function, also scheduled, provided periodic weather forecasts:
+    * **API Call:** This function leveraged the OpenWeatherMap API (via the `requests` library) to fetch a 4-day forecast for the research site.
+    * **Processing and Formatting:**  The received forecast data was processed and formatted to conform to the schema of the `4-day-forecast-openweathermap` table in BigQuery. 
+    * **BigQuery Update:**  The function updated the forecast data in the specified BigQuery table, overwriting existing forecast data to keep the information current. 
+* **Irrigation Metric Computation:** The heart of the irrigation management aspect was handled by two scheduled Cloud Functions: `compute-cwsi` and `compute-swsi`.
+    * **Data Retrieval:**  These functions retrieved the necessary sensor data (e.g., IRT, TDR) and weather data from their respective BigQuery tables.
+    * **CWSI and SWSI Calculations:**  Using `pandas` and `numpy` (robust Python libraries for data manipulation and numerical analysis), the functions calculated the Crop Water Stress Index (CWSI) and Soil Water Stress Index (SWSI) for each plot.
+    * **BigQuery Update:**  The calculated CWSI and SWSI values were written back to the corresponding plot tables in BigQuery, providing up-to-date irrigation guidance.
+
+**Google Cloud Scheduler:**
+
+**General Purpose:** Cloud Scheduler is a fully managed cron job scheduler within Google Cloud. It enables the automation of recurring tasks, defining specific schedules and execution times.
+
+**Specific Role in Project:** Cloud Scheduler was the driving force behind the automation of essential periodic tasks:
+
+* **Hourly Weather Updates:** The `mesonet-weather-updater` function was rigorously scheduled to execute every hour. This guaranteed that the latest weather observations were regularly retrieved and made available for analysis within BigQuery.
+* **Daily Forecast Updates:** The `four-day-forecast-openweathermap` function was scheduled for daily execution, updating the forecast data in BigQuery and ensuring that predictions remained relevant.
+* **Daily Irrigation Metric Calculation:**  The `compute-cwsi` and `compute-swsi` functions were also set for daily execution. This daily update ensured that the CWSI and SWSI values were consistently computed using the most recent sensor readings and weather data, providing the foundation for informed, data-driven irrigation decisions.
+
+By combining these carefully designed and interconnected GCP services, the research project achieved a robust, automated, and scalable system for agricultural monitoring and irrigation management. 

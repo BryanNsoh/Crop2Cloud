@@ -1,0 +1,156 @@
+You're absolutely right! We need to go full "research paper mode" and leave no stone unturned. Here's a breakdown of the Cloud Functions with maximum detail, including formulas and avoiding code reproduction:
+
+## Cloud Functions: An Exhaustive Examination
+
+**1. Data Ingestion Function:**
+
+* **Trigger:** Google Cloud Pub/Sub message arrival on the `tester` topic. Each message originates from the MQTT forwarder running on the dedicated Google Cloud VM.
+* **Purpose:** 
+    * **Sensor Data Digestion:** Efficiently parse incoming Pub/Sub messages, extracting timestamped sensor readings and associated metadata.
+    * **Hash to Metadata Resolution:** Crucially, map the compact three-digit sensor hashes contained within the messages to their corresponding full sensor metadata (using `sensor_mapping.yaml`). This ensures data fidelity and facilitates targeted storage in BigQuery.
+* **Inputs:** 
+    * **Pub/Sub Message:**  A JSON payload containing the following:
+        * `timestamp`: The timestamp of the sensor measurement, as provided by the Raspberry Pi node.
+        * `sensor_id`: The three-digit sensor hash.
+        * `value`: The numerical sensor reading.
+        * `project_name`: The target Google Cloud project ID ("crop2cloud24").
+        * `dataset_name`: The BigQuery dataset to be used, formatted as "{field}_trt{treatment}" (e.g., "LINEAR_CORN_trt1").
+        * `table_name`:  The BigQuery table for data storage, formatted as "plot_{plot_number}" (e.g., "plot_5023").
+    * **`sensor_mapping.yaml`:**  This YAML file, deployed with the Cloud Function, holds the critical mapping between sensor hashes and their full metadata. The structure is a list of dictionaries, with each dictionary representing a sensor.  A dictionary might look like this:
+
+        ```yaml
+        - hash: "035"
+          treatment: 1
+          plot_number: 5023
+          project_id: crop2cloud24
+          dataset_id: node_a
+          sensor_id: TDR5023A10624 
+          span: 5
+          sdi-12_address: "2"
+          depth: 6
+          node: A
+          field: LINEAR_CORN
+        ```
+* **Process:**
+    1. **Message Acquisition and Parsing:**  The function receives the Pub/Sub message trigger and decodes the JSON payload into a Python dictionary.
+    2. **Hash-to-Metadata Lookup:** 
+        * The function opens and parses the `sensor_mapping.yaml` file using the `yaml` library.
+        * It iterates through the list of sensor entries (dictionaries) in the `sensor_mapping.yaml` data. 
+        * For each entry, it compares the `hash` field to the `sensor_id` value from the Pub/Sub message.
+        * When a match is found, it extracts the full `sensor_id`, `field`, `treatment`, and `plot_number` from the matching YAML entry. This information is now ready to be used for precise data storage in BigQuery.
+    3. **BigQuery Row Construction:** The function dynamically creates a dictionary representing the row to be inserted into BigQuery. The dictionary keys correspond to the column names in the BigQuery table. This dictionary will contain:
+        * `TIMESTAMP`: The timestamp from the Pub/Sub message.
+        * The full sensor ID (retrieved from the metadata mapping). 
+        * `value`: The sensor reading from the message.
+        * `is_actual`: A boolean value, likely set to `True` to indicate that this is actual sensor data (as opposed to predicted or interpolated values).
+    4. **BigQuery Interaction:**  The function utilizes the `google-cloud-bigquery` Python library:
+        * **Client Initialization:** It creates a BigQuery client object to interact with the BigQuery service.
+        * **Table Reference:**  Using the `project_name`, `dataset_name`, and `table_name` from the Pub/Sub message, it constructs a table reference, specifying the exact location of the target BigQuery table.
+        * **Row Insertion:**  The `client.insert_rows_json()` method is used to insert the constructed row (as a JSON object) into the BigQuery table. The schema of the BigQuery table is expected to match the structure of the row dictionary. 
+* **Outputs:** 
+    * **BigQuery Data:** A new row of data inserted into the specific BigQuery table (as determined during metadata resolution).
+* **External Service Interactions:**
+    * **Google Cloud Pub/Sub:** Receives the triggering messages.
+    * **Google BigQuery:**  Writes data to BigQuery tables.
+
+**2. Mesonet Weather Data Updater (`mesonet-weather-updater`):**
+
+* **Trigger:** Google Cloud Scheduler, scheduled for hourly execution.
+* **Purpose:** To maintain an up-to-date weather record by fetching the latest weather observations from the University of Nebraska-Lincoln Mesonet and appending them to a BigQuery table. 
+* **Inputs:**
+    * **Mesonet Data URL:** The function is configured with the URL of a CSV file on the Mesonet website that provides recent weather observations (e.g., the past hour's data). 
+* **Process:**
+    1. **Weather Data Download:** The function uses the `requests` library to download the CSV file from the Mesonet website.
+    2. **CSV Parsing and Transformation:** 
+        * **CSV Parsing:** The `pandas` library is used to read the downloaded CSV file into a pandas DataFrame. 
+        * **Timestamp Conversion:** The timestamp column in the DataFrame, likely in local time, is converted to UTC (Coordinated Universal Time) for consistency. The `pytz` library is commonly used for timezone conversions.
+        * **Data Cleaning and Formatting:** Any unnecessary columns are removed from the DataFrame, and data types are adjusted to match the BigQuery table schema (e.g., converting string representations of numbers to actual numerical values).
+    3. **BigQuery Insertion:** The function utilizes the `google-cloud-bigquery` library to:
+        * **Client Initialization:** Create a BigQuery client object.
+        * **Table Reference:** Construct a reference to the target BigQuery table (e.g., `current-weather-mesonet` in the `weather` dataset).
+        * **Data Appending:**  The `client.load_table_from_dataframe()` method is used to append the processed pandas DataFrame to the BigQuery table.  The `write_disposition` property is set to `WRITE_APPEND` to add the new data without overwriting existing data.
+* **Outputs:** 
+    * **BigQuery Data:** Appended rows of weather data in the `current-weather-mesonet` BigQuery table.
+* **External Service Interactions:**
+    * **Google Cloud Scheduler:** Receives the hourly trigger event.
+    * **University of Nebraska-Lincoln Mesonet:** Downloads weather data.
+
+**3. Four-Day Forecast Function (`four-day-forecast-openweathermap`):**
+
+* **Trigger:** Google Cloud Scheduler, scheduled for daily execution. 
+* **Purpose:**  To provide a current four-day weather forecast by fetching data from the OpenWeatherMap API and storing it in BigQuery.
+* **Inputs:**
+    * **OpenWeatherMap API Key:** The function is configured with an API key to access OpenWeatherMap's services.
+    * **Location Coordinates:**  The latitude and longitude of the research site are also configured within the function.
+* **Process:**
+    1. **API Call:** Using the `requests` library, the function makes an API call to OpenWeatherMap, sending the API key and location coordinates as parameters. The API response is typically in JSON format.
+    2. **JSON Parsing and Transformation:**
+        * **JSON Parsing:**  The function uses the `json` library to parse the API response into a Python dictionary.
+        * **Data Extraction:** The function extracts the relevant forecast data from the dictionary.  OpenWeatherMap's API structure provides forecast data at three-hour intervals.
+        * **Timestamp Handling:** The timestamps in the forecast data, which are likely in Unix epoch time format, are converted to UTC using the `datetime` library and possibly `pytz` for timezone conversions. 
+        * **Data Formatting:** The function structures the extracted data into a list of dictionaries, with each dictionary representing a single three-hour forecast point and containing keys for the timestamp and various forecast variables (temperature, humidity, wind, etc.). 
+    3. **BigQuery Integration:**  The function uses the `google-cloud-bigquery` library:
+        * **Client Initialization:**  A BigQuery client object is created.
+        * **Table Reference:**  The function constructs a reference to the `4-day-forecast-openweathermap` table in the `weather` dataset.
+        * **Table Overwrite:**  The `client.load_table_from_json()` method is used to load the formatted forecast data into the table. The `write_disposition` property is set to `WRITE_TRUNCATE`, which overwrites the entire existing table with the new forecast data. This ensures that the table always contains the most current 4-day forecast.
+* **Outputs:**
+    * **BigQuery Data:** The `4-day-forecast-openweathermap` table is updated with the current four-day weather forecast, replacing any existing forecast data.
+* **External Service Interactions:**
+    * **Google Cloud Scheduler:**  Receives the daily trigger event.
+    * **OpenWeatherMap API:**  Fetches the weather forecast.
+
+**4. CWSI Computation Function (`compute-cwsi`):**
+
+* **Trigger:** Google Cloud Scheduler, with a daily schedule.
+* **Purpose:**  To compute the Crop Water Stress Index (CWSI) for each experimental plot, providing insights into the crop's water status and guiding irrigation decisions.
+* **Inputs:**
+    * **Sensor Data:** Queries BigQuery tables to retrieve canopy temperature (IRT) readings for each relevant plot over the past 24 hours.
+    * **Weather Data:** Queries BigQuery for corresponding air temperature (`Ta`), solar radiation (`Rs`), and relative humidity (`RH`) from the `current-weather-mesonet` table for the same 24-hour period. 
+* **Process:**
+    1. **BigQuery Data Retrieval:**  Using `google-cloud-bigquery`, the function:
+        * **Initializes a Client:** Creates a BigQuery client object.
+        * **Constructs Queries:**  Forms SQL-like queries to fetch the necessary sensor and weather data from their respective tables. The queries filter data based on plot number and the 24-hour time window.
+        * **Executes Queries:**  Runs the queries and retrieves the data as pandas DataFrames. 
+    2. **Data Preparation:**
+        * **Data Alignment:** The function aligns the sensor data and weather data DataFrames based on their timestamps, ensuring that the calculations are performed on matching data points.
+        * **Data Interpolation (if needed):**  If there are missing data points or differences in sampling frequency between the sensor data and weather data, the function might use interpolation techniques (provided by `pandas`) to estimate missing values and create a complete dataset for calculations. 
+    3. **CWSI Calculation:** 
+        * **Algorithm:** The function implements a specific CWSI algorithm. A common approach is:
+           CWSI = (Tc - Ta_wet) / (Ta_dry - Ta_wet)
+        
+           Where:
+           * `Tc` is the measured canopy temperature.
+           * `Ta_wet` is the air temperature of a well-watered reference crop under similar conditions (estimated or obtained from historical data).
+           * `Ta_dry` is the air temperature of a fully water-stressed crop under similar conditions (also estimated or obtained from historical data).
+
+        * **Implementation:**  The function would likely use `pandas` and `numpy` to apply the CWSI formula across the DataFrame, generating a CWSI value for each row (timestamp).
+    4. **BigQuery Update:**
+        * **Table Reference:** The function constructs references to the appropriate BigQuery tables for each plot.
+        * **CWSI Value Insertion:**  It updates the `cwsi` column in each plot table with the corresponding calculated CWSI values, associating them with the correct timestamps.
+* **Outputs:**
+    * **BigQuery Data:** The `cwsi` column in the relevant plot tables is updated with the newly calculated CWSI values.
+* **External Service Interactions:**
+    * **Google Cloud Scheduler:** Receives the daily trigger event.
+    * **Google BigQuery:**  Reads sensor and weather data and writes the calculated CWSI values.
+
+**5. SWSI Computation Function (`compute-swsi`):**
+
+* **Trigger:** Google Cloud Scheduler, scheduled for daily execution.
+* **Purpose:**  To calculate the Soil Water Stress Index (SWSI) for each experimental plot, assessing the level of water stress in the soil.
+* **Inputs:**
+    * **Sensor Data:** Queries BigQuery tables for soil moisture readings (TDR) for each relevant plot over the past 24 hours.
+* **Process:**
+    1. **BigQuery Data Retrieval:**  The function uses `google-cloud-bigquery` to fetch the soil moisture data from the appropriate BigQuery tables, filtering by plot number and the 24-hour time window. The data is retrieved as a pandas DataFrame. 
+    2. **SWSI Calculation:**
+        * **Algorithm:**  A common SWSI algorithm involves comparing the measured soil moisture (`SM`) to the field capacity (`FC`) and wilting point (`WP`) of the soil:
+           SWSI = (FC - SM) / (FC - WP)
+           
+        * **Implementation:** The function uses `pandas` and `numpy` to apply the SWSI formula to each soil moisture reading in the DataFrame, generating a SWSI value for each timestamp.
+    3. **BigQuery Update:**
+        * **Table Reference:** The function constructs references to the BigQuery tables for each plot.
+        * **SWSI Value Update:** The `swsi` column in each plot table is updated with the corresponding calculated SWSI values. 
+* **Outputs:**
+    * **BigQuery Data:**  Updated `swsi` values in the relevant plot tables.
+* **External Service Interactions:**
+    * **Google Cloud Scheduler:** Receives the daily trigger. 
+    * **Google BigQuery:**  Reads sensor data and writes SWSI values.

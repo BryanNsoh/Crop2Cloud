@@ -3,7 +3,9 @@ location:
   city: North Platte
   state: Nebraska
   country: USA
-  coordinates: null
+  coordinates: 41.089282, -100.773808
+
+
 
 climate:
   type: semi-arid
@@ -44,36 +46,7 @@ scheduling_criteria:
   irrigation_frequency: ""
   sensor_system_integration: true
 
-crop_details:
-  species: ""
-  hybrid: ""
-  company: ""
-  location: ""
-  planting_date: ""
-  population_density: ""
-  row_spacing: ""
 
-fertilization:
-  type: ""
-  form: ""
-  pre_plant_fertilization:
-    date: ""
-    rate: ""
-    application_method: ""
-    application_depth: ""
-    distance_from_crop_row: ""
-  in_season_fertilization:
-    date: ""
-    rate: ""
-    application_method: ""
-    application_location: ""
-    company: ""
-    location: ""
-
-irrigation_management:
-  basis: ""
-  frequency: ""
-  criteria: ""
 
 references:
   - citation: Payero et al., 2009
