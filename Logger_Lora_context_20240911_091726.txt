@@ -1,4 +1,4 @@
-Context extraction timestamp: 20240906_141205
+Context extraction timestamp: 20240911_091726
 
 <repository_structure>
 <directory name="Logger_Lora">
@@ -11830,6 +11830,49 @@ from .lora_functions import send_lora_data
     </directory>
     <directory name="writing_materials">
     <file>
+        <name>equipment_used.yaml</name>
+        <path>writing_materials\equipment_used.yaml</path>
+        <content>
+
+        </content>
+    </file>
+    <file>
+        <name>sensor_nomenclature_description.txt</name>
+        <path>writing_materials\sensor_nomenclature_description.txt</path>
+        <content>
+# Sensor Nomenclature Guide
+
+The sensor address is composed of these parts in the following order:
+Sensor Type: Three-letter code
+'IRT': Infrared Thermometer
+'TDR': Time Domain Reflectometry
+'WAM': Watermark
+'SAP': Sapflow
+'DEN': Dendrometer
+Field Number: Four-digit number
+Node: Single letter (A, B, C, D, or E)
+Treatment: Single digit (1, 2, 5, or 6)
+Depth: Two-digit number (06, 18, 32, or 40) or 'xx' for non-applicable sensors
+Timestamp: Two-digit year ('24') (this also doubles as an identifier for the linear field LR
+
+
+## Examples:
+
+1. TDR2001A10624: This is a TDR sensor in field 2001, node A, treatment 1, installed at 6 inches, installed in 2024.
+2. IRT5010B21824: This is an IRT sensor in field 5010, node B, treatment 2, installed at 18 inches, installed in 2024.
+
+
+
+        </content>
+    </file>
+    <file>
+        <name>software_used.yaml</name>
+        <path>writing_materials\software_used.yaml</path>
+        <content>
+
+        </content>
+    </file>
+    <file>
         <name>study_region&experimental_design.yaml</name>
         <path>writing_materials\study_region&experimental_design.yaml</path>
         <content>
@@ -12231,6 +12274,52 @@ Starting from the left:
 
 The overall layout suggests a flow of data from sensors on the left, through various processing and transmission stages, to final storage and analysis on the right.
 </diagram4>
+
+
+<diagram5>
+Filename: agricultural_iot_dashboard.png
+Name: Agricultural IoT Analytics Dashboard
+Description: The image shows a web-based dashboard interface designed for agricultural data visualization and analysis. The dashboard is divided into several distinct sections:
+
+1. Header:
+   - Top left: A logo showing a stylized leaf and the text "AgriSense IoT"
+   - Top right: User profile icon, notifications bell, and settings gear icon
+
+2. Left Sidebar:
+   - Navigation menu with icons and labels for: Home, Fields, Sensors, Analytics, Alerts, and Settings
+
+3. Main Content Area (divided into a 2x2 grid of widgets):
+   Top Left Widget - "Field Overview":
+   - A satellite map view of agricultural fields
+   - Fields are color-coded based on soil moisture levels
+   - A legend shows colors ranging from red (dry) to blue (wet)
+
+   Top Right Widget - "Sensor Readings":
+   - Three gauges showing current readings for:
+     1. Average Soil Moisture: 32%
+     2. Average Canopy Temperature: 28°C
+     3. Average Stem Diameter: 15mm
+   - Each gauge has a needle pointing to the current value and is color-coded (green, yellow, or red) to indicate status
+
+   Bottom Left Widget - "7-Day Trend":
+   - A line graph showing the last 7 days of data
+   - Y-axis: Values for soil moisture, temperature, and stem diameter
+   - X-axis: Dates
+   - Three lines in different colors represent each measurement type
+
+   Bottom Right Widget - "Alerts and Recommendations":
+   - A scrollable list of recent alerts and AI-generated recommendations, such as:
+     1. "Field 3 soil moisture below threshold - Consider irrigation"
+     2. "Predicted heat stress in Field 2 - Increase monitoring"
+     3. "Optimal harvest time for Field 1 approaching - Schedule equipment"
+
+4. Footer:
+   - Links to "Help", "Contact Support", and "Privacy Policy"
+   - Text showing "Last updated: [Current Date and Time]"
+
+The overall color scheme uses shades of green and blue, evoking an agricultural and technological feel. The layout is clean and modern, with clear data visualizations and actionable insights prominently displayed.
+</diagram5>
+
         </content>
     </file>
     </directory>
