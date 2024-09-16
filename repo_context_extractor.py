@@ -1,6 +1,7 @@
 import os
 import datetime
 import re
+import argparse
 
 EXCLUDED_DIRS = {".git", "__pycache__", "node_modules", ".venv"}
 FULL_CONTENT_EXTENSIONS = {".py", ".toml", ".dbml", ".yaml", ".json", ".md", ".sh", ".csv", ".CR8", ".txt", ".xml"}
@@ -37,38 +38,52 @@ def create_file_element(file_path, root_folder):
     file_element.append("    </file>\n")
     return "".join(file_element)
 
-def get_repo_structure(root_folder):
+def get_repo_structure(root_folder, target_folder=None):
     structure = ["<repository_structure>\n"]
+
+    if target_folder:
+        root_folder = os.path.join(root_folder, target_folder)
+        structure.append(f'<directory name="{target_folder}">\n')
 
     for subdir, dirs, files in os.walk(root_folder):
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
         level = subdir.replace(root_folder, "").count(os.sep)
-        indent = " " * 4 * level
+        indent = " " * 4 * (level + (1 if target_folder else 0))
         relative_subdir = os.path.relpath(subdir, root_folder)
 
-        structure.append(f'{indent}<directory name="{os.path.basename(subdir)}">\n')
+        if subdir != root_folder:
+            structure.append(f'{indent}<directory name="{os.path.basename(subdir)}">\n')
         for file in files:
             file_path = os.path.join(subdir, file)
             file_element = create_file_element(file_path, root_folder)
             structure.append(file_element)
-        structure.append(f"{indent}</directory>\n")
+        if subdir != root_folder:
+            structure.append(f"{indent}</directory>\n")
 
+    if target_folder:
+        structure.append("</directory>\n")
     structure.append("</repository_structure>\n")
     return "".join(structure)
 
 def main():
+    parser = argparse.ArgumentParser(description="Extract repository context.")
+    parser.add_argument("--folder", help="Specific folder to extract", default=None)
+    args = parser.parse_args()
+
     root_folder = os.getcwd()  # Use the current working directory
     base_dir = os.path.basename(root_folder)
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = os.path.join(root_folder, f"{base_dir}_context_{timestamp}.txt")
+    
+    folder_suffix = f"_{args.folder}" if args.folder else ""
+    output_file = os.path.join(root_folder, f"{base_dir}_context{folder_suffix}_{timestamp}.txt")
 
     # Delete the previous output file if it exists
     for file in os.listdir(root_folder):
-        if file.startswith(f"{base_dir}_context_") and file.endswith(".txt"):
+        if file.startswith(f"{base_dir}_context{folder_suffix}_") and file.endswith(".txt"):
             os.remove(os.path.join(root_folder, file))
             print(f"Deleted previous context file: {file}")
 
-    repo_structure = get_repo_structure(root_folder)
+    repo_structure = get_repo_structure(root_folder, args.folder)
 
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(f"Context extraction timestamp: {timestamp}\n\n")
