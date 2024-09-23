@@ -179,3 +179,39 @@ graph TD
        - The dashboard uses a dark theme with contrasting colors for different types of data, creating a visually clear and user-friendly interface for monitoring and managing irrigation.
   </description>
 </diagram8>
+
+<diagram9>
+  <name>Field Sensor and Treatment Layout in North Platte, Nebraska</name>
+  <filename>field_sensor_treatment_layout.png</filename>
+  <description>
+    This diagram illustrates the field layout, sensor positioning, and treatment zones in North Platte, Nebraska. The image is divided into three main sections: a geographic overview of Nebraska, a detailed map of North Platte, and a zoomed-in view of the experimental field with sensors and treatment zones.
+
+    1. **Nebraska Overview**:
+       - A high-contrast black and white map of Nebraska displaying road networks, boundaries, and a highlighted green dot indicating the location of North Platte.
+
+    2. **North Platte Map**:
+       - A detailed map focusing on the city of North Platte, with coordinates labeled along the edges (latitude: 41.08 to 41.14, longitude: -100.82 to -100.76).
+       - The map highlights urban structures and outlines topographical features with contour lines.
+       - A red box marks the specific location of the experimental field within North Platte, aligning with the zoomed-in section on the right.
+
+    3. **Field Layout**:
+       - The zoomed-in section shows an aerial view of the agricultural field divided into multiple rows and columns, bordered with red lines.
+       - **Sensors and Treatments**:
+         - **Infrared Temperature Sensors**: Represented by orange icons resembling a sensor shape, distributed throughout the field.
+         - **Soil Moisture Sensors**: Brown icons depicting probes are positioned at various locations, typically grouped in threes.
+       - **Treatment Zones**:
+         - Four treatment types are labeled using numbered circles with distinct colors:
+           - **Treatment 1**: Yellow circle labeled "1".
+           - **Treatment 2**: Green circle labeled "2".
+           - **Treatment 3**: Blue circle labeled "3".
+           - **Treatment 4**: Pink circle labeled "4".
+       - **Sensor and Treatment Legend**: Located on the right side, the legend explains the symbols used:
+         - Orange symbol for "Infrared Temperature Sensor".
+         - Brown symbol for "Soil Moisture Sensor * 3".
+         - Colored circles with corresponding treatment numbers (1 through 4).
+
+    **Overall Layout**:
+    This diagram visually connects geographic, urban, and field-level data to provide a comprehensive view of sensor deployment and experimental treatments. It serves as a reference for spatial positioning and understanding of experimental design within the field.
+  </description>
+</diagram9>
+
