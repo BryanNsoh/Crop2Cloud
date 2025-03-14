@@ -1,4 +1,4 @@
-# AgriSense IoT: Precision Agriculture Monitoring System
+# Crop2Cloud: Precision Agriculture Monitoring System
 
 ## Table of Contents
 1. [Introduction](#introduction)
