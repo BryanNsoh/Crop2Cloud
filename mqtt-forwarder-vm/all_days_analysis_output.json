@@ -1,0 +1,6768 @@
+{
+    "2024-07-29": {
+        "Total Publications": 90,
+        "Date Range": "2024-07-29 08:07:44.342000 to 2024-07-29 20:42:13.041000",
+        "Total Duration": "0 days 12:34:28.699000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-07-29",
+                "count": 90
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-07-29 08:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-07-29 09:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-07-29 11:00:00",
+                "count": 12
+            },
+            {
+                "hour": "2024-07-29 15:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-07-29 16:00:00",
+                "count": 11
+            },
+            {
+                "hour": "2024-07-29 17:00:00",
+                "count": 10
+            },
+            {
+                "hour": "2024-07-29 18:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-07-29 19:00:00",
+                "count": 19
+            },
+            {
+                "hour": "2024-07-29 20:00:00",
+                "count": 5
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 48
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 42
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 90
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 37
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 20
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 17
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 16
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 30
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 14
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 12
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 9
+            },
+            {
+                "table_name": "plot_5006",
+                "count": 7
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 7
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 6
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 5
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 14
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 6
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 5
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 1
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 3544.585,
+                "min": 3499.74,
+                "max": 3629.74
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 30.436666666666667,
+                "min": 30.09,
+                "max": 30.61
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 30.2,
+                "min": 30.2,
+                "max": 30.2
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 26.083333333333332,
+                "min": 18.77,
+                "max": 30.52
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 28.6825,
+                "min": 16.71,
+                "max": 30.65
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 26.82,
+                "min": 26.82,
+                "max": 26.82
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 11.3,
+                "min": 11.3,
+                "max": 11.3
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 15.6,
+                "min": 15.6,
+                "max": 15.6
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 26.3,
+                "min": 26.3,
+                "max": 26.3
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.335,
+                "min": 18.32,
+                "max": 18.35
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 18.15,
+                "min": 18.15,
+                "max": 18.15
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 15.3,
+                "min": 15.3,
+                "max": 15.3
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 27.4,
+                "min": 27.4,
+                "max": 27.4
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 20.35,
+                "min": 20.3,
+                "max": 20.4
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 24.212,
+                "min": 24.1,
+                "max": 24.38
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 19.275000000000002,
+                "min": 19.18,
+                "max": 19.32
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 20.8,
+                "min": 20.8,
+                "max": 20.8
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 20.1125,
+                "min": 20.0,
+                "max": 20.2
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 22.766,
+                "min": 22.6,
+                "max": 22.9
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 18.375,
+                "min": 18.35,
+                "max": 18.4
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 23.91,
+                "min": 23.72,
+                "max": 24.1
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 19.990000000000002,
+                "min": 19.9,
+                "max": 20.1
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 15.7,
+                "min": 15.47,
+                "max": 15.98
+            }
+        ]
+    },
+    "2024-07-30": {
+        "Total Publications": 155,
+        "Date Range": "2024-07-30 00:46:10.181000 to 2024-07-30 21:36:19.587000",
+        "Total Duration": "0 days 20:50:09.406000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-07-30",
+                "count": 155
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-07-30 00:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-07-30 02:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-07-30 05:00:00",
+                "count": 13
+            },
+            {
+                "hour": "2024-07-30 07:00:00",
+                "count": 10
+            },
+            {
+                "hour": "2024-07-30 09:00:00",
+                "count": 7
+            },
+            {
+                "hour": "2024-07-30 10:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-07-30 12:00:00",
+                "count": 18
+            },
+            {
+                "hour": "2024-07-30 13:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-07-30 14:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-07-30 15:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-07-30 17:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-07-30 18:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-07-30 19:00:00",
+                "count": 13
+            },
+            {
+                "hour": "2024-07-30 20:00:00",
+                "count": 17
+            },
+            {
+                "hour": "2024-07-30 21:00:00",
+                "count": 18
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 105
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 50
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 155
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 66
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 41
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 30
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 18
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 39
+            },
+            {
+                "table_name": "plot_5006",
+                "count": 27
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 26
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 19
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 15
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 13
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 11
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 5
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 14
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 13
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 13
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 12
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 6
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 5
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 3
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 1
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 5664.955,
+                "min": 5606.99,
+                "max": 5722.92
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 3505.46,
+                "min": 3426.56,
+                "max": 3578.96
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 29.534166666666664,
+                "min": 23.5,
+                "max": 32.16
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 28.713076923076922,
+                "min": 24.52,
+                "max": 32.0
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 25.546,
+                "min": 20.35,
+                "max": 28.29
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 26.11285714285714,
+                "min": 19.35,
+                "max": 31.94
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 26.024,
+                "min": 25.7,
+                "max": 26.27
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 11.306000000000001,
+                "min": 11.3,
+                "max": 11.33
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 15.496666666666668,
+                "min": 15.4,
+                "max": 15.57
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 25.85,
+                "min": 25.65,
+                "max": 26.02
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.276,
+                "min": 18.25,
+                "max": 18.3
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 18.128,
+                "min": 18.12,
+                "max": 18.15
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 15.248000000000001,
+                "min": 15.17,
+                "max": 15.3
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 26.574,
+                "min": 26.4,
+                "max": 26.85
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 20.366666666666664,
+                "min": 20.3,
+                "max": 20.4
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 24.01875,
+                "min": 23.65,
+                "max": 24.15
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 19.316,
+                "min": 19.27,
+                "max": 19.37
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 20.85,
+                "min": 20.85,
+                "max": 20.85
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 19.918333333333333,
+                "min": 19.73,
+                "max": 20.07
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 22.497500000000002,
+                "min": 22.2,
+                "max": 22.6
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 18.325714285714287,
+                "min": 18.3,
+                "max": 18.35
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 23.166666666666668,
+                "min": 22.9,
+                "max": 23.6
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 19.9,
+                "min": 19.9,
+                "max": 19.9
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 15.45,
+                "min": 15.1,
+                "max": 15.6
+            }
+        ]
+    },
+    "2024-07-31": {
+        "Total Publications": 202,
+        "Date Range": "2024-07-31 01:58:38.333000 to 2024-07-31 23:24:53.914000",
+        "Total Duration": "0 days 21:26:15.581000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-07-31",
+                "count": 202
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-07-31 01:00:00",
+                "count": 3
+            },
+            {
+                "hour": "2024-07-31 02:00:00",
+                "count": 11
+            },
+            {
+                "hour": "2024-07-31 03:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-07-31 05:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-07-31 07:00:00",
+                "count": 20
+            },
+            {
+                "hour": "2024-07-31 08:00:00",
+                "count": 22
+            },
+            {
+                "hour": "2024-07-31 09:00:00",
+                "count": 23
+            },
+            {
+                "hour": "2024-07-31 10:00:00",
+                "count": 31
+            },
+            {
+                "hour": "2024-07-31 11:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-07-31 12:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-07-31 13:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-07-31 14:00:00",
+                "count": 12
+            },
+            {
+                "hour": "2024-07-31 15:00:00",
+                "count": 24
+            },
+            {
+                "hour": "2024-07-31 16:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-07-31 17:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-07-31 19:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-07-31 23:00:00",
+                "count": 14
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 171
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 31
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 202
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 92
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 52
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 39
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 19
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5006",
+                "count": 50
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 45
+            },
+            {
+                "table_name": "plot_5023",
+                "count": 42
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 29
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 11
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 10
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 8
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 7
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 23
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 17
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 12
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 11
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 9
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 8
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 5
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 5976.6987500000005,
+                "min": 5368.72,
+                "max": 6323.55
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 3580.4,
+                "min": 3578.98,
+                "max": 3581.92
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 24.45823529411765,
+                "min": 19.87,
+                "max": 30.12
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 24.99434782608696,
+                "min": 19.96,
+                "max": 29.78
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 23.697499999999998,
+                "min": 17.21,
+                "max": 29.82
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 25.05,
+                "min": 17.3,
+                "max": 29.87
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 25.42111111111111,
+                "min": 25.05,
+                "max": 25.62
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 11.351428571428572,
+                "min": 11.32,
+                "max": 11.4
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 15.396666666666667,
+                "min": 15.35,
+                "max": 15.42
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 25.463333333333335,
+                "min": 25.22,
+                "max": 25.6
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.305,
+                "min": 18.28,
+                "max": 18.33
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 18.16375,
+                "min": 18.13,
+                "max": 18.2
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 15.176666666666668,
+                "min": 15.1,
+                "max": 15.2
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 26.081249999999997,
+                "min": 25.83,
+                "max": 26.22
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 20.383333333333333,
+                "min": 20.33,
+                "max": 20.4
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 23.40777777777778,
+                "min": 23.1,
+                "max": 23.6
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 19.349999999999998,
+                "min": 19.3,
+                "max": 19.38
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 20.803333333333335,
+                "min": 20.8,
+                "max": 20.82
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 19.75,
+                "min": 19.48,
+                "max": 19.83
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 21.85,
+                "min": 21.6,
+                "max": 22.1
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 18.32,
+                "min": 18.27,
+                "max": 18.38
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 22.785,
+                "min": 22.77,
+                "max": 22.8
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 19.6575,
+                "min": 19.6,
+                "max": 19.7
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 15.11,
+                "min": 15.0,
+                "max": 15.3
+            }
+        ]
+    },
+    "2024-08-01": {
+        "Total Publications": 89,
+        "Date Range": "2024-08-01 01:57:50.178000 to 2024-08-01 22:17:47.737000",
+        "Total Duration": "0 days 20:19:57.559000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-01",
+                "count": 89
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-01 01:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-08-01 04:00:00",
+                "count": 9
+            },
+            {
+                "hour": "2024-08-01 05:00:00",
+                "count": 18
+            },
+            {
+                "hour": "2024-08-01 06:00:00",
+                "count": 17
+            },
+            {
+                "hour": "2024-08-01 08:00:00",
+                "count": 12
+            },
+            {
+                "hour": "2024-08-01 13:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-01 14:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-08-01 17:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-01 18:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-08-01 19:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-01 20:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-01 21:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-01 22:00:00",
+                "count": 6
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 45
+            },
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 44
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 89
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 35
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 22
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 18
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 14
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 35
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 22
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 14
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 14
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 4
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 14
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 8
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 4
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 3
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 3408.88625,
+                "min": 3264.06,
+                "max": 3430.79
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 15.549999999999999,
+                "min": 14.27,
+                "max": 18.99
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 21.283333333333335,
+                "min": 13.7,
+                "max": 29.5
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 23.006,
+                "min": 22.63,
+                "max": 23.1
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 19.4,
+                "min": 19.4,
+                "max": 19.4
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 20.793333333333333,
+                "min": 20.7,
+                "max": 20.83
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 19.25,
+                "min": 18.72,
+                "max": 19.53
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 21.304285714285715,
+                "min": 21.03,
+                "max": 21.6
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 18.295714285714286,
+                "min": 18.17,
+                "max": 18.33
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 21.72666666666667,
+                "min": 21.3,
+                "max": 22.1
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 19.413999999999998,
+                "min": 19.2,
+                "max": 19.5
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 14.9825,
+                "min": 14.7,
+                "max": 15.1
+            }
+        ]
+    },
+    "2024-08-02": {
+        "Total Publications": 195,
+        "Date Range": "2024-08-02 03:50:51.693000 to 2024-08-02 23:57:26.231000",
+        "Total Duration": "0 days 20:06:34.538000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-02",
+                "count": 195
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-02 03:00:00",
+                "count": 7
+            },
+            {
+                "hour": "2024-08-02 05:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-02 06:00:00",
+                "count": 7
+            },
+            {
+                "hour": "2024-08-02 07:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-02 10:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-02 11:00:00",
+                "count": 43
+            },
+            {
+                "hour": "2024-08-02 12:00:00",
+                "count": 10
+            },
+            {
+                "hour": "2024-08-02 13:00:00",
+                "count": 3
+            },
+            {
+                "hour": "2024-08-02 14:00:00",
+                "count": 3
+            },
+            {
+                "hour": "2024-08-02 15:00:00",
+                "count": 17
+            },
+            {
+                "hour": "2024-08-02 16:00:00",
+                "count": 20
+            },
+            {
+                "hour": "2024-08-02 17:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-02 18:00:00",
+                "count": 3
+            },
+            {
+                "hour": "2024-08-02 19:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-08-02 20:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-02 21:00:00",
+                "count": 19
+            },
+            {
+                "hour": "2024-08-02 22:00:00",
+                "count": 20
+            },
+            {
+                "hour": "2024-08-02 23:00:00",
+                "count": 8
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 99
+            },
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 81
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 15
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 195
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 77
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 58
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 47
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 13
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5006",
+                "count": 37
+            },
+            {
+                "table_name": "plot_5010",
+                "count": 28
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 27
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 26
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 22
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 18
+            },
+            {
+                "table_name": "plot_5023",
+                "count": 12
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 7
+            },
+            {
+                "table_name": "plot_5001",
+                "count": 7
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 5
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 3
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 3
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 14
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 10
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 8
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "count": 7
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 7
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "count": 6
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "count": 4
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 4
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 1
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 4722.0175,
+                "min": 4443.7,
+                "max": 5354.95
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "mean": 584.8928571428571,
+                "min": 450.47,
+                "max": 834.67
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 2887.45,
+                "min": 2881.44,
+                "max": 2899.21
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "mean": 28.44666666666667,
+                "min": 24.28,
+                "max": 30.11
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 27.252857142857145,
+                "min": 23.81,
+                "max": 30.37
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "mean": 28.043333333333333,
+                "min": 24.76,
+                "max": 30.54
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 27.341,
+                "min": 24.18,
+                "max": 29.81
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 21.576666666666668,
+                "min": 17.99,
+                "max": 28.42
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 17.996666666666666,
+                "min": 17.87,
+                "max": 18.23
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "mean": -1648.3833333333332,
+                "min": -9999.0,
+                "max": 21.8
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "mean": 21.795,
+                "min": 21.75,
+                "max": 21.85
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": -1094.1677777777777,
+                "min": -9999.0,
+                "max": 19.02
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 23.1575,
+                "min": 23.0,
+                "max": 23.62
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 11.209999999999999,
+                "min": 11.2,
+                "max": 11.23
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 14.985,
+                "min": 14.97,
+                "max": 15.0
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 23.709999999999997,
+                "min": 23.6,
+                "max": 24.05
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.273333333333333,
+                "min": 18.22,
+                "max": 18.3
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 18.095000000000002,
+                "min": 18.07,
+                "max": 18.13
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 14.5875,
+                "min": 14.5,
+                "max": 14.85
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "mean": 22.228571428571428,
+                "min": 22.05,
+                "max": 22.5
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "mean": 20.512,
+                "min": 20.4,
+                "max": 20.68
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": 14.906666666666666,
+                "min": 14.8,
+                "max": 15.15
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "mean": 21.96,
+                "min": 21.72,
+                "max": 22.1
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "mean": 19.03833333333333,
+                "min": 18.87,
+                "max": 19.2
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "mean": 12.6075,
+                "min": 12.6,
+                "max": 12.63
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 23.97714285714286,
+                "min": 23.88,
+                "max": 24.3
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 20.01,
+                "min": 19.98,
+                "max": 20.08
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": -3322.853333333333,
+                "min": -9999.0,
+                "max": 15.22
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 19.330000000000002,
+                "min": 19.27,
+                "max": 19.37
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 20.77,
+                "min": 20.77,
+                "max": 20.77
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 18.7,
+                "min": 18.7,
+                "max": 18.7
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 21.05,
+                "min": 21.0,
+                "max": 21.08
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 18.21,
+                "min": 18.2,
+                "max": 18.22
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 21.25,
+                "min": 21.2,
+                "max": 21.3
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 19.155,
+                "min": 19.13,
+                "max": 19.18
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 14.729999999999999,
+                "min": 14.73,
+                "max": 14.73
+            }
+        ]
+    },
+    "2024-08-03": {
+        "Total Publications": 233,
+        "Date Range": "2024-08-03 00:36:54.190000 to 2024-08-03 23:57:28.303000",
+        "Total Duration": "0 days 23:20:34.113000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-03",
+                "count": 233
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-03 00:00:00",
+                "count": 3
+            },
+            {
+                "hour": "2024-08-03 01:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-08-03 02:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-08-03 03:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-03 04:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-08-03 05:00:00",
+                "count": 11
+            },
+            {
+                "hour": "2024-08-03 06:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-03 07:00:00",
+                "count": 13
+            },
+            {
+                "hour": "2024-08-03 08:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-03 09:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-03 10:00:00",
+                "count": 26
+            },
+            {
+                "hour": "2024-08-03 11:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-03 12:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-03 13:00:00",
+                "count": 9
+            },
+            {
+                "hour": "2024-08-03 14:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-03 15:00:00",
+                "count": 10
+            },
+            {
+                "hour": "2024-08-03 16:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-03 17:00:00",
+                "count": 9
+            },
+            {
+                "hour": "2024-08-03 18:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-03 19:00:00",
+                "count": 9
+            },
+            {
+                "hour": "2024-08-03 20:00:00",
+                "count": 18
+            },
+            {
+                "hour": "2024-08-03 21:00:00",
+                "count": 26
+            },
+            {
+                "hour": "2024-08-03 22:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-03 23:00:00",
+                "count": 10
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 119
+            },
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 114
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 233
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 83
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 77
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 69
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 4
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5006",
+                "count": 47
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 39
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 38
+            },
+            {
+                "table_name": "plot_5010",
+                "count": 36
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 35
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 34
+            },
+            {
+                "table_name": "plot_5001",
+                "count": 4
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 15
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 15
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "count": 15
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 13
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 13
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 11
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "count": 11
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "count": 11
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "count": 10
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "count": 10
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 9
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "count": 7
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "count": 5
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 5
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "count": 4
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 4485.53,
+                "min": 3915.5,
+                "max": 4924.84
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "mean": 102.431,
+                "min": 0.0,
+                "max": 353.24
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "mean": 25.06888888888889,
+                "min": 17.26,
+                "max": 30.69
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 25.221333333333334,
+                "min": 17.09,
+                "max": 31.33
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "mean": 27.838,
+                "min": 20.09,
+                "max": 30.97
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 22.774,
+                "min": 16.97,
+                "max": 30.76
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "mean": 21.317,
+                "min": 21.08,
+                "max": 21.57
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "mean": 21.655454545454546,
+                "min": 21.6,
+                "max": 21.75
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": 18.759999999999998,
+                "min": 18.7,
+                "max": 18.8
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 22.557142857142857,
+                "min": 22.02,
+                "max": 22.9
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 11.135714285714286,
+                "min": 11.02,
+                "max": 11.3
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 14.565454545454545,
+                "min": 14.32,
+                "max": 14.7
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 23.127142857142854,
+                "min": 22.95,
+                "max": 23.5
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.24692307692308,
+                "min": 18.2,
+                "max": 18.28
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 18.082222222222224,
+                "min": 18.03,
+                "max": 18.1
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 14.437777777777777,
+                "min": 14.1,
+                "max": 14.57
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "mean": 21.917333333333332,
+                "min": 21.78,
+                "max": 22.1
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "mean": 20.347272727272728,
+                "min": 20.25,
+                "max": 20.5
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": 14.766153846153847,
+                "min": 14.7,
+                "max": 14.87
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "mean": 20.98888888888889,
+                "min": 20.52,
+                "max": 21.4
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "mean": 18.8,
+                "min": 18.5,
+                "max": 18.92
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "mean": 12.538571428571428,
+                "min": 12.5,
+                "max": 12.58
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 23.557142857142857,
+                "min": 23.2,
+                "max": 23.8
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 19.958333333333332,
+                "min": 19.87,
+                "max": 20.0
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": 15.168333333333335,
+                "min": 15.07,
+                "max": 15.22
+            }
+        ]
+    },
+    "2024-08-04": {
+        "Total Publications": 197,
+        "Date Range": "2024-08-04 00:35:24.282000 to 2024-08-04 23:56:52.403000",
+        "Total Duration": "0 days 23:21:28.121000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-04",
+                "count": 197
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-04 00:00:00",
+                "count": 10
+            },
+            {
+                "hour": "2024-08-04 01:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-08-04 02:00:00",
+                "count": 3
+            },
+            {
+                "hour": "2024-08-04 03:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-04 05:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-04 06:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-04 07:00:00",
+                "count": 9
+            },
+            {
+                "hour": "2024-08-04 09:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-08-04 10:00:00",
+                "count": 7
+            },
+            {
+                "hour": "2024-08-04 11:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-08-04 12:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-04 13:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-04 14:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-04 15:00:00",
+                "count": 21
+            },
+            {
+                "hour": "2024-08-04 16:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-04 17:00:00",
+                "count": 17
+            },
+            {
+                "hour": "2024-08-04 18:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-04 19:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-04 20:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-04 21:00:00",
+                "count": 19
+            },
+            {
+                "hour": "2024-08-04 22:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-04 23:00:00",
+                "count": 5
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 89
+            },
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 86
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 22
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 197
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 68
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 57
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 52
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 20
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5010",
+                "count": 28
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 27
+            },
+            {
+                "table_name": "plot_5006",
+                "count": 24
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 24
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 21
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 21
+            },
+            {
+                "table_name": "plot_5023",
+                "count": 16
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 12
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 7
+            },
+            {
+                "table_name": "plot_5001",
+                "count": 7
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 6
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 4
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "TDR5009C41824",
+                "count": 11
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 8
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "count": 7
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "count": 7
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 6
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 6
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 6
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 3
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 2
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 4376.62,
+                "min": 4376.62,
+                "max": 4376.62
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "mean": 0.0,
+                "min": 0.0,
+                "max": 0.0
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 1579.865,
+                "min": 1562.76,
+                "max": 1596.97
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "mean": 27.513333333333335,
+                "min": 17.53,
+                "max": 30.03
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 26.155,
+                "min": 22.31,
+                "max": 30.36
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "mean": 29.64,
+                "min": 25.17,
+                "max": 32.27
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 25.83875,
+                "min": 19.18,
+                "max": 30.0
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 29.366666666666664,
+                "min": 26.04,
+                "max": 30.78
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 30.142857142857142,
+                "min": 27.4,
+                "max": 30.84
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 30.0,
+                "min": 27.54,
+                "max": 31.23
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "mean": 20.96375,
+                "min": 20.58,
+                "max": 21.15
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "mean": 21.506666666666668,
+                "min": 21.4,
+                "max": 21.62
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": 18.3825,
+                "min": 18.25,
+                "max": 18.5
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 21.888333333333335,
+                "min": 21.55,
+                "max": 22.0
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 11.0,
+                "min": 10.78,
+                "max": 11.1
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 14.244,
+                "min": 14.17,
+                "max": 14.38
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 22.67125,
+                "min": 22.3,
+                "max": 22.97
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.223333333333333,
+                "min": 18.2,
+                "max": 18.25
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 17.996000000000002,
+                "min": 17.92,
+                "max": 18.03
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 14.12,
+                "min": 13.9,
+                "max": 14.22
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "mean": 21.604285714285712,
+                "min": 21.3,
+                "max": 21.8
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "mean": 20.11818181818182,
+                "min": 19.9,
+                "max": 20.3
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": 14.601666666666667,
+                "min": 14.48,
+                "max": 14.73
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "mean": 20.162857142857142,
+                "min": 19.8,
+                "max": 20.52
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "mean": 18.414285714285715,
+                "min": 18.3,
+                "max": 18.62
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "mean": 12.535,
+                "min": 12.5,
+                "max": 12.57
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 22.986666666666665,
+                "min": 22.52,
+                "max": 23.2
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 19.78,
+                "min": 19.67,
+                "max": 19.85
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": 15.06,
+                "min": 14.98,
+                "max": 15.1
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 20.884999999999998,
+                "min": 20.87,
+                "max": 20.9
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 19.026666666666667,
+                "min": 19.0,
+                "max": 19.08
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 20.073333333333334,
+                "min": 20.0,
+                "max": 20.2
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.64666666666667,
+                "min": 17.6,
+                "max": 17.67
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 20.189999999999998,
+                "min": 20.18,
+                "max": 20.2
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 17.85,
+                "min": 17.83,
+                "max": 17.87
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 21.05333333333333,
+                "min": 20.9,
+                "max": 21.28
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 19.209999999999997,
+                "min": 19.18,
+                "max": 19.27
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 15.63,
+                "min": 15.5,
+                "max": 15.72
+            }
+        ]
+    },
+    "2024-08-05": {
+        "Total Publications": 250,
+        "Date Range": "2024-08-05 00:04:23.982000 to 2024-08-05 21:20:29.390000",
+        "Total Duration": "0 days 21:16:05.408000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-05",
+                "count": 250
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-05 00:00:00",
+                "count": 9
+            },
+            {
+                "hour": "2024-08-05 01:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-05 03:00:00",
+                "count": 13
+            },
+            {
+                "hour": "2024-08-05 04:00:00",
+                "count": 13
+            },
+            {
+                "hour": "2024-08-05 05:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-08-05 06:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-05 07:00:00",
+                "count": 22
+            },
+            {
+                "hour": "2024-08-05 08:00:00",
+                "count": 17
+            },
+            {
+                "hour": "2024-08-05 09:00:00",
+                "count": 26
+            },
+            {
+                "hour": "2024-08-05 10:00:00",
+                "count": 9
+            },
+            {
+                "hour": "2024-08-05 11:00:00",
+                "count": 12
+            },
+            {
+                "hour": "2024-08-05 12:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-05 13:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-05 14:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-05 15:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-05 16:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-05 17:00:00",
+                "count": 19
+            },
+            {
+                "hour": "2024-08-05 18:00:00",
+                "count": 29
+            },
+            {
+                "hour": "2024-08-05 19:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-05 20:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-05 21:00:00",
+                "count": 8
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 94
+            },
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 93
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 63
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 250
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 99
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 63
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 53
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 35
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 56
+            },
+            {
+                "table_name": "plot_5010",
+                "count": 32
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 30
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 30
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 26
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 21
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 17
+            },
+            {
+                "table_name": "plot_5006",
+                "count": 11
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 11
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 7
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 6
+            },
+            {
+                "table_name": "plot_5001",
+                "count": 3
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 21
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 13
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "count": 12
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 12
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 11
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 11
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 11
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "count": 11
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 10
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "count": 8
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "count": 7
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 6
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "count": 5
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 1
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 1
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 4069.59,
+                "min": 4069.59,
+                "max": 4069.59
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "mean": 0.0,
+                "min": 0.0,
+                "max": 0.0
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 1667.7677777777778,
+                "min": 1536.28,
+                "max": 1784.8
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "mean": 29.296,
+                "min": 23.45,
+                "max": 31.9
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 24.086000000000002,
+                "min": 22.8,
+                "max": 26.17
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "mean": 28.021428571428572,
+                "min": 22.91,
+                "max": 32.01
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 24.74666666666667,
+                "min": 24.01,
+                "max": 26.22
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 26.653636363636362,
+                "min": 22.86,
+                "max": 31.37
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 26.635238095238098,
+                "min": 22.71,
+                "max": 31.66
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 27.994615384615386,
+                "min": 22.8,
+                "max": 32.2
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "mean": 20.34111111111111,
+                "min": 20.02,
+                "max": 20.5
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "mean": 21.28,
+                "min": 21.15,
+                "max": 21.4
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": 18.127499999999998,
+                "min": 18.0,
+                "max": 18.23
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 20.89,
+                "min": 20.85,
+                "max": 20.92
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 13.99,
+                "min": 13.98,
+                "max": 14.0
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 22.253333333333334,
+                "min": 22.23,
+                "max": 22.3
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.240000000000002,
+                "min": 18.23,
+                "max": 18.25
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 17.915,
+                "min": 17.9,
+                "max": 17.93
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "mean": 21.167272727272728,
+                "min": 20.9,
+                "max": 21.33
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "mean": 19.875,
+                "min": 19.7,
+                "max": 19.97
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": 14.44909090909091,
+                "min": 14.3,
+                "max": 14.53
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "mean": 19.708571428571428,
+                "min": 19.6,
+                "max": 19.8
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "mean": 18.235,
+                "min": 18.12,
+                "max": 18.3
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "mean": 12.596,
+                "min": 12.58,
+                "max": 12.62
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 19.67,
+                "min": 19.67,
+                "max": 19.67
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": 14.86,
+                "min": 14.82,
+                "max": 14.9
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 20.613333333333333,
+                "min": 20.4,
+                "max": 20.9
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 19.017272727272726,
+                "min": 18.87,
+                "max": 19.1
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 19.836666666666666,
+                "min": 19.63,
+                "max": 20.02
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.5325,
+                "min": 17.28,
+                "max": 17.7
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 19.974,
+                "min": 19.8,
+                "max": 20.1
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 17.801666666666666,
+                "min": 17.7,
+                "max": 17.9
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 20.535714285714285,
+                "min": 20.17,
+                "max": 20.8
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 19.006666666666668,
+                "min": 18.82,
+                "max": 19.18
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 15.093,
+                "min": 14.65,
+                "max": 15.5
+            }
+        ]
+    },
+    "2024-08-06": {
+        "Total Publications": 126,
+        "Date Range": "2024-08-06 00:17:50.393000 to 2024-08-06 23:09:19.124000",
+        "Total Duration": "0 days 22:51:28.731000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-06",
+                "count": 126
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-06 00:00:00",
+                "count": 19
+            },
+            {
+                "hour": "2024-08-06 04:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-06 06:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-08-06 07:00:00",
+                "count": 13
+            },
+            {
+                "hour": "2024-08-06 08:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-06 09:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-08-06 10:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-08-06 16:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-06 18:00:00",
+                "count": 11
+            },
+            {
+                "hour": "2024-08-06 21:00:00",
+                "count": 17
+            },
+            {
+                "hour": "2024-08-06 22:00:00",
+                "count": 15
+            },
+            {
+                "hour": "2024-08-06 23:00:00",
+                "count": 5
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 92
+            },
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 34
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 126
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 51
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 34
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 24
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 17
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 51
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 27
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 24
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 17
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 7
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 27
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 13
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 13
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 10
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 9
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 7
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 7
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 5
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 2032.7714285714285,
+                "min": 1947.41,
+                "max": 2064.16
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 19.585714285714285,
+                "min": 16.45,
+                "max": 24.67
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": -722.9414814814816,
+                "min": -9999.0,
+                "max": 25.53
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 19.322307692307692,
+                "min": 16.29,
+                "max": 24.88
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 20.34307692307692,
+                "min": 20.23,
+                "max": 20.48
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 18.962,
+                "min": 18.88,
+                "max": 19.03
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 19.72714285714286,
+                "min": 19.7,
+                "max": 19.85
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.39,
+                "min": 17.3,
+                "max": 17.47
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": -1411.457142857143,
+                "min": -9999.0,
+                "max": 19.8
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": -983.9159999999999,
+                "min": -9999.0,
+                "max": 17.92
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": -2841.4500000000003,
+                "min": -9999.0,
+                "max": 22.28
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": -2206.587777777778,
+                "min": -9999.0,
+                "max": 20.18
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 16.36,
+                "min": 14.72,
+                "max": 16.83
+            }
+        ]
+    },
+    "2024-08-07": {
+        "Total Publications": 59,
+        "Date Range": "2024-08-07 01:57:17.396000 to 2024-08-07 23:22:28.164000",
+        "Total Duration": "0 days 21:25:10.768000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-07",
+                "count": 59
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-07 01:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-07 02:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-08-07 04:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-07 12:00:00",
+                "count": 12
+            },
+            {
+                "hour": "2024-08-07 14:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-07 18:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-07 20:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-07 22:00:00",
+                "count": 11
+            },
+            {
+                "hour": "2024-08-07 23:00:00",
+                "count": 8
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 31
+            },
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 28
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 59
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 26
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 13
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 10
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 10
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 26
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 10
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 10
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 9
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 4
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 9
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 5
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 5
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 1986.738,
+                "min": 1901.44,
+                "max": 2065.53
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 19.235,
+                "min": 15.46,
+                "max": 25.74
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 21.928888888888892,
+                "min": 15.51,
+                "max": 28.55
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 22.93375,
+                "min": 15.25,
+                "max": 29.35
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 20.273333333333333,
+                "min": 20.22,
+                "max": 20.3
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 18.845,
+                "min": 18.82,
+                "max": 18.87
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 19.736666666666665,
+                "min": 19.72,
+                "max": 19.77
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.336666666666666,
+                "min": 17.3,
+                "max": 17.38
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 19.862000000000002,
+                "min": 19.8,
+                "max": 19.98
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 17.658,
+                "min": 17.6,
+                "max": 17.7
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 22.134999999999998,
+                "min": 22.0,
+                "max": 22.27
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 19.986,
+                "min": 19.4,
+                "max": 21.35
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 16.56,
+                "min": 16.18,
+                "max": 17.3
+            }
+        ]
+    },
+    "2024-08-08": {
+        "Total Publications": 39,
+        "Date Range": "2024-08-08 00:48:48.292000 to 2024-08-08 21:09:24.734000",
+        "Total Duration": "0 days 20:20:36.442000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-08",
+                "count": 39
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-08 00:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-08 01:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-08 04:00:00",
+                "count": 13
+            },
+            {
+                "hour": "2024-08-08 05:00:00",
+                "count": 1
+            },
+            {
+                "hour": "2024-08-08 06:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-08-08 19:00:00",
+                "count": 5
+            },
+            {
+                "hour": "2024-08-08 21:00:00",
+                "count": 2
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 22
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 17
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 39
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 20
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 11
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 5
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 3
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 20
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 7
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 5
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 4
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 3
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 7
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 5
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 1
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 1
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 2117.8,
+                "min": 2117.8,
+                "max": 2117.8
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 19.0925,
+                "min": 18.97,
+                "max": 19.46
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 19.034285714285716,
+                "min": 18.48,
+                "max": 19.42
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 16.604,
+                "min": 15.11,
+                "max": 18.89
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 20.509999999999998,
+                "min": 20.32,
+                "max": 20.7
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 18.823333333333334,
+                "min": 18.8,
+                "max": 18.85
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 19.715,
+                "min": 19.68,
+                "max": 19.78
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.356,
+                "min": 17.33,
+                "max": 17.38
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 25.6,
+                "min": 25.6,
+                "max": 25.6
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 17.66,
+                "min": 17.62,
+                "max": 17.7
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 22.48,
+                "min": 22.48,
+                "max": 22.48
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 20.8,
+                "min": 20.72,
+                "max": 20.88
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 17.1,
+                "min": 17.1,
+                "max": 17.1
+            }
+        ]
+    },
+    "2024-08-15": {
+        "Total Publications": 23,
+        "Date Range": "2024-08-15 09:17:47.899000 to 2024-08-15 09:27:01.688000",
+        "Total Duration": "0 days 00:09:13.789000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-15",
+                "count": 23
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-15 09:00:00",
+                "count": 23
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 11
+            },
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 9
+            },
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 3
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 23
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 9
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 7
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 4
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 3
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 6
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 3
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 3
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 3
+            },
+            {
+                "table_name": "plot_5006",
+                "count": 3
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 2
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 1
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 1
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 1
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 1
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "count": 1
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 1
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 1
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 1343.3,
+                "min": 1343.3,
+                "max": 1343.3
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 19.55,
+                "min": 19.55,
+                "max": 19.55
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 17.89666666666667,
+                "min": 15.17,
+                "max": 19.26
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 19.28,
+                "min": 19.28,
+                "max": 19.28
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "mean": 27.42,
+                "min": 27.42,
+                "max": 27.42
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": 18.03,
+                "min": 18.03,
+                "max": 18.03
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 26.9,
+                "min": 26.9,
+                "max": 26.9
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 10.82,
+                "min": 10.82,
+                "max": 10.82
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 13.6,
+                "min": 13.6,
+                "max": 13.6
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 27.2,
+                "min": 27.2,
+                "max": 27.2
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.1,
+                "min": 18.1,
+                "max": 18.1
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 17.6,
+                "min": 17.6,
+                "max": 17.6
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "mean": 28.5,
+                "min": 28.5,
+                "max": 28.5
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 27.4,
+                "min": 27.4,
+                "max": 27.4
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 18.62,
+                "min": 18.62,
+                "max": 18.62
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 19.63,
+                "min": 19.63,
+                "max": 19.63
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.32,
+                "min": 17.32,
+                "max": 17.32
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 27.42,
+                "min": 27.42,
+                "max": 27.42
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 26.22,
+                "min": 26.22,
+                "max": 26.22
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 22.0,
+                "min": 22.0,
+                "max": 22.0
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 17.3,
+                "min": 17.3,
+                "max": 17.3
+            }
+        ]
+    },
+    "2024-08-18": {
+        "Total Publications": 850,
+        "Date Range": "2024-08-18 05:15:23.607000 to 2024-08-18 22:42:36.124000",
+        "Total Duration": "0 days 17:27:12.517000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-18",
+                "count": 850
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-18 05:00:00",
+                "count": 82
+            },
+            {
+                "hour": "2024-08-18 06:00:00",
+                "count": 64
+            },
+            {
+                "hour": "2024-08-18 07:00:00",
+                "count": 24
+            },
+            {
+                "hour": "2024-08-18 08:00:00",
+                "count": 68
+            },
+            {
+                "hour": "2024-08-18 09:00:00",
+                "count": 52
+            },
+            {
+                "hour": "2024-08-18 10:00:00",
+                "count": 86
+            },
+            {
+                "hour": "2024-08-18 11:00:00",
+                "count": 76
+            },
+            {
+                "hour": "2024-08-18 12:00:00",
+                "count": 4
+            },
+            {
+                "hour": "2024-08-18 14:00:00",
+                "count": 38
+            },
+            {
+                "hour": "2024-08-18 15:00:00",
+                "count": 40
+            },
+            {
+                "hour": "2024-08-18 16:00:00",
+                "count": 44
+            },
+            {
+                "hour": "2024-08-18 17:00:00",
+                "count": 38
+            },
+            {
+                "hour": "2024-08-18 18:00:00",
+                "count": 74
+            },
+            {
+                "hour": "2024-08-18 19:00:00",
+                "count": 98
+            },
+            {
+                "hour": "2024-08-18 20:00:00",
+                "count": 38
+            },
+            {
+                "hour": "2024-08-18 21:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-08-18 22:00:00",
+                "count": 10
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 662
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 120
+            },
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 68
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 850
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 342
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 258
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 192
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 58
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5006",
+                "count": 212
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 200
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 136
+            },
+            {
+                "table_name": "plot_5023",
+                "count": 106
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 40
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 38
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 34
+            },
+            {
+                "table_name": "plot_5010",
+                "count": 24
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 24
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 16
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 16
+            },
+            {
+                "table_name": "plot_5001",
+                "count": 4
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 80
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 76
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 42
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 42
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 38
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 38
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 37
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 36
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 36
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 36
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 32
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 32
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 31
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 30
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 26
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 20
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 18
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 18
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 18
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 16
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 16
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 16
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 15
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 14
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 12
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "count": 10
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "count": 8
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 7
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "count": 4
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 2167.1658064516128,
+                "min": 748.38,
+                "max": 2395.64
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "mean": 0.0,
+                "min": 0.0,
+                "max": 0.0
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 450.0342857142858,
+                "min": 419.87,
+                "max": 479.82
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "mean": 18.1,
+                "min": 18.1,
+                "max": 18.1
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 22.51473684210526,
+                "min": 17.96,
+                "max": 26.66
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "mean": 18.0375,
+                "min": 17.86,
+                "max": 18.14
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 22.458000000000002,
+                "min": 18.01,
+                "max": 26.42
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 22.08,
+                "min": 17.85,
+                "max": 26.08
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 21.794210526315787,
+                "min": 17.88,
+                "max": 25.96
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 22.27,
+                "min": 17.87,
+                "max": 26.15
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "mean": 24.85,
+                "min": 24.8,
+                "max": 24.9
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "mean": 21.966,
+                "min": 21.92,
+                "max": 21.98
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": 17.775,
+                "min": 17.77,
+                "max": 17.78
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 24.450000000000003,
+                "min": 24.3,
+                "max": 24.6
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 10.930625,
+                "min": 10.87,
+                "max": 10.98
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 13.591351351351351,
+                "min": 13.55,
+                "max": 13.6
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 25.521333333333335,
+                "min": 25.3,
+                "max": 25.7
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.18611111111111,
+                "min": 18.13,
+                "max": 18.22
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 17.636875,
+                "min": 17.6,
+                "max": 17.68
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 13.022105263157894,
+                "min": 13.0,
+                "max": 13.08
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "mean": 25.826666666666668,
+                "min": 25.8,
+                "max": 25.85
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "mean": 22.525,
+                "min": 22.5,
+                "max": 22.55
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": 14.4,
+                "min": 14.4,
+                "max": 14.4
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "mean": 18.7,
+                "min": 18.7,
+                "max": 18.7
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "mean": 12.443333333333333,
+                "min": 12.4,
+                "max": 12.48
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 26.55666666666667,
+                "min": 26.4,
+                "max": 26.72
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 19.488095238095237,
+                "min": 19.42,
+                "max": 19.53
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": 14.642777777777777,
+                "min": 14.6,
+                "max": 14.72
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 24.926666666666666,
+                "min": 24.7,
+                "max": 25.2
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 18.6175,
+                "min": 18.53,
+                "max": 18.67
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 19.696666666666665,
+                "min": 19.68,
+                "max": 19.7
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.270000000000003,
+                "min": 17.23,
+                "max": 17.3
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 25.234444444444446,
+                "min": 25.03,
+                "max": 25.4
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 17.6125,
+                "min": 17.6,
+                "max": 17.65
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 24.261333333333333,
+                "min": 23.97,
+                "max": 26.02
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 22.595555555555556,
+                "min": 22.58,
+                "max": 22.6
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 16.211428571428574,
+                "min": 15.72,
+                "max": 18.4
+            }
+        ]
+    },
+    "2024-08-19": {
+        "Total Publications": 230,
+        "Date Range": "2024-08-19 01:34:13.305000 to 2024-08-19 22:11:23.706000",
+        "Total Duration": "0 days 20:37:10.401000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-19",
+                "count": 230
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-19 01:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-19 02:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-19 03:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-19 04:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-19 05:00:00",
+                "count": 34
+            },
+            {
+                "hour": "2024-08-19 06:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-19 09:00:00",
+                "count": 54
+            },
+            {
+                "hour": "2024-08-19 13:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-19 14:00:00",
+                "count": 24
+            },
+            {
+                "hour": "2024-08-19 18:00:00",
+                "count": 32
+            },
+            {
+                "hour": "2024-08-19 19:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-19 21:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-08-19 22:00:00",
+                "count": 12
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 218
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 12
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 230
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 96
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 74
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 50
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 10
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5006",
+                "count": 80
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 72
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 48
+            },
+            {
+                "table_name": "plot_5023",
+                "count": 16
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 6
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 4
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 2
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 2
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 28
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 24
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 20
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 18
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 18
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 16
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 16
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 16
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 14
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 12
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 8
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 6
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 4
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 2051.4014285714284,
+                "min": 1219.44,
+                "max": 2449.83
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 19.499285714285715,
+                "min": 15.1,
+                "max": 26.89
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": -812.4966666666666,
+                "min": -9999.0,
+                "max": 26.98
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 14.753333333333332,
+                "min": 14.74,
+                "max": 14.76
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 14.835,
+                "min": 14.83,
+                "max": 14.84
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 16.3,
+                "min": 14.83,
+                "max": 17.31
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 24.34375,
+                "min": 23.7,
+                "max": 27.08
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 10.993333333333334,
+                "min": 10.98,
+                "max": 11.0
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 13.6,
+                "min": 13.6,
+                "max": 13.6
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 25.4775,
+                "min": 24.9,
+                "max": 26.4
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.203,
+                "min": 18.2,
+                "max": 18.23
+            },
+            {
+                "sensor_id": "TDR5007B43024",
+                "mean": 17.64,
+                "min": 17.63,
+                "max": 17.65
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 13.025,
+                "min": 12.98,
+                "max": 13.1
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 26.14111111111111,
+                "min": 25.9,
+                "max": 26.4
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 19.494444444444444,
+                "min": 19.47,
+                "max": 19.52
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": 14.608333333333334,
+                "min": 14.6,
+                "max": 14.65
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 18.595,
+                "min": 18.57,
+                "max": 18.62
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.255000000000003,
+                "min": 17.23,
+                "max": 17.28
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 25.0,
+                "min": 25.0,
+                "max": 25.0
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 22.58,
+                "min": 22.58,
+                "max": 22.58
+            }
+        ]
+    },
+    "2024-08-20": {
+        "Total Publications": 62,
+        "Date Range": "2024-08-20 00:53:21.350000 to 2024-08-20 07:54:21.208000",
+        "Total Duration": "0 days 07:00:59.858000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-20",
+                "count": 62
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-20 00:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-20 01:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-08-20 02:00:00",
+                "count": 12
+            },
+            {
+                "hour": "2024-08-20 04:00:00",
+                "count": 12
+            },
+            {
+                "hour": "2024-08-20 06:00:00",
+                "count": 10
+            },
+            {
+                "hour": "2024-08-20 07:00:00",
+                "count": 12
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 62
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 62
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 26
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 26
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 10
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5006",
+                "count": 26
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 26
+            },
+            {
+                "table_name": "plot_5007",
+                "count": 10
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "count": 8
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "count": 2
+            },
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5006B1xx24",
+                "mean": 1923.68,
+                "min": 1923.68,
+                "max": 1923.68
+            },
+            {
+                "sensor_id": "IRT5006B1xx24",
+                "mean": 19.317500000000003,
+                "min": 18.42,
+                "max": 20.66
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 19.68,
+                "min": 18.35,
+                "max": 21.15
+            },
+            {
+                "sensor_id": "TDR5006B10624",
+                "mean": 26.55333333333333,
+                "min": 26.5,
+                "max": 26.58
+            },
+            {
+                "sensor_id": "TDR5006B13024",
+                "mean": 11.025,
+                "min": 11.0,
+                "max": 11.05
+            },
+            {
+                "sensor_id": "TDR5006B14224",
+                "mean": 13.573333333333332,
+                "min": 13.55,
+                "max": 13.6
+            },
+            {
+                "sensor_id": "TDR5007B40624",
+                "mean": 26.4,
+                "min": 26.4,
+                "max": 26.4
+            },
+            {
+                "sensor_id": "TDR5007B41824",
+                "mean": 18.233333333333334,
+                "min": 18.2,
+                "max": 18.28
+            },
+            {
+                "sensor_id": "TDR5007B44224",
+                "mean": 13.0,
+                "min": 13.0,
+                "max": 13.0
+            },
+            {
+                "sensor_id": "TDR5012B20624",
+                "mean": 25.82,
+                "min": 25.8,
+                "max": 25.88
+            },
+            {
+                "sensor_id": "TDR5012B21824",
+                "mean": 19.509999999999998,
+                "min": 19.5,
+                "max": 19.52
+            },
+            {
+                "sensor_id": "TDR5012B23024",
+                "mean": 14.613333333333332,
+                "min": 14.6,
+                "max": 14.62
+            }
+        ]
+    },
+    "2024-08-26": {
+        "Total Publications": 278,
+        "Date Range": "2024-08-26 10:06:50.792000 to 2024-08-26 23:27:52.238000",
+        "Total Duration": "0 days 13:21:01.446000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-26",
+                "count": 278
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-26 10:00:00",
+                "count": 38
+            },
+            {
+                "hour": "2024-08-26 11:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-08-26 12:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-26 13:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-26 14:00:00",
+                "count": 30
+            },
+            {
+                "hour": "2024-08-26 15:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-08-26 16:00:00",
+                "count": 24
+            },
+            {
+                "hour": "2024-08-26 17:00:00",
+                "count": 12
+            },
+            {
+                "hour": "2024-08-26 18:00:00",
+                "count": 22
+            },
+            {
+                "hour": "2024-08-26 19:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-26 20:00:00",
+                "count": 32
+            },
+            {
+                "hour": "2024-08-26 21:00:00",
+                "count": 14
+            },
+            {
+                "hour": "2024-08-26 22:00:00",
+                "count": 20
+            },
+            {
+                "hour": "2024-08-26 23:00:00",
+                "count": 10
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 278
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 278
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 116
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 88
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 54
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 20
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5010",
+                "count": 116
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 86
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 54
+            },
+            {
+                "table_name": "plot_5001",
+                "count": 20
+            },
+            {
+                "table_name": "plot_5012",
+                "count": 2
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "TDR5010C11824",
+                "count": 28
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "count": 26
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "count": 26
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 22
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "count": 22
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "count": 22
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "count": 22
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "count": 22
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "count": 20
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "count": 20
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "count": 18
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 18
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "count": 10
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "mean": 0.0,
+                "min": 0.0,
+                "max": 0.0
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "mean": -2980.7110000000002,
+                "min": -9999.0,
+                "max": 30.27
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "mean": -3618.829090909091,
+                "min": -9999.0,
+                "max": 29.8
+            },
+            {
+                "sensor_id": "IRT5012B2xx24",
+                "mean": 18.35,
+                "min": 18.35,
+                "max": 18.35
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "mean": -3620.8545454545456,
+                "min": -9999.0,
+                "max": 23.9
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "mean": -3621.940909090909,
+                "min": -9999.0,
+                "max": 22.17
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": -5446.052727272728,
+                "min": -9999.0,
+                "max": 17.57
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "mean": -5989.976000000001,
+                "min": -9999.0,
+                "max": 23.62
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "mean": -3061.523846153846,
+                "min": -9999.0,
+                "max": 21.85
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": -6661.193333333333,
+                "min": -9999.0,
+                "max": 14.43
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "mean": -3621.877272727273,
+                "min": -9999.0,
+                "max": 22.32
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "mean": -4274.837142857143,
+                "min": -9999.0,
+                "max": 18.3
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "mean": -4608.162307692308,
+                "min": -9999.0,
+                "max": 12.6
+            }
+        ]
+    },
+    "2024-08-27": {
+        "Total Publications": 20,
+        "Date Range": "2024-08-27 00:05:02.312000 to 2024-08-27 00:47:27.817000",
+        "Total Duration": "0 days 00:42:25.505000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-27",
+                "count": 20
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-27 00:00:00",
+                "count": 20
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 20
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 20
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 12
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 6
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 2
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5010",
+                "count": 12
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 6
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 2
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "count": 2
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "mean": 0.0,
+                "min": 0.0,
+                "max": 0.0
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "mean": 20.61,
+                "min": 20.61,
+                "max": 20.61
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "mean": 22.05,
+                "min": 22.05,
+                "max": 22.05
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": 17.48,
+                "min": 17.48,
+                "max": 17.48
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": 14.42,
+                "min": 14.42,
+                "max": 14.42
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "mean": 22.1,
+                "min": 22.1,
+                "max": 22.1
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "mean": 18.3,
+                "min": 18.3,
+                "max": 18.3
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "mean": 12.6,
+                "min": 12.6,
+                "max": 12.6
+            }
+        ]
+    },
+    "2024-08-30": {
+        "Total Publications": 158,
+        "Date Range": "2024-08-30 10:06:55.764000 to 2024-08-30 21:56:35.876000",
+        "Total Duration": "0 days 11:49:40.112000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-30",
+                "count": 158
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-30 10:00:00",
+                "count": 26
+            },
+            {
+                "hour": "2024-08-30 13:00:00",
+                "count": 16
+            },
+            {
+                "hour": "2024-08-30 15:00:00",
+                "count": 2
+            },
+            {
+                "hour": "2024-08-30 16:00:00",
+                "count": 30
+            },
+            {
+                "hour": "2024-08-30 17:00:00",
+                "count": 46
+            },
+            {
+                "hour": "2024-08-30 21:00:00",
+                "count": 38
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 86
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 72
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 158
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 66
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 36
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 32
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 24
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 66
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 30
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 24
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 20
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 16
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 2
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 20
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 18
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 18
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 16
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 14
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 12
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 12
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 12
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 10
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 2
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 1871.0783333333336,
+                "min": 1424.48,
+                "max": 2186.35
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 23.64125,
+                "min": 14.71,
+                "max": 27.69
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 20.719,
+                "min": 14.69,
+                "max": 27.99
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 24.432222222222222,
+                "min": 14.78,
+                "max": 29.03
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": 14.43,
+                "min": 14.43,
+                "max": 14.43
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 24.943333333333335,
+                "min": 24.9,
+                "max": 25.23
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 18.67,
+                "min": 18.67,
+                "max": 18.67
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 19.75,
+                "min": 19.75,
+                "max": 19.75
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.1,
+                "min": 17.1,
+                "max": 17.1
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 24.680000000000003,
+                "min": 24.6,
+                "max": 24.9
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 17.803333333333335,
+                "min": 17.8,
+                "max": 17.82
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": -1408.06,
+                "min": -9999.0,
+                "max": 24.0
+            },
+            {
+                "sensor_id": "TDR5027A41824",
+                "mean": 23.66,
+                "min": 23.58,
+                "max": 23.8
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 17.306,
+                "min": 17.27,
+                "max": 17.4
+            }
+        ]
+    },
+    "2024-08-31": {
+        "Total Publications": 86,
+        "Date Range": "2024-08-31 04:31:44.631000 to 2024-08-31 07:33:02.777000",
+        "Total Duration": "0 days 03:01:18.146000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-08-31",
+                "count": 86
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-08-31 04:00:00",
+                "count": 34
+            },
+            {
+                "hour": "2024-08-31 05:00:00",
+                "count": 22
+            },
+            {
+                "hour": "2024-08-31 07:00:00",
+                "count": 30
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_B",
+                "count": 56
+            },
+            {
+                "device_name": "LINEAR_CORN_A",
+                "count": 30
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 86
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 38
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 18
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 16
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 14
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5023",
+                "count": 38
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 18
+            },
+            {
+                "table_name": "plot_5026",
+                "count": 16
+            },
+            {
+                "table_name": "plot_5020",
+                "count": 10
+            },
+            {
+                "table_name": "plot_5018",
+                "count": 4
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "count": 10
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "count": 10
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "count": 10
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 8
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "count": 6
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "count": 6
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "count": 4
+            },
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "count": 4
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5023A1xx24",
+                "mean": 2174.12,
+                "min": 2156.72,
+                "max": 2191.52
+            },
+            {
+                "sensor_id": "IRT5018A3xx24",
+                "mean": 11.510000000000002,
+                "min": 9.3,
+                "max": 13.72
+            },
+            {
+                "sensor_id": "IRT5020A3xx24",
+                "mean": 10.972,
+                "min": 9.16,
+                "max": 13.58
+            },
+            {
+                "sensor_id": "IRT5023A1xx24",
+                "mean": 11.026,
+                "min": 9.07,
+                "max": 13.73
+            },
+            {
+                "sensor_id": "TDR5023A10624",
+                "mean": 27.099999999999998,
+                "min": 24.9,
+                "max": 28.2
+            },
+            {
+                "sensor_id": "TDR5023A11824",
+                "mean": 18.689999999999998,
+                "min": 18.68,
+                "max": 18.72
+            },
+            {
+                "sensor_id": "TDR5023A13024",
+                "mean": 21.173333333333332,
+                "min": 21.12,
+                "max": 21.2
+            },
+            {
+                "sensor_id": "TDR5023A14224",
+                "mean": 17.1,
+                "min": 17.1,
+                "max": 17.1
+            },
+            {
+                "sensor_id": "TDR5026A20624",
+                "mean": 24.7675,
+                "min": 24.75,
+                "max": 24.8
+            },
+            {
+                "sensor_id": "TDR5026A21824",
+                "mean": 17.8125,
+                "min": 17.8,
+                "max": 17.85
+            },
+            {
+                "sensor_id": "TDR5027A40624",
+                "mean": 25.936,
+                "min": 25.87,
+                "max": 26.02
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 18.395,
+                "min": 18.38,
+                "max": 18.4
+            }
+        ]
+    },
+    "2024-10-03": {
+        "Total Publications": 43,
+        "Date Range": "2024-10-03 10:29:47.971000 to 2024-10-03 13:22:52.331000",
+        "Total Duration": "0 days 02:53:04.360000",
+        "Daily Breakdown": [
+            {
+                "date": "2024-10-03",
+                "count": 43
+            }
+        ],
+        "Hourly Breakdown": [
+            {
+                "hour": "2024-10-03 10:00:00",
+                "count": 6
+            },
+            {
+                "hour": "2024-10-03 11:00:00",
+                "count": 18
+            },
+            {
+                "hour": "2024-10-03 12:00:00",
+                "count": 8
+            },
+            {
+                "hour": "2024-10-03 13:00:00",
+                "count": 11
+            }
+        ],
+        "Device Distribution": [
+            {
+                "device_name": "LINEAR_CORN_C",
+                "count": 43
+            }
+        ],
+        "Project Distribution": [
+            {
+                "project_name": "crop2cloud24",
+                "count": 43
+            }
+        ],
+        "Dataset Distribution": [
+            {
+                "dataset_name": "LINEAR_CORN_trt1",
+                "count": 19
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt2",
+                "count": 12
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt4",
+                "count": 10
+            },
+            {
+                "dataset_name": "LINEAR_CORN_trt3",
+                "count": 2
+            }
+        ],
+        "Table Distribution": [
+            {
+                "table_name": "plot_5010",
+                "count": 19
+            },
+            {
+                "table_name": "plot_5003",
+                "count": 12
+            },
+            {
+                "table_name": "plot_5009",
+                "count": 9
+            },
+            {
+                "table_name": "plot_5001",
+                "count": 2
+            },
+            {
+                "table_name": "plot_5027",
+                "count": 1
+            }
+        ],
+        "Sensor Distribution": [
+            {
+                "sensor_id": "TDR5010C13024",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "count": 5
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "count": 4
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "count": 3
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "count": 3
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "count": 2
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "count": 2
+            },
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "count": 2
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "count": 1
+            }
+        ],
+        "Value Statistics": [
+            {
+                "sensor_id": "DEN5010C1xx24",
+                "mean": 0.0,
+                "min": 0.0,
+                "max": 0.0
+            },
+            {
+                "sensor_id": "IRT5001C3xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "IRT5003C2xx24",
+                "mean": 19.19666666666667,
+                "min": 14.59,
+                "max": 22.42
+            },
+            {
+                "sensor_id": "IRT5010C1xx24",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "TDR5003C20624",
+                "mean": -9999.0,
+                "min": -9999.0,
+                "max": -9999.0
+            },
+            {
+                "sensor_id": "TDR5003C21824",
+                "mean": 19.886666666666667,
+                "min": 19.88,
+                "max": 19.9
+            },
+            {
+                "sensor_id": "TDR5003C23024",
+                "mean": 15.549999999999999,
+                "min": 15.52,
+                "max": 15.6
+            },
+            {
+                "sensor_id": "TDR5009C40624",
+                "mean": 18.8,
+                "min": 18.8,
+                "max": 18.8
+            },
+            {
+                "sensor_id": "TDR5009C41824",
+                "mean": 19.3,
+                "min": 19.3,
+                "max": 19.3
+            },
+            {
+                "sensor_id": "TDR5009C43024",
+                "mean": 13.46,
+                "min": 13.43,
+                "max": 13.47
+            },
+            {
+                "sensor_id": "TDR5010C10624",
+                "mean": 18.38,
+                "min": 18.32,
+                "max": 18.4
+            },
+            {
+                "sensor_id": "TDR5010C11824",
+                "mean": 17.5425,
+                "min": 17.48,
+                "max": 17.58
+            },
+            {
+                "sensor_id": "TDR5010C13024",
+                "mean": 11.818000000000001,
+                "min": 11.8,
+                "max": 11.83
+            },
+            {
+                "sensor_id": "TDR5027A43024",
+                "mean": 18.4,
+                "min": 18.4,
+                "max": 18.4
+            }
+        ]
+    }
+}

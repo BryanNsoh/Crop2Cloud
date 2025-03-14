@@ -1,217 +1,158 @@
-<diagram1>
-Filename: crop_to_cloud_data_flow_part1.png
-Name: Crop to Cloud Data Flow - Part 1
-Description: Data Collection and Initial Processing from Sensors to Raspberry Pi.
-Code:
-sequenceDiagram
-    participant S as 1. Field Sensors
-    participant L as 2. Campbell CR800 Logger
-    participant R as 3. Raspberry Pi
+<diagrams>
 
-    S->>L: Step 1: Send sensor data
-    L->>R: Step 2: Transfer raw data (every 30 min)
-    R->>R: Step 3: Process and format data
-    R->>R: Step 4: Convert to hashes
-    Note over R: Initial data processing complete
-</diagram1>
+  <diagram1>
+    <Filename>Field-Layout.png</Filename>
+    <Name>Field Layout and Sensor Network</Name>
+    <Link>![Figure 1: Experimental Site Layout Diagram](https://i.ibb.co/PFXvfv2/Field-Layout.png)</Link>
+    <Description>
+      This diagram illustrates the experimental field layout in Nebraska, showcasing the sensor placements, treatment zones, and data flow to the cloud.  It combines a zoomed-out state map view with a close-up view of the field and a sensor legend.
 
-<diagram2>
-Filename: crop_to_cloud_data_flow_part2.png
-Name: Crop to Cloud Data Flow - Part 2
-Description: Data Transmission from Raspberry Pi to LoRa Gateway.
-Code:
-sequenceDiagram
-    participant R as 1. Raspberry Pi
-    participant LH as 2. LoRa HAT
-    participant G as 3. LoRa Gateway
+      * **Sensor Legend (Top Left):**  Clearly defines the icons representing each sensor type: Infrared Temperature Sensor (red balloon), Soil Moisture Sensor (brown rectangle), and Sensor 3, the specific type of which is not identified in the image (small grey rectangle).
+      * **Nebraska Overview (Top Middle):** Shows the broader geographical context within Nebraska, with a highlighted area indicating the experimental field's location near North Platte.
+      * **North Platte Zoom (Middle):** A zoomed-in map of North Platte pinpoints the experimental field's precise location within the city's boundaries, further contextualizing the experiment's setting.
+      * **Field Layout (Right):**  Depicts the actual field arrangement, divided into four distinct, color-coded treatment zones: Treatment 1 (Yellow), Treatment 2 (Green), Treatment 3 (Blue), and Treatment 4 (Pink). Each zone contains multiple numbered sensor nodes, with lines connecting sensors of the same type across different treatments.  The number within each sensor node corresponds to its treatment number.  A smaller icon (teal circle with a '2' inside) represents the datalogger.  Blue lines illustrate the wireless communication path from the sensors to the LoRaWAN gateway.
+      * **Data Flow (Bottom Right):**  Visualizes the data's journey from the LoRaWAN gateway to Google Cloud, indicated by a stylized cloud icon with the Google Cloud logo.  The curved lines symbolize the wireless transmission of data.
+    </Description>
+  </diagram1>
 
-    R->>LH: Step 1: Send formatted data
-    LH->>G: Step 2: Transmit data packet
-    Note over G: Data received by Gateway
-</diagram2>
+  <diagram2>
+    <Filename>datalogger-setup.png</Filename>
+    <Name>Datalogger and Hardware Setup</Name>
+    <Link>![Figure 2: Datalogger and Hardware Setup](https://i.ibb.co/GpB939X/datalogger-setup.png)</Link>
+    <Description>
+      This image provides a detailed view of the datalogger setup, including the enclosure and its internal components. A red curved arrow points from the exterior view to the opened enclosure, showing the components inside.
 
-<diagram3>
-Filename: crop_to_cloud_data_flow_part3.png
-Name: Crop to Cloud Data Flow - Part 3
-Description: MQTT Broker Transmission from Gateway to Virtual Machine.
-Code:
-sequenceDiagram
-    participant G as 1. LoRa Gateway
-    participant E as 2. EMQX MQTT Broker
-    participant V as 3. Virtual Machine Forwarder
+      * **Exterior View (Left):** Shows the datalogger enclosure mounted on a pole with a solar panel above it.  Labels indicate the SOLAR PANEL, DATALOGGER ENCLOSURE, and SENSOR CABLES extending from the bottom.  The enclosure appears to be weatherproof and attached to a metal pole within a cornfield.
+      * **Interior View (Right):** Reveals the internal components of the enclosure, clearly labeled: Raspberry Pi (RPi), Campbell Datalogger, RS-232 Adapter, LoRa Antenna, Charge Controller, 12V Battery, and Power Regulator. Wires and connections between these components are visible.  The LoRa hat is connected to the Raspberry Pi.
+      * **Connections:**  The image illustrates the physical connections between various components. Notably, the LoRa antenna is prominent, suggesting wireless communication capabilities.  The solar panel’s connection to the charge controller and battery indicates the system’s power source.
+    </Description>
+  </diagram2>
 
-    G->>E: Step 1: Publish to MQTT topic
-    E->>V: Step 2: Forward MQTT message
-    V->>V: Step 3: Process message
-    Note over V: Data ready for cloud interaction
-</diagram3>
+  <diagram3>
+    <Filename>full-system-diagram.png</Filename>
+    <Name>Data Acquisition and Processing Pipeline</Name>
+    <Link>![Figure 3: Data Transmission and Processing Workflow](https://i.ibb.co/m9HnmFC/full-system-diagram.png)</Link>
+    <Description>
+      This diagram illustrates the end-to-end data flow from field sensors to data storage and analysis. Each stage is labeled (S1-S6) and visually connected with arrows indicating the direction of data movement.
 
-<diagram4>
-Filename: crop_to_cloud_data_flow_part4.png
-Name: Crop to Cloud Data Flow - Part 4
-Description: Data Processing in Cloud with PubSub and Cloud Functions.
-Code:
-sequenceDiagram
-    participant V as 1. Virtual Machine Forwarder
-    participant P as 2. Google Cloud PubSub
-    participant C as 3. Cloud Function
+      * **S1 (Sensors - Origin):** Shows three example sensor types: Stem Diameter, Canopy Temperature, and Soil Moisture, emphasizing the data's origin. Pictures of the sensors in the field are included.
+      * **S2 (Datalogging System):** Depicts the hardware responsible for initial data collection and logging, with visible wiring and components inside an enclosure.
+      * **S3 (LoRaWAN Gateway):** Represents the wireless communication gateway using LoRaWAN technology, bridging the gap between field sensors and the cloud. The image includes the gateway device.
+      * **S4 (MQTT Broker):** Symbolizes the MQTT Broker, responsible for receiving and distributing messages. Uses the standard MQTT logo.
+      * **S5 (VM - MQTT Packet Forwarder):** Depicts a virtual machine (VM) running an MQTT Packet Forwarder, which receives data from the MQTT broker and forwards it to Google Cloud. A generic VM icon is used.
+      * **S6 (Google Cloud Functions and Pub/Sub):** Illustrates Google Cloud Functions processing the data and utilizing Google Cloud Pub/Sub for messaging.  Uses the Google Cloud Functions and Pub/Sub logos.
+      * **Google BigQuery (Destination):** Shows Google BigQuery, the final data storage location, with a screenshot of a BigQuery table displaying data, highlighted with a blue box. The arrows emphasize data flow into BigQuery.
+    </Description>
+  </diagram3>
 
-    V->>P: Step 1: Publish to PubSub topic
-    P->>C: Step 2: Trigger Cloud Function
-    C->>C: Step 3: Process data
-    Note over C: Cloud data processing
-</diagram4>
+  <diagram4>
+    <Filename>dashboard_updated.png</Filename>
+    <Name>CROP2CLOUD Irrigation Management Dashboard</Name>
+    <Link>![Figure 4: Irrigation Dashboard Demonstration](https://i.ibb.co/8jjD4SZ/irrigation-dashboard-demonstration-section2-7-annotated.png)</Link>
+    <Description>
+      This image displays the user interface of the CROP2CLOUD Irrigation Management Dashboard. The dashboard provides various visualizations of real-time data and irrigation recommendations.
 
-<diagram5>
-Filename: crop_to_cloud_data_flow_part5.png
-Name: Crop to Cloud Data Flow - Part 5
-Description: Data Storage and Updates in BigQuery.
-Code:
-sequenceDiagram
-    participant C as 1. Cloud Function
-    participant B as 2. BigQuery
-    participant S as 3. Cloud Scheduler
+      * **Controls Panel (1):** Located on the left, allows users to select specific plots (e.g., LINEAR_CORN_5003) and date ranges for the data displayed.  Includes a button labeled "Refresh Data."
+      * **Title and Platform Identifier (2):** Clearly identifies the dashboard as "CROP2CLOUD Platform" with a small wheat icon.
+      * **Weather Parameters Panel (4):** Displays graphs for Solar Radiation (yellow line) and Wind Speed (teal line) against a timestamp on the x-axis.  The y-axes have clear units (W/m² for Solar Radiation and m/s for Wind Speed).
+      * **Temperature Panel (3):** Presents temperature trends over time. Three distinct lines represent Canopy Temperature (dotted blue), Max Air Temperature (dotted green), and Min Air Temperature (dotted red).  The x-axis shows the timestamp, and the y-axis represents temperature in degrees Celsius (°C).
+      * **Volumetric Water Content Panel (5):** Shows soil moisture levels at different depths (Depth 5 inches - blue, Depth 10 inches - green, Depth 15 inches - purple, Depth 20 inches - orange) plotted against a timestamp. The y-axis represents Volumetric Water Content as a percentage (%).
+      * **Irrigation Indices Panel (6):** Displays bar charts comparing CWR and ET0 indices.  CWR is further broken down into different depths (5, 10, 15, and 20 inches).
+      * **Irrigation Recommendation Panel (7):** Provides a circular gauge visualizing the recommended irrigation amount in inches (0.067 in the example).  The gauge is color-coded (green and light blue).  The text "Recommended Irrigation (inches)" labels the gauge clearly.
+      * **Precipitation Panel (8):** Located at the bottom left, showcases rainfall data with a bar chart labeled "Rainfall (mm)" on the y-axis and timestamp on the x-axis.
+    </Description>
+  </diagram4>
 
-    C->>B: Step 1: Insert into BigQuery table
-    S->>C: Step 2: Trigger periodic functions
-    C->>B: Step 3: Update computed metrics
-    Note over B: BigQuery storage updated
-</diagram5>
+  <diagram5>
+    <Filename>cloud_function_interactions.png</Filename>
+    <Name>Cloud Functions Workflow</Name>
+    <Link>![Figure 5: Cloud Functions Workflow](https://i.ibb.co/pPMbvkf/cloud-function-interactions.png)</Link>
+    <Description>
+      This sequence diagram details the interactions between different components within the Google Cloud environment for the CROP2CLOUD system.
 
+      * **Actors:**  A stick figure represents the "Cloud Scheduler."
+      * **Components:** Rectangles with rounded corners represent "Weather & Forecast Updates" (light blue), "Compute Metrics" (light green), "BigQuery" (grey cylinder), and "Dashboard."
+      * **Interactions (Top - Scheduled Triggers):**  Arrows labeled "Trigger weather & forecast updates" and "Trigger metric computations" show the Cloud Scheduler initiating actions in the respective components.
+      * **Interactions (Middle - Cloud Function Operations):** Arrows labeled "Update Weather & Forecast Data" (from "Weather & Forecast Updates" to "BigQuery") and "Read & Update Metrics" (from "Compute Metrics" to "BigQuery") depict data updates.
+      * **Interactions (Bottom - Data Visualization):**  An arrow labeled "Provide Updated Data" (from "BigQuery" to "Dashboard") illustrates how the updated data is finally visualized.
+      * **Sequence:** The diagram clearly shows the sequence of operations, starting with scheduled triggers, followed by cloud function execution, and concluding with data visualization.
+    </Description>
+  </diagram5>
 
-<diagram6>
-Filename: cloud_functions_workflow.png
-Name: Cloud Functions Workflow
-Description: Provides an overview of various cloud functions, including weather data retrieval, forecasting, and irrigation metric computations, showing how these functions interact with BigQuery and are triggered by Cloud Scheduler.
-Code:
-graph TD
-    A[Cloud Scheduler] -->|Triggers| B(Current Weather Function)
-    A -->|Triggers| C(Forecast Function)
-    A -->|Triggers| D(CWSI Computation)
-    A -->|Triggers| E(ET_ref Calculation)
-    A -->|Triggers| F(SWSI Computation)
-    B -->|Updates| G[BigQuery Tables]
-    C -->|Updates| G
-    D -->|Updates| G
-    E -->|Updates| G
-    F -->|Updates| G
-    H[PubSub Messages] -->|Trigger| I(Data Insertion Function)
-    I -->|Inserts Data| G
-</diagram6>
+  <diagram6>
+    <Filename>assignment_mechanism.png</Filename>
+    <Name>Sensor Identifier Mapping Mechanism</Name>
+    <Link>![Figure 6: Sensor-ID-assignment Mechanism](https://i.ibb.co/vQLkYXy/sensor-id-mapping.png)</Link>
+    <Description>
+      This sequence diagram illustrates the process of assigning and retrieving sensor identifiers, crucial for data organization and traceability within the CROP2CLOUD system.  It clarifies how sensor data is mapped to unique identifiers before transmission and how these mappings are used to retrieve the original sensor information in the cloud.
 
-<diagram7>
-  <name>Complete Sensor-to-Cloud Data Flow</name>
-  <filename>complete_sensor_to_cloud_workflow.png</filename>
-  <description>
-    This flow diagram illustrates the data path from agricultural sensors to cloud storage, showcasing each step in the data processing chain. The workflow is presented from left to right and involves multiple components, each labeled for clarity.
+      * **Actors:** Stick figures represent "Field Sensors," "Raspberry Pi," and "Virtual Machine (VM)."
+      * **Datastore:** A cylinder represents the "Sensor Mapping (sensor_mapping.yaml)" file.
+      * **Data Collection and Identifier Assignment (Top Section):**  This section details the initial steps of data collection and identifier assignment.
+          * "Send Sensor Data":  Arrow from Field Sensors to Raspberry Pi.
+          * "Retrieve Sensor ID Mapping":  Arrow from Raspberry Pi to Sensor Mapping.
+          * "Provide ID-Mapping Pairs":  Dashed arrow from Sensor Mapping to Raspberry Pi.
+          * "Assign Mappings to Sensor IDs":  Arrow from Raspberry Pi to itself.
+          * "Transmit Mapped Data": Arrow from Raspberry Pi to VM.
+      * **Data Reception and Mapping (Bottom Section):** This section describes how the VM utilizes the identifier mappings to reconstruct full sensor information.
+          * "Map Mappings to Full Sensor IDs": Arrow from VM to Sensor Mapping.
+          * "Provide Full Sensor Information":  Dashed arrow from Sensor Mapping to VM.
+    </Description>
+  </diagram6>
 
-    1. **Sensors (Origin)**:
-       - **Canopy Temperature**: A sensor monitoring temperature at the canopy level of plants.
-       - **Soil Moisture**: Sensors measuring soil moisture levels using yellow cables inserted into the ground.
+  <diagram7>
+    <Filename>battery-voltage-trends.png</Filename>
+    <Name>Battery Voltage and Solar Radiation Correlation</Name>
+    <Link>![Figure 7: Battery Voltage Trends on Outage Event](https://i.ibb.co/gSRWwgh/battery-voltage-trends-on-outage-event.png)</Link>
+    <Description>
+      This graph displays the relationship between battery voltage and solar radiation over time for plot 5003 up to August 14, 2024.
 
-    2. **Datalogger Enclosure**:
-       - Contains various components managing data collection and transmission:
-         - **Solar Panel**: Powers the datalogger setup.
-         - **Campbell Datalogger**: The main device for data logging.
-         - **RS-232 Adapter**: Facilitates communication between devices.
-         - **Raspberry Pi (RBPi)**: Acts as a mini-computer for data processing.
-         - **LoRa HAT**: A long-range communication module attached to the Raspberry Pi.
-         - **LoRa Antenna**: Sends data over long distances.
-         - **Charge Controller**: Regulates power flow from the solar panel.
-         - **12V Battery**: Stores energy to power the system.
-         - **Power Regulator**: Ensures consistent power supply.
-
-    3. **LoRaWAN Gateway**:
-       - Receives data transmitted by the LoRa Antenna.
-
-    4. **MQTT Broker**:
-       - Manages data packets from the gateway, enabling communication with cloud services.
-
-    5. **VM (MQTT Packet Forwarder)**:
-       - A virtual machine responsible for forwarding MQTT packets to further processing services.
-
-    6. **Google Pub/Sub**:
-       - Facilitates real-time messaging between the forwarding VM and subsequent services.
-
-    7. **Google Cloud Functions**:
-       - Executes serverless functions, processing incoming data before final storage.
-
-    8. **Google BigQuery (Destination)**:
-       - The final destination for data, stored in a structured, queryable format suitable for analysis.
-
-    **Overall Workflow**:
-    The system begins with data collection from field sensors, transmitted via LoRa technology to a gateway. Data is then managed by MQTT, processed through Google services, and stored in BigQuery, enabling comprehensive analysis of agricultural conditions.
-  </description>
-</diagram7>
-
-
+      * **X-axis:** Represents the date, ranging from August 1st to August 14th, 2024.
+      * **Y-axis (Left):** Represents the battery voltage (Battery_BatV) in volts.  The scale ranges from approximately 11.75V to 13.75V. The data is plotted as a blue line.
+      * **Y-axis (Right):** Represents solar radiation (Solar_2m_Avg) in W/m². The scale ranges from 0 to approximately 800 W/m². The data is plotted as an orange line.
+      * **Data Trends:** The graph clearly shows a strong correlation between solar radiation and battery voltage.  Higher solar radiation generally corresponds to higher battery voltage, indicating that the solar panel is charging the battery. Conversely, lower solar radiation leads to a decrease in battery voltage. The graph also captures a significant dip in both solar radiation and battery voltage around August 7th-9th.
+      * **Title:**  "Battery Voltage and Solar Radiation in August 2024 (Plot 5003) - up to August 14" clearly identifies the data being presented.
+      * **Gridlines:**  A light grey grid enhances readability.
+    </Description>
+  </diagram7>
 
 <diagram8>
-  <name>Agricultural IoT Analytics Dashboard</name>
-  <filename>agricultural_iot_dashboard.png</filename>
-  <description>
-    The image shows a web-based dashboard interface designed for managing and visualizing agricultural data related to irrigation management. The dashboard is divided into several key sections, each providing specific analytics and control features for efficient irrigation decisions.
+    <Filename>sample_irrigation_data_demo.png</Filename>
+    <Name>CROP2CLOUD Irrigation Management Dashboard - Demo Data</Name>
+    <Link>![Figure 8: Sample Irrigation Data for Demo](https://i.ibb.co/x53KYGt/sample-irrigation-data-for-demo.png)</Link>
+    <Description>This image is another view of the CROP2CLOUD Irrigation Management Dashboard, this time displaying specific sample data related to irrigation recommendations.  It is essentially the same dashboard structure as Diagram 4 but shows different data. It emphasizes the practical application of the dashboard in providing actionable insights for irrigation management.
 
-    1. **Controls Panel (Left Sidebar)**:
-       - **Select Plot**: Dropdown menu to choose between different plots, e.g., "LINEAR_CORN_trt1_plot_5006".
-       - **Select Date Range**: A date range selector to filter the displayed data, showing an interval such as "2024/08/21 – 2024/09/04".
-       - **Refresh Data** Button: A button to update the dashboard data according to the selected plot and date range.
+      * **Controls Panel:** Located on the left, similar to Diagram 4, lets users select plots and date ranges. The selected plot and date range for this specific sample data are visible.
+      * **Weather Parameters Panel:** Displays Solar Radiation and Wind Speed graphs similar to Diagram 4. The specific curves for this sample data are visible.
+      * **Temperature Panel:** Shows temperature data (Canopy, Max Air, Min Air) over time as in Diagram 4, with the specific curves for this sample data displayed.
+      * **Volumetric Water Content Panel:**  Presents soil moisture at different depths, with the specific data lines for this sample clearly visible.
+      * **Irrigation Indices Panel:**  Shows CWR and ET0 values as bar charts, similar to Diagram 4, with the specific values for this demo data displayed.
+      * **Irrigation Recommendation Panel:** Provides the calculated irrigation recommendation in inches using a circular gauge. The specific recommended value for this sample data is visible within the gauge.
+      * **Precipitation Panel:** Shows rainfall data with a bar chart, with the specific rainfall amounts for this sample data displayed.
+    </Description>
+  </diagram8>
 
-    2. **Main Dashboard Area**:
-       - **Weather Parameters**: 
-         - A line chart showing various weather metrics over time, including solar radiation, wind speed, and relative humidity, plotted on the y-axis with timestamps on the x-axis.
-       - **Temperature**:
-         - A graph displaying canopy temperature, max-air temperature, and min-air temperature over time, highlighting variations in temperature metrics.
 
-       - **Irrigation Indices**:
-         - A bar chart showing calculated irrigation indices such as CWSI, SWKI, and ETo, which assist in determining irrigation needs.
+  <diagram9>
+    <Filename>virtual-machine-published-packet-analysis.png</Filename>
+    <Name>Virtual Machine Published Packet Analysis</Name>
+    <Link><a href="https://ibb.co/LCQB1Mn"><img src="https://i.ibb.co/Jzx8HN5/virtual-machine-published-packet-analysis.png" alt="virtual-machine-published-packet-analysis" border="0"></a></Link>
+    <Description>
+      This image presents an analysis of data packets published by a virtual machine, broken down into daily counts, hourly distribution, and dataset distribution. The date of the analysis is 2024-07-25.
 
-       - **Precipitation**:
-         - A simple line graph showing rainfall data over the selected time range with rainfall measured in millimeters.
+      * **Sample Daily Packet Counts (Left):** A bar chart displays the number of packets received daily.  
+          * The x-axis shows the dates: 2024-07-25, 2024-08-26, and 2024-08-05.
+          * The y-axis represents the packet count, with gridlines at intervals of 85, 170, 255, and 340.
+          * The bars are purple, with heights corresponding to the daily counts: approximately 340 for 2024-07-25, 270 for 2024-08-26, and 250 for 2024-08-05.
 
-       - **Volumetric Water Content**:
-         - A line graph depicting water content at different soil depths (8 inches, 16 inches, 32 inches) over time, indicating soil moisture status.
+      * **Hourly Distribution (2024-07-25) (Middle):**  A bar chart details the distribution of packets received throughout the day on 2024-07-25.
+          * The x-axis represents the time of day in two-hour intervals, starting at 15:00 and ending at 23:00.
+          * The y-axis shows the packet count with gridlines at intervals of 15, 30, 45, and 60.
+          * The bars are light green, and their varying heights indicate the hourly packet distribution.  Approximate counts are: 10 at 15:00, 33 at 17:00, 34 at 17:00, 48 at 19:00, 25 at 21:00, 34 at 21:00, 34 at 23:00 and 31 at 23:00.
 
-       - **Irrigation Recommendation**:
-         - A gauge showing recommended irrigation in inches, with a value indicator (e.g., 0.546 inches), guiding how much water to apply based on current conditions.
+      * **Dataset Distribution (2024-07-25) (Right):** A pie chart illustrates the distribution of packets across different datasets (trt1, trt2, trt3, trt4) on 2024-07-25.
+          * Each segment is color-coded and labeled with the dataset name and percentage: trt1 (blue, 39%), trt2 (teal, 26%), trt3 (coral, 9%), and trt4 (gold, 25%).
+    </Description>
+  </diagram9>
 
-    3. **Overall Layout**:
-       - The dashboard uses a dark theme with contrasting colors for different types of data, creating a visually clear and user-friendly interface for monitoring and managing irrigation.
-  </description>
-</diagram8>
-
-<diagram9>
-  <name>Field Sensor and Treatment Layout in North Platte, Nebraska</name>
-  <filename>field_sensor_treatment_layout.png</filename>
-  <description>
-    This diagram illustrates the field layout, sensor positioning, and treatment zones in North Platte, Nebraska. The image is divided into three main sections: a geographic overview of Nebraska, a detailed map of North Platte, and a zoomed-in view of the experimental field with sensors and treatment zones.
-
-    1. **Nebraska Overview**:
-       - A high-contrast black and white map of Nebraska displaying road networks, boundaries, and a highlighted green dot indicating the location of North Platte.
-
-    2. **North Platte Map**:
-       - A detailed map focusing on the city of North Platte, with coordinates labeled along the edges (latitude: 41.08 to 41.14, longitude: -100.82 to -100.76).
-       - The map highlights urban structures and outlines topographical features with contour lines.
-       - A red box marks the specific location of the experimental field within North Platte, aligning with the zoomed-in section on the right.
-
-    3. **Field Layout**:
-       - The zoomed-in section shows an aerial view of the agricultural field divided into multiple rows and columns, bordered with red lines.
-       - **Sensors and Treatments**:
-         - **Infrared Temperature Sensors**: Represented by orange icons resembling a sensor shape, distributed throughout the field.
-         - **Soil Moisture Sensors**: Brown icons depicting probes are positioned at various locations, typically grouped in threes.
-       - **Treatment Zones**:
-         - Four treatment types are labeled using numbered circles with distinct colors:
-           - **Treatment 1**: Yellow circle labeled "1".
-           - **Treatment 2**: Green circle labeled "2".
-           - **Treatment 3**: Blue circle labeled "3".
-           - **Treatment 4**: Pink circle labeled "4".
-       - **Sensor and Treatment Legend**: Located on the right side, the legend explains the symbols used:
-         - Orange symbol for "Infrared Temperature Sensor".
-         - Brown symbol for "Soil Moisture Sensor * 3".
-         - Colored circles with corresponding treatment numbers (1 through 4).
-
-    **Overall Layout**:
-    This diagram visually connects geographic, urban, and field-level data to provide a comprehensive view of sensor deployment and experimental treatments. It serves as a reference for spatial positioning and understanding of experimental design within the field.
-  </description>
-</diagram9>
-
+</diagrams>
