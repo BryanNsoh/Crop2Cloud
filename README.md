@@ -156,7 +156,7 @@ Deploy the provided Cloud Functions for data processing:
 
 - Custom sensor integration: Edit `src/data_logger.py`
 - LoRa parameters tuning: Modify `src/lora_functions.py`
-- Cloud Function customization: Update files in `cloud-functions/`
+- Cloud Function customization: Update files in `cloud-functions/` 
 
 ## Contributing
 
